@@ -26,5 +26,30 @@
   },
   "actions": {
     "retry": "Retry"
+  },
+  "notification": {
+    "title": "Notifications",
+    "empty": "No notifications.",
+    "markAllRead": "Mark all as read",
+    "type": {
+      "opportunity_created": "New request {requestNumber}",
+      "lead_contact_message": "Contact message from {contactName}",
+      "quote_viewed": "Quote {quoteNumber} viewed by {clientName}",
+      "quote_accepted": "Quote {quoteNumber} accepted by {clientName}",
+      "quote_rejected": "Quote {quoteNumber} rejected by {clientName}",
+      "quote_changes_requested": "Changes requested on quote {quoteNumber} by {clientName}",
+      "quote_expired": "Quote {quoteNumber} expired",
+      "project_status_changed": "Project {projectName}: {status}",
+      "project_message": "New message on a project",
+      "fallback": "New notification"
+    },
+    "projectStatus": {
+      "PLANNING": "planning",
+      "IN_PROGRESS": "in progress",
+      "WAITING_CLIENT": "waiting on client",
+      "REVIEW": "review",
+      "COMPLETED": "completed",
+      "ARCHIVED": "archived"
+    }
   }
 }

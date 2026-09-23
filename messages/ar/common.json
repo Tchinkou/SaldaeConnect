@@ -26,5 +26,30 @@
   },
   "actions": {
     "retry": "إعادة المحاولة"
+  },
+  "notification": {
+    "title": "الإشعارات",
+    "empty": "لا توجد إشعارات.",
+    "markAllRead": "وضع علامة مقروء على الكل",
+    "type": {
+      "opportunity_created": "طلب جديد {requestNumber}",
+      "lead_contact_message": "رسالة تواصل من {contactName}",
+      "quote_viewed": "تمت مشاهدة عرض السعر {quoteNumber} من طرف {clientName}",
+      "quote_accepted": "تم قبول عرض السعر {quoteNumber} من طرف {clientName}",
+      "quote_rejected": "تم رفض عرض السعر {quoteNumber} من طرف {clientName}",
+      "quote_changes_requested": "طُلبت تعديلات على عرض السعر {quoteNumber} من طرف {clientName}",
+      "quote_expired": "انتهت صلاحية عرض السعر {quoteNumber}",
+      "project_status_changed": "المشروع {projectName} : {status}",
+      "project_message": "رسالة جديدة في مشروع",
+      "fallback": "إشعار جديد"
+    },
+    "projectStatus": {
+      "PLANNING": "التخطيط",
+      "IN_PROGRESS": "قيد التنفيذ",
+      "WAITING_CLIENT": "بانتظار العميل",
+      "REVIEW": "المراجعة",
+      "COMPLETED": "منتهٍ",
+      "ARCHIVED": "مؤرشف"
+    }
   }
 }

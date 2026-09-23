@@ -26,5 +26,30 @@
   },
   "actions": {
     "retry": "Réessayer"
+  },
+  "notification": {
+    "title": "Notifications",
+    "empty": "Aucune notification.",
+    "markAllRead": "Tout marquer comme lu",
+    "type": {
+      "opportunity_created": "Nouvelle demande {requestNumber}",
+      "lead_contact_message": "Message de contact de {contactName}",
+      "quote_viewed": "Devis {quoteNumber} consulté par {clientName}",
+      "quote_accepted": "Devis {quoteNumber} accepté par {clientName}",
+      "quote_rejected": "Devis {quoteNumber} refusé par {clientName}",
+      "quote_changes_requested": "Modifications demandées sur le devis {quoteNumber} par {clientName}",
+      "quote_expired": "Devis {quoteNumber} expiré",
+      "project_status_changed": "Projet {projectName} : {status}",
+      "project_message": "Nouveau message sur un projet",
+      "fallback": "Nouvelle notification"
+    },
+    "projectStatus": {
+      "PLANNING": "planification",
+      "IN_PROGRESS": "en cours",
+      "WAITING_CLIENT": "en attente client",
+      "REVIEW": "révision",
+      "COMPLETED": "terminé",
+      "ARCHIVED": "archivé"
+    }
   }
 }

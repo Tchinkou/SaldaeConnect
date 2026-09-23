@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/server/core/authz/session";
 import { prisma } from "@/server/core/db/client";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { PortalSignOutButton } from "@/components/portal/portal-sign-out-button";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 import { Link } from "@/i18n/navigation";
 
 /**
@@ -49,6 +50,7 @@ export default async function PortalLayout({
         </Link>
         <div className="flex items-center gap-4">
           <span className="text-sm text-foreground/70">{contact.client.displayName}</span>
+          <NotificationBell />
           <PortalSignOutButton label={t("signOut")} />
           <LocaleSwitcher />
         </div>
