@@ -1,0 +1,112 @@
+{
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "team": "الفريق",
+    "settings": "الإعدادات",
+    "catalog": "الكتالوج",
+    "audit": "سجل التدقيق",
+    "signOut": "تسجيل الخروج",
+    "viewSite": "عرض الموقع"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "welcome": "مرحبًا {name}.",
+    "phaseNotice": "المرحلة 2 قيد التنفيذ: المؤشرات والرسوم البيانية تصل في المرحلة 10. تؤكد هذه الصفحة أن تسجيل الدخول والأدوار وهيكل لوحة التحكم تعمل."
+  },
+  "team": {
+    "title": "الفريق",
+    "subtitle": "حسابات الموظفين وأدوارهم.",
+    "invite": "دعوة عضو",
+    "inviteTitle": "دعوة عضو فريق",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "send": "إرسال الدعوة",
+    "cancel": "إلغاء",
+    "columns": {
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "status": "الحالة",
+      "lastLogin": "آخر تسجيل دخول"
+    },
+    "status": {
+      "ACTIVE": "نشط",
+      "INVITED": "مدعو",
+      "SUSPENDED": "موقوف"
+    },
+    "never": "أبدًا",
+    "pendingInvitations": "الدعوات المعلقة",
+    "invitedOn": "دُعي في {date}",
+    "resend": "إعادة الإرسال",
+    "noPendingInvitations": "لا توجد دعوات معلقة.",
+    "inviteSuccess": "تم إرسال الدعوة إلى {email}.",
+    "errorAlreadyMember": "هذا الشخص عضو بالفعل في الفريق.",
+    "errorAlreadyInvited": "توجد دعوة معلقة بالفعل لهذا البريد الإلكتروني."
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "العلامة التجارية وبيانات الاتصال وروابط التواصل الاجتماعي — تظهر على الموقع العام.",
+    "brand": {
+      "title": "العلامة التجارية",
+      "name": "اسم الوكالة",
+      "tagline": "الشعار",
+      "primaryColor": "اللون الأساسي",
+      "accentColor": "لون التمييز"
+    },
+    "contact": {
+      "title": "بيانات الاتصال",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "address": "العنوان",
+      "city": "المدينة",
+      "country": "البلد"
+    },
+    "social": {
+      "title": "روابط التواصل الاجتماعي",
+      "facebook": "فيسبوك",
+      "instagram": "إنستغرام",
+      "linkedin": "لينكدإن",
+      "whatsapp": "واتساب"
+    },
+    "save": "حفظ",
+    "saved": "تم حفظ الإعدادات."
+  },
+  "catalog": {
+    "title": "كتالوج الخدمات",
+    "subtitle": "الخدمات المعروضة على الموقع العام، حسب الفئة.",
+    "categoriesCount": "{count} فئات، {serviceCount} خدمات",
+    "edit": "تعديل",
+    "editService": "تعديل «{name}»",
+    "translationsFor": "المحتوى باللغة {locale}",
+    "name": "الاسم",
+    "slug": "المعرّف",
+    "shortDescription": "وصف مختصر",
+    "isActive": "نشط (مرئي داخليًا)",
+    "isPublished": "منشور (مرئي للعامة بهذه اللغة)",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "saved": "تم تحديث الخدمة.",
+    "fulfillmentType": {
+      "QUOTE": "بعرض سعر",
+      "RECURRING": "متكرر",
+      "BOOKING": "حجز",
+      "TRANSACTION": "معاملة"
+    }
+  },
+  "audit": {
+    "title": "سجل التدقيق",
+    "subtitle": "إجراءات حساسة، للقراءة فقط.",
+    "columns": {
+      "date": "التاريخ",
+      "actor": "الفاعل",
+      "action": "الإجراء",
+      "entity": "العنصر"
+    },
+    "system": "النظام",
+    "empty": "لا توجد إدخالات بعد."
+  },
+  "forbidden": {
+    "title": "الوصول مرفوض",
+    "body": "ليس لديك إذن للوصول إلى هذه الصفحة."
+  }
+}

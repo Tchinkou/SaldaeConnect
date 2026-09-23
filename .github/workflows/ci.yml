@@ -60,6 +60,9 @@ jobs:
       - name: Prisma generate
         run: npm run db:generate
 
+      - name: Unit tests
+        run: npm test
+
       - name: Build
         run: npm run build
 

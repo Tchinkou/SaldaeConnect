@@ -8,7 +8,7 @@ import { routing } from "@/i18n/routing";
  * l'instant (phase 1) chaque surface a son propre fichier ; on les fusionne
  * ici. Voir docs/i18n.md.
  */
-const NAMESPACES = ["common", "public"] as const;
+const NAMESPACES = ["common", "public", "auth", "admin"] as const;
 
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;

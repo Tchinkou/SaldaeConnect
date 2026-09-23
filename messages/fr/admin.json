@@ -1,0 +1,112 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "team": "Équipe",
+    "settings": "Paramètres",
+    "catalog": "Catalogue",
+    "audit": "Journal d'audit",
+    "signOut": "Se déconnecter",
+    "viewSite": "Voir le site"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bonjour {name}.",
+    "phaseNotice": "Phase 2 en cours : les indicateurs et graphiques arrivent en phase 10. Cette page confirme que la connexion, les rôles et la coquille admin fonctionnent."
+  },
+  "team": {
+    "title": "Équipe",
+    "subtitle": "Comptes du personnel et leurs rôles.",
+    "invite": "Inviter un membre",
+    "inviteTitle": "Inviter un membre de l'équipe",
+    "email": "Adresse email",
+    "role": "Rôle",
+    "send": "Envoyer l'invitation",
+    "cancel": "Annuler",
+    "columns": {
+      "name": "Nom",
+      "email": "Email",
+      "role": "Rôle",
+      "status": "Statut",
+      "lastLogin": "Dernière connexion"
+    },
+    "status": {
+      "ACTIVE": "Actif",
+      "INVITED": "Invité",
+      "SUSPENDED": "Suspendu"
+    },
+    "never": "Jamais",
+    "pendingInvitations": "Invitations en attente",
+    "invitedOn": "Invité le {date}",
+    "resend": "Renvoyer",
+    "noPendingInvitations": "Aucune invitation en attente.",
+    "inviteSuccess": "Invitation envoyée à {email}.",
+    "errorAlreadyMember": "Cette personne fait déjà partie de l'équipe.",
+    "errorAlreadyInvited": "Une invitation est déjà en attente pour cette adresse."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Marque, coordonnées et réseaux sociaux — visibles sur le site public.",
+    "brand": {
+      "title": "Marque",
+      "name": "Nom de l'agence",
+      "tagline": "Accroche",
+      "primaryColor": "Couleur principale",
+      "accentColor": "Couleur d'accent"
+    },
+    "contact": {
+      "title": "Coordonnées",
+      "email": "Email",
+      "phone": "Téléphone",
+      "address": "Adresse",
+      "city": "Ville",
+      "country": "Pays"
+    },
+    "social": {
+      "title": "Réseaux sociaux",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "whatsapp": "WhatsApp"
+    },
+    "save": "Enregistrer",
+    "saved": "Paramètres enregistrés."
+  },
+  "catalog": {
+    "title": "Catalogue de services",
+    "subtitle": "Services affichés sur le site public, par catégorie.",
+    "categoriesCount": "{count} catégories, {serviceCount} services",
+    "edit": "Modifier",
+    "editService": "Modifier « {name} »",
+    "translationsFor": "Contenu en {locale}",
+    "name": "Nom",
+    "slug": "Slug",
+    "shortDescription": "Description courte",
+    "isActive": "Actif (visible en interne)",
+    "isPublished": "Publié (visible publiquement dans cette langue)",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "saved": "Service mis à jour.",
+    "fulfillmentType": {
+      "QUOTE": "Sur devis",
+      "RECURRING": "Récurrent",
+      "BOOKING": "Réservation",
+      "TRANSACTION": "Transaction"
+    }
+  },
+  "audit": {
+    "title": "Journal d'audit",
+    "subtitle": "Actions sensibles, en lecture seule.",
+    "columns": {
+      "date": "Date",
+      "actor": "Auteur",
+      "action": "Action",
+      "entity": "Élément"
+    },
+    "system": "Système",
+    "empty": "Aucune entrée pour le moment."
+  },
+  "forbidden": {
+    "title": "Accès refusé",
+    "body": "Vous n'avez pas la permission d'accéder à cette page."
+  }
+}

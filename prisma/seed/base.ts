@@ -3,40 +3,7 @@
 // paramètres par défaut…). Idempotent — peut être exécuté en production.
 // Voir docs/architecture.md §H.3, §E.3, §0.3.
 import { prisma } from "./lib/client";
-
-const PERMISSIONS = [
-  ["lead.read", "Lire les prospects"],
-  ["lead.write", "Créer/modifier les prospects"],
-  ["opportunity.read", "Lire les opportunités"],
-  ["opportunity.write", "Créer/modifier les opportunités"],
-  ["client.read", "Lire les clients"],
-  ["client.write", "Créer/modifier les clients"],
-  ["quote.read", "Lire les devis"],
-  ["quote.write", "Créer/modifier les devis"],
-  ["quote.send", "Envoyer un devis"],
-  ["project.read", "Lire les projets"],
-  ["project.write", "Créer/modifier les projets"],
-  ["task.read", "Lire les tâches"],
-  ["task.write", "Créer/modifier les tâches"],
-  ["message.read", "Lire les messages"],
-  ["message.write", "Envoyer des messages"],
-  ["file.read", "Lire les fichiers"],
-  ["file.write", "Envoyer des fichiers"],
-  ["invoice.read", "Lire les factures"],
-  ["invoice.write", "Créer/modifier les factures"],
-  ["invoice.issue", "Émettre une facture"],
-  ["payment.read", "Lire les paiements"],
-  ["payment.write", "Enregistrer un paiement"],
-  ["reservation.read", "Lire les réservations"],
-  ["reservation.write", "Créer/modifier les réservations"],
-  ["transaction.read", "Lire les transactions"],
-  ["transaction.write", "Créer/modifier les transactions"],
-  ["reporting.financial.read", "Lire les statistiques financières"],
-  ["cms.write", "Modifier le contenu du site (services, pages, portfolio, blog)"],
-  ["team.write", "Gérer l'équipe et les rôles"],
-  ["settings.write", "Modifier les paramètres globaux"],
-  ["audit.read", "Consulter le journal d'audit"],
-] as const;
+import { PERMISSIONS } from "@/lib/permissions";
 
 // [clé de permission, périmètre]
 const ADMIN_GRANTS = PERMISSIONS.map(([key]) => [key, "ALL"] as const);

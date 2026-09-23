@@ -4,6 +4,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { twoFactor } from "better-auth/plugins/two-factor";
 import { haveIBeenPwned } from "better-auth/plugins/haveibeenpwned";
 import { magicLink } from "better-auth/plugins/magic-link";
+import { nextCookies } from "better-auth/next-js";
 import { hash as argon2Hash, verify as argon2Verify } from "@node-rs/argon2";
 import { prisma } from "@/server/core/db/client";
 import { env } from "@/server/core/env";
@@ -110,6 +111,11 @@ export const auth = betterAuth({
         await sendMagicLinkEmail({ to: email, magicLinkUrl: url });
       },
     }),
+    // Doit rester le dernier plugin : applique automatiquement les cookies
+    // de session lorsque `auth.api.*` est appelé depuis une route ou une
+    // server action Next.js (ex. connexion à la fin de l'acceptation d'une
+    // invitation, voir accept-invitation/actions.ts).
+    nextCookies(),
   ],
 
   rateLimit: {

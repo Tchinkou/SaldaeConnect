@@ -1,0 +1,112 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "team": "Team",
+    "settings": "Settings",
+    "catalog": "Catalog",
+    "audit": "Audit log",
+    "signOut": "Sign out",
+    "viewSite": "View site"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Hello {name}.",
+    "phaseNotice": "Phase 2 in progress: KPIs and charts arrive in phase 10. This page confirms that sign-in, roles and the admin shell work."
+  },
+  "team": {
+    "title": "Team",
+    "subtitle": "Staff accounts and their roles.",
+    "invite": "Invite a member",
+    "inviteTitle": "Invite a team member",
+    "email": "Email address",
+    "role": "Role",
+    "send": "Send invitation",
+    "cancel": "Cancel",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "lastLogin": "Last sign-in"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "INVITED": "Invited",
+      "SUSPENDED": "Suspended"
+    },
+    "never": "Never",
+    "pendingInvitations": "Pending invitations",
+    "invitedOn": "Invited on {date}",
+    "resend": "Resend",
+    "noPendingInvitations": "No pending invitations.",
+    "inviteSuccess": "Invitation sent to {email}.",
+    "errorAlreadyMember": "This person is already a team member.",
+    "errorAlreadyInvited": "An invitation is already pending for this address."
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Brand, contact details and social links — shown on the public site.",
+    "brand": {
+      "title": "Brand",
+      "name": "Agency name",
+      "tagline": "Tagline",
+      "primaryColor": "Primary color",
+      "accentColor": "Accent color"
+    },
+    "contact": {
+      "title": "Contact details",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "city": "City",
+      "country": "Country"
+    },
+    "social": {
+      "title": "Social links",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "whatsapp": "WhatsApp"
+    },
+    "save": "Save",
+    "saved": "Settings saved."
+  },
+  "catalog": {
+    "title": "Service catalog",
+    "subtitle": "Services shown on the public site, by category.",
+    "categoriesCount": "{count} categories, {serviceCount} services",
+    "edit": "Edit",
+    "editService": "Edit \"{name}\"",
+    "translationsFor": "Content in {locale}",
+    "name": "Name",
+    "slug": "Slug",
+    "shortDescription": "Short description",
+    "isActive": "Active (visible internally)",
+    "isPublished": "Published (publicly visible in this language)",
+    "save": "Save",
+    "cancel": "Cancel",
+    "saved": "Service updated.",
+    "fulfillmentType": {
+      "QUOTE": "Quote-based",
+      "RECURRING": "Recurring",
+      "BOOKING": "Booking",
+      "TRANSACTION": "Transaction"
+    }
+  },
+  "audit": {
+    "title": "Audit log",
+    "subtitle": "Sensitive actions, read-only.",
+    "columns": {
+      "date": "Date",
+      "actor": "Actor",
+      "action": "Action",
+      "entity": "Entity"
+    },
+    "system": "System",
+    "empty": "No entries yet."
+  },
+  "forbidden": {
+    "title": "Access denied",
+    "body": "You don't have permission to access this page."
+  }
+}
