@@ -24,3 +24,22 @@ export function assertOwnerInScope(currentUser: CurrentUser, permission: Permiss
   if (ownerId === currentUser.user.id) return;
   throw new ForbiddenError();
 }
+
+/**
+ * `Quote` n'a pas son propre `ownerId` (§F) : le périmètre `ASSIGNED` suit
+ * celui du `Client` rattaché (`client.ownerId`), comme pour les autres
+ * documents du dossier client.
+ */
+export function quoteWhereClause(currentUser: CurrentUser, permission: PermissionKey): { client?: { ownerId: string } } {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return {};
+  return { client: { ownerId: currentUser.user.id } };
+}
+
+/** Lève une erreur si le périmètre `ASSIGNED` ne couvre pas le propriétaire du client rattaché au devis. */
+export function assertQuoteOwnerInScope(currentUser: CurrentUser, permission: PermissionKey, clientOwnerId: string | null): void {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return;
+  if (clientOwnerId === currentUser.user.id) return;
+  throw new ForbiddenError();
+}

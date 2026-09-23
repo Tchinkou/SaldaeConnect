@@ -19,13 +19,15 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mode, setMode] = useState<"password" | "magicLink">("password");
+  const [magicLinkSent, setMagicLinkSent] = useState(false);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setError(null);
     setIsSubmitting(true);
 
-    const { error: signInError } = await authClient.signIn.email({
+    const { data, error: signInError } = await authClient.signIn.email({
       email,
       password,
       rememberMe: true,
@@ -44,8 +46,32 @@ export function LoginForm() {
       return;
     }
 
-    router.push((next && next.startsWith(`/${locale}/admin`) ? next.slice(locale.length + 1) : "/admin") as "/admin");
+    const landing = data?.user?.userType === "CLIENT" ? "/portal" : "/admin";
+    router.push((next && next.startsWith(`/${locale}${landing}`) ? next.slice(locale.length + 1) : landing) as "/admin");
     router.refresh();
+  }
+
+  async function handleMagicLinkSubmit(event: FormEvent) {
+    event.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    // La destination réelle (/admin ou /portal) est déterminée après
+    // vérification du lien, selon le type de compte (voir admin/layout.tsx) :
+    // on ne peut pas le savoir avant, sans révéler si l'email existe.
+    const { error: magicLinkError } = await authClient.signIn.magicLink({
+      email,
+      callbackURL: `/${locale}/admin`,
+    });
+
+    setIsSubmitting(false);
+
+    if (magicLinkError) {
+      setError(magicLinkError.status === 429 ? t("errorTooManyRequests") : t("errorGeneric"));
+      return;
+    }
+
+    setMagicLinkSent(true);
   }
 
   return (
@@ -55,50 +81,102 @@ export function LoginForm() {
         <p className="mt-1 text-sm text-foreground/70">{t("subtitle")}</p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="email" className="text-sm font-medium text-foreground">
-              {t("email")}
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="h-10 rounded-md border border-border bg-surface px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="password" className="text-sm font-medium text-foreground">
-              {t("password")}
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="h-10 rounded-md border border-border bg-surface px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-            />
-          </div>
+        {mode === "magicLink" ? (
+          magicLinkSent ? (
+            <div className="flex flex-col gap-4">
+              <p className="text-sm text-foreground/80">{t("magicLinkSent")}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setMagicLinkSent(false);
+                  setMode("password");
+                }}
+                className="text-center text-sm text-brand-600 hover:underline"
+              >
+                {t("passwordToggle")}
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleMagicLinkSubmit} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="magic-link-email" className="text-sm font-medium text-foreground">
+                  {t("email")}
+                </label>
+                <input
+                  id="magic-link-email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="h-10 rounded-md border border-border bg-surface px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+                />
+              </div>
 
-          {error ? (
-            <p role="alert" className="text-sm text-danger-600">
-              {error}
-            </p>
-          ) : null}
+              {error ? (
+                <p role="alert" className="text-sm text-danger-600">
+                  {error}
+                </p>
+              ) : null}
 
-          <Button type="submit" isLoading={isSubmitting} className="w-full">
-            {t("submit")}
-          </Button>
+              <Button type="submit" isLoading={isSubmitting} className="w-full">
+                {t("magicLinkSubmit")}
+              </Button>
 
-          <Link href="/forgot-password" className="text-center text-sm text-brand-600 hover:underline">
-            {t("forgotPassword")}
-          </Link>
-        </form>
+              <button type="button" onClick={() => setMode("password")} className="text-center text-sm text-brand-600 hover:underline">
+                {t("passwordToggle")}
+              </button>
+            </form>
+          )
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="email" className="text-sm font-medium text-foreground">
+                {t("email")}
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="h-10 rounded-md border border-border bg-surface px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="password" className="text-sm font-medium text-foreground">
+                {t("password")}
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="h-10 rounded-md border border-border bg-surface px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+              />
+            </div>
+
+            {error ? (
+              <p role="alert" className="text-sm text-danger-600">
+                {error}
+              </p>
+            ) : null}
+
+            <Button type="submit" isLoading={isSubmitting} className="w-full">
+              {t("submit")}
+            </Button>
+
+            <Link href="/forgot-password" className="text-center text-sm text-brand-600 hover:underline">
+              {t("forgotPassword")}
+            </Link>
+            <button type="button" onClick={() => setMode("magicLink")} className="text-center text-sm text-brand-600 hover:underline">
+              {t("magicLinkToggle")}
+            </button>
+          </form>
+        )}
       </CardContent>
     </Card>
   );

@@ -10,7 +10,8 @@
     "content": "Contenu",
     "audit": "Journal d'audit",
     "signOut": "Se déconnecter",
-    "viewSite": "Voir le site"
+    "viewSite": "Voir le site",
+    "quotes": "Devis"
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -227,7 +228,21 @@
       "contact": "Contact",
       "owner": "Responsable",
       "unassigned": "Non attribué",
-      "tasks": "Tâches"
+      "tasks": "Tâches",
+      "createQuote": "Créer un devis",
+      "quotes": "Devis",
+      "noQuotes": "Aucun devis pour cette opportunité.",
+      "draftQuote": "Brouillon",
+      "quoteStatusValue": {
+        "DRAFT": "Brouillon",
+        "SENT": "Envoyé",
+        "VIEWED": "Consulté",
+        "ACCEPTED": "Accepté",
+        "REJECTED": "Refusé",
+        "CHANGES_REQUESTED": "Modification demandée",
+        "EXPIRED": "Expiré",
+        "CANCELLED": "Annulé"
+      }
     },
     "leads": {
       "title": "Prospects",
@@ -318,11 +333,24 @@
       "opportunities": "Opportunités",
       "noOpportunities": "Aucune opportunité pour le moment.",
       "comingSoon": "Bientôt disponible",
-      "comingSoonBody": "Devis, projets et factures apparaîtront ici dans une prochaine phase.",
+      "comingSoonBody": "Projets et factures apparaîtront ici dans une prochaine phase.",
       "timeline": "Historique",
       "owner": "Responsable",
       "unassigned": "Non attribué",
-      "tasks": "Tâches"
+      "tasks": "Tâches",
+      "quotes": "Devis",
+      "noQuotes": "Aucun devis pour ce client.",
+      "draftQuote": "Brouillon",
+      "quoteStatusValue": {
+        "DRAFT": "Brouillon",
+        "SENT": "Envoyé",
+        "VIEWED": "Consulté",
+        "ACCEPTED": "Accepté",
+        "REJECTED": "Refusé",
+        "CHANGES_REQUESTED": "Modification demandée",
+        "EXPIRED": "Expiré",
+        "CANCELLED": "Annulé"
+      }
     },
     "task": {
       "empty": "Aucune tâche pour le moment.",
@@ -360,5 +388,120 @@
   "forbidden": {
     "title": "Accès refusé",
     "body": "Vous n'avez pas la permission d'accéder à cette page."
+  },
+  "quotes": {
+    "title": "Devis",
+    "subtitle": "Tous les devis, brouillons et envoyés.",
+    "new": "Nouveau devis",
+    "number": "Numéro",
+    "client": "Client",
+    "status": "Statut",
+    "total": "Total",
+    "createdAt": "Créé le",
+    "empty": "Aucun devis.",
+    "draftLabel": "Brouillon",
+    "filters": {
+      "search": "Recherche",
+      "searchPlaceholder": "Numéro, titre, client…",
+      "status": "Statut",
+      "all": "Tous",
+      "reset": "Réinitialiser"
+    },
+    "statusValue": {
+      "DRAFT": "Brouillon",
+      "SENT": "Envoyé",
+      "VIEWED": "Consulté",
+      "ACCEPTED": "Accepté",
+      "REJECTED": "Refusé",
+      "CHANGES_REQUESTED": "Modification demandée",
+      "EXPIRED": "Expiré",
+      "CANCELLED": "Annulé"
+    },
+    "create": {
+      "title": "Nouveau devis",
+      "subtitle": "Choisissez le client pour lequel créer ce devis.",
+      "client": "Client",
+      "submit": "Créer le devis",
+      "noClients": "Aucun client accessible. Un devis doit être créé depuis une opportunité, ou un lead doit d'abord être converti en client."
+    },
+    "detail": {
+      "draftLabel": "Brouillon",
+      "backToQuotes": "Retour aux devis",
+      "lockedNotice": "Ce devis a été envoyé : il n'est plus modifiable directement. Une modification demandée par le client créera une nouvelle version.",
+      "header": "Informations générales",
+      "items": "Lignes du devis",
+      "installments": "Échéances de paiement",
+      "totals": "Totaux",
+      "subtotal": "Sous-total",
+      "discountTotal": "Remise",
+      "taxTotal": "Taxes",
+      "total": "Total",
+      "delete": "Supprimer ce brouillon",
+      "deleteConfirm": "Supprimer définitivement ce brouillon ?",
+      "deleteConfirmYes": "Oui, supprimer",
+      "cancel": "Annuler",
+      "titleField": "Titre",
+      "validUntil": "Valable jusqu'au",
+      "introduction": "Introduction",
+      "terms": "Conditions",
+      "internalNotes": "Notes internes",
+      "internalNotesHint": "Visibles uniquement par l'équipe, jamais par le client.",
+      "globalDiscountType": "Remise globale",
+      "none": "Aucune",
+      "percent": "Pourcentage",
+      "amount": "Montant",
+      "globalDiscountValuePercent": "Pourcentage de remise (%)",
+      "globalDiscountValueAmount": "Montant de la remise",
+      "depositPercent": "Acompte (%)",
+      "depositAmount": "Acompte (montant)",
+      "save": "Enregistrer",
+      "statusValue": {
+        "DRAFT": "Brouillon",
+        "SENT": "Envoyé",
+        "VIEWED": "Consulté",
+        "ACCEPTED": "Accepté",
+        "REJECTED": "Refusé",
+        "CHANGES_REQUESTED": "Modification demandée",
+        "EXPIRED": "Expiré",
+        "CANCELLED": "Annulé"
+      },
+      "item": {
+        "titleColumn": "Désignation",
+        "quantity": "Quantité",
+        "unitPrice": "Prix unitaire",
+        "discount": "Remise",
+        "tax": "Taxe",
+        "lineTotal": "Total ligne",
+        "edit": "Modifier",
+        "remove": "Supprimer",
+        "empty": "Aucune ligne.",
+        "service": "Service (optionnel)",
+        "noService": "Aucun service (saisie libre)",
+        "description": "Description",
+        "unit": "Unité",
+        "noTax": "Aucune taxe",
+        "noTaxRatesHint": "Aucun taux de taxe n'est encore configuré (à paramétrer en Phase 7).",
+        "saveEdit": "Enregistrer la ligne",
+        "addItem": "Ajouter une ligne",
+        "cancel": "Annuler"
+      },
+      "installment": {
+        "empty": "Aucune échéance définie (paiement en une fois).",
+        "remove": "Supprimer",
+        "label": "Libellé",
+        "percent": "Pourcentage",
+        "amount": "Montant",
+        "trigger": "Déclencheur",
+        "dueDate": "Date d'échéance",
+        "addInstallment": "Ajouter une échéance",
+        "cancel": "Annuler",
+        "triggerValue": {
+          "ON_ACCEPTANCE": "À l'acceptation",
+          "ON_MILESTONE": "À un jalon du projet",
+          "ON_DELIVERY": "À la livraison",
+          "ON_DATE": "À une date fixe"
+        }
+      }
+    }
   }
 }

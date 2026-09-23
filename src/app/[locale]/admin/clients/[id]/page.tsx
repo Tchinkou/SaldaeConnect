@@ -15,6 +15,7 @@ import { AddTaskForm } from "@/components/crm/add-task-form";
 import { OwnerReassignSelect } from "@/components/crm/owner-reassign-select";
 import { addClientActivityAction, reassignClientOwnerAction } from "@/app/[locale]/admin/clients/[id]/actions";
 import { ClientStatusSelect } from "@/app/[locale]/admin/clients/[id]/client-status-select";
+import { formatMoney } from "@/server/core/money";
 import { ForbiddenError } from "@/server/core/errors";
 
 export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -37,6 +38,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
         orderBy: { createdAt: "desc" },
         include: { stage: { include: { translations: { where: { locale } } } }, service: { include: { translations: { where: { locale } } } } },
       },
+      quotes: { orderBy: { createdAt: "desc" } },
     },
   });
 
@@ -131,6 +133,35 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                       <Badge tone={opportunity.stage.kind === "WON" ? "success" : opportunity.stage.kind === "LOST" ? "danger" : "brand"}>
                         {opportunity.stage.translations[0]?.name ?? opportunity.stage.key}
                       </Badge>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">{t("quotes")}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3">
+              {client.quotes.length === 0 ? (
+                <p className="text-sm text-foreground/50">{t("noQuotes")}</p>
+              ) : (
+                <ul className="flex flex-col divide-y divide-border">
+                  {client.quotes.map((quote) => (
+                    <li key={quote.id} className="flex items-center justify-between py-2">
+                      <Link href={`/admin/quotes/${quote.id}`} className="text-sm font-medium text-brand-600 hover:underline">
+                        {quote.number ?? t("draftQuote")} — {quote.title}
+                      </Link>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-foreground/70" dir="ltr">
+                          {formatMoney(quote.total, quote.currency, locale)}
+                        </span>
+                        <Badge tone={quote.status === "ACCEPTED" ? "success" : quote.status === "REJECTED" ? "danger" : "brand"}>
+                          {t(`quoteStatusValue.${quote.status}`)}
+                        </Badge>
+                      </div>
                     </li>
                   ))}
                 </ul>

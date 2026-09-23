@@ -27,8 +27,13 @@ export default async function AdminLayout({
   const { locale } = await params;
   const currentUser = await getCurrentUser();
 
-  if (!currentUser || currentUser.user.userType !== "STAFF" || currentUser.user.status !== "ACTIVE") {
+  if (!currentUser) {
     return redirect({ href: "/login", locale: locale as "fr" | "en" | "ar" });
+  }
+  // Un client authentifié qui atterrit ici (lien magique, favori...) va dans
+  // son espace, pas un aller-retour vers /login qui le laisserait perplexe.
+  if (currentUser.user.userType !== "STAFF" || currentUser.user.status !== "ACTIVE") {
+    return redirect({ href: "/portal", locale: locale as "fr" | "en" | "ar" });
   }
 
   const t = await getTranslations("admin.nav");
@@ -42,6 +47,7 @@ export default async function AdminLayout({
     crm: hasPermission(currentUser, "opportunity.read"),
     leads: hasPermission(currentUser, "lead.read"),
     clients: hasPermission(currentUser, "client.read"),
+    quotes: hasPermission(currentUser, "quote.read"),
   };
 
   return (

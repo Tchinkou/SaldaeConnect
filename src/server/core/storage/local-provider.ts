@@ -26,6 +26,17 @@ export interface StorageProvider {
   promote(storageKey: string): Promise<void>;
   /** Supprime un fichier en quarantaine rejeté. */
   rejectQuarantine(storageKey: string): Promise<void>;
+  /**
+   * Écrit directement un fichier généré côté serveur (PDF de devis/facture…)
+   * à son emplacement définitif, sans passer par la quarantaine : contrairement
+   * à un envoi utilisateur, ce contenu n'a pas besoin d'un contrôle de type
+   * ou antivirus, seulement d'exister une fois la transaction qui le
+   * référence confirmée (l'appelant ne l'écrit qu'après coup, ou l'efface si
+   * la transaction échoue).
+   */
+  writeGenerated(bytes: Uint8Array): Promise<string>;
+  /** Relit un fichier à son emplacement définitif (déjà promu ou généré côté serveur). */
+  read(storageKey: string): Promise<Buffer>;
 }
 
 class LocalStorageProvider implements StorageProvider {
@@ -47,6 +58,17 @@ class LocalStorageProvider implements StorageProvider {
 
   async rejectQuarantine(storageKey: string): Promise<void> {
     await unlink(path.join(quarantineDir, safeSegment(storageKey))).catch(() => undefined);
+  }
+
+  async writeGenerated(bytes: Uint8Array): Promise<string> {
+    await mkdir(filesDir, { recursive: true });
+    const storageKey = randomUUID();
+    await writeFile(path.join(filesDir, storageKey), bytes);
+    return storageKey;
+  }
+
+  async read(storageKey: string): Promise<Buffer> {
+    return readFile(path.join(filesDir, safeSegment(storageKey)));
   }
 }
 

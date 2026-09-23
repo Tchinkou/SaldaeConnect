@@ -14,6 +14,8 @@ import { TaskList } from "@/components/crm/task-list";
 import { AddTaskForm } from "@/components/crm/add-task-form";
 import { OwnerReassignSelect } from "@/components/crm/owner-reassign-select";
 import { addOpportunityActivityAction, reassignOpportunityOwnerAction } from "@/app/[locale]/admin/crm/opportunities/[id]/actions";
+import { CreateQuoteButton } from "@/app/[locale]/admin/crm/opportunities/[id]/create-quote-button";
+import { formatMoney } from "@/server/core/money";
 import { ForbiddenError } from "@/server/core/errors";
 
 export default async function OpportunityDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -44,6 +46,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
           toStage: { include: { translations: { where: { locale } } } },
         },
       },
+      quotes: { orderBy: { createdAt: "desc" } },
     },
   });
 
@@ -70,6 +73,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
   ]);
 
   const canWrite = hasPermission(currentUser, "opportunity.write");
+  const canWriteQuote = hasPermission(currentUser, "quote.write");
   const answers = (opportunity.answers as Record<string, string | boolean> | null) ?? null;
 
   return (
@@ -130,6 +134,36 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
                   </dl>
                 </div>
               ) : null}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">{t("quotes")}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3">
+              {opportunity.quotes.length === 0 ? (
+                <p className="text-sm text-foreground/50">{t("noQuotes")}</p>
+              ) : (
+                <ul className="flex flex-col divide-y divide-border">
+                  {opportunity.quotes.map((quote) => (
+                    <li key={quote.id} className="flex items-center justify-between py-2">
+                      <Link href={`/admin/quotes/${quote.id}`} className="text-sm font-medium text-brand-600 hover:underline">
+                        {quote.number ?? t("draftQuote")} — {quote.title}
+                      </Link>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-foreground/70" dir="ltr">
+                          {formatMoney(quote.total, quote.currency, locale)}
+                        </span>
+                        <Badge tone={quote.status === "ACCEPTED" ? "success" : quote.status === "REJECTED" ? "danger" : "brand"}>
+                          {t(`quoteStatusValue.${quote.status}`)}
+                        </Badge>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {canWriteQuote ? <CreateQuoteButton opportunityId={opportunity.id} /> : null}
             </CardContent>
           </Card>
 

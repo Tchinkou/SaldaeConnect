@@ -81,6 +81,28 @@ export async function discardUploads(storageKeys: string[]): Promise<void> {
   }
 }
 
+export interface StoredGeneratedFile {
+  storageKey: string;
+  sha256: string;
+  sizeBytes: number;
+}
+
+/** Stocke un fichier généré côté serveur (PDF de devis/facture…) — voir `StorageProvider.writeGenerated`. */
+export async function storeGeneratedFile(bytes: Uint8Array): Promise<StoredGeneratedFile> {
+  const provider = getStorageProvider();
+  const storageKey = await provider.writeGenerated(bytes);
+  return {
+    storageKey,
+    sha256: createHash("sha256").update(bytes).digest("hex"),
+    sizeBytes: bytes.byteLength,
+  };
+}
+
+/** Relit un fichier déjà promu ou généré, pour le servir (ex. téléchargement du PDF d'un devis). */
+export async function readStoredFile(storageKey: string): Promise<Buffer> {
+  return getStorageProvider().read(storageKey);
+}
+
 /**
  * §H.4 : l'antivirus tourne « s'il est configuré ». Ici, `CLAMAV_HOST` n'a
  * pas encore de client ClamAV implémenté ; plutôt que de marquer les

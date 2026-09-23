@@ -60,19 +60,56 @@ export async function acceptInvitationAction(rawInput: AcceptInvitationInput): P
 
     const createdUser = await prisma.user.findUniqueOrThrow({ where: { email: invitation.email } });
 
-    await prisma.$transaction([
-      prisma.user.update({
-        where: { id: createdUser.id },
-        data: { userType: "STAFF", status: "ACTIVE" },
-      }),
-      ...(invitation.roleId
-        ? [prisma.userRole.create({ data: { userId: createdUser.id, roleId: invitation.roleId } })]
-        : []),
-      prisma.invitation.update({
-        where: { id: invitation.id },
-        data: { acceptedAt: new Date() },
-      }),
-    ]);
+    if (invitation.clientId) {
+      // Invitation au portail client (§D.3/§D.9) : même jeton, même formulaire
+      // de choix de mot de passe que l'équipe, mais le compte créé est un
+      // userType CLIENT rattaché au rôle système "client" (CLIENT_GRANTS),
+      // pas un rôle d'équipe. Rattache le compte au contact existant de ce
+      // client (même email) s'il y en a un, sinon en crée un.
+      await prisma.$transaction(async (tx) => {
+        const clientRole = await tx.role.findUniqueOrThrow({ where: { key: "client" } });
+
+        await tx.user.update({
+          where: { id: createdUser.id },
+          data: { userType: "CLIENT", status: "ACTIVE" },
+        });
+        await tx.userRole.create({ data: { userId: createdUser.id, roleId: clientRole.id } });
+
+        const existingContact = await tx.clientContact.findFirst({
+          where: { clientId: invitation.clientId!, email: invitation.email, userId: null },
+        });
+        if (existingContact) {
+          await tx.clientContact.update({ where: { id: existingContact.id }, data: { userId: createdUser.id } });
+        } else {
+          const [firstName, ...rest] = input.name.trim().split(/\s+/);
+          await tx.clientContact.create({
+            data: {
+              clientId: invitation.clientId!,
+              firstName: firstName ?? input.name,
+              lastName: rest.join(" ") || (firstName ?? input.name),
+              email: invitation.email,
+              userId: createdUser.id,
+            },
+          });
+        }
+
+        await tx.invitation.update({ where: { id: invitation.id }, data: { acceptedAt: new Date() } });
+      });
+    } else {
+      await prisma.$transaction([
+        prisma.user.update({
+          where: { id: createdUser.id },
+          data: { userType: "STAFF", status: "ACTIVE" },
+        }),
+        ...(invitation.roleId
+          ? [prisma.userRole.create({ data: { userId: createdUser.id, roleId: invitation.roleId } })]
+          : []),
+        prisma.invitation.update({
+          where: { id: invitation.id },
+          data: { acceptedAt: new Date() },
+        }),
+      ]);
+    }
 
     await logAudit({
       category: "SECURITY",

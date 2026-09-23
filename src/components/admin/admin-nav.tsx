@@ -16,6 +16,7 @@ export function AdminNav({
     crm: boolean;
     leads: boolean;
     clients: boolean;
+    quotes: boolean;
   };
 }) {
   const t = useTranslations("admin.nav");
@@ -26,6 +27,7 @@ export function AdminNav({
     { href: "/admin/crm", label: t("crm"), show: permissions.crm },
     { href: "/admin/leads", label: t("leads"), show: permissions.leads },
     { href: "/admin/clients", label: t("clients"), show: permissions.clients },
+    { href: "/admin/quotes", label: t("quotes"), show: permissions.quotes },
     { href: "/admin/team", label: t("team"), show: permissions.team },
     { href: "/admin/catalogue", label: t("catalog"), show: permissions.catalog },
     { href: "/admin/content", label: t("content"), show: permissions.content },

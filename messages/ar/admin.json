@@ -10,7 +10,8 @@
     "content": "المحتوى",
     "audit": "سجل التدقيق",
     "signOut": "تسجيل الخروج",
-    "viewSite": "عرض الموقع"
+    "viewSite": "عرض الموقع",
+    "quotes": "عروض الأسعار"
   },
   "dashboard": {
     "title": "لوحة التحكم",
@@ -227,7 +228,21 @@
       "contact": "جهة الاتصال",
       "owner": "المسؤول",
       "unassigned": "غير مُسند",
-      "tasks": "المهام"
+      "tasks": "المهام",
+      "createQuote": "إنشاء عرض سعر",
+      "quotes": "عروض الأسعار",
+      "noQuotes": "لا توجد عروض أسعار لهذه الفرصة.",
+      "draftQuote": "مسودة",
+      "quoteStatusValue": {
+        "DRAFT": "مسودة",
+        "SENT": "مُرسل",
+        "VIEWED": "تمت المشاهدة",
+        "ACCEPTED": "مقبول",
+        "REJECTED": "مرفوض",
+        "CHANGES_REQUESTED": "طلب تعديل",
+        "EXPIRED": "منتهي الصلاحية",
+        "CANCELLED": "ملغى"
+      }
     },
     "leads": {
       "title": "العملاء المحتملون",
@@ -318,11 +333,24 @@
       "opportunities": "الفرص",
       "noOpportunities": "لا توجد فرص حتى الآن.",
       "comingSoon": "قريبًا",
-      "comingSoonBody": "ستظهر هنا عروض الأسعار والمشاريع والفواتير في مرحلة لاحقة.",
+      "comingSoonBody": "ستظهر المشاريع والفواتير هنا في مرحلة قادمة.",
       "timeline": "السجل الزمني",
       "owner": "المسؤول",
       "unassigned": "غير مُسند",
-      "tasks": "المهام"
+      "tasks": "المهام",
+      "quotes": "عروض الأسعار",
+      "noQuotes": "لا توجد عروض أسعار لهذا العميل.",
+      "draftQuote": "مسودة",
+      "quoteStatusValue": {
+        "DRAFT": "مسودة",
+        "SENT": "مُرسل",
+        "VIEWED": "تمت المشاهدة",
+        "ACCEPTED": "مقبول",
+        "REJECTED": "مرفوض",
+        "CHANGES_REQUESTED": "طلب تعديل",
+        "EXPIRED": "منتهي الصلاحية",
+        "CANCELLED": "ملغى"
+      }
     },
     "task": {
       "empty": "لا توجد مهام حتى الآن.",
@@ -360,5 +388,120 @@
   "forbidden": {
     "title": "الوصول مرفوض",
     "body": "ليس لديك إذن للوصول إلى هذه الصفحة."
+  },
+  "quotes": {
+    "title": "عروض الأسعار",
+    "subtitle": "جميع عروض الأسعار، المسودات والمُرسلة.",
+    "new": "عرض سعر جديد",
+    "number": "الرقم",
+    "client": "العميل",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "createdAt": "تاريخ الإنشاء",
+    "empty": "لا توجد عروض أسعار.",
+    "draftLabel": "مسودة",
+    "filters": {
+      "search": "بحث",
+      "searchPlaceholder": "الرقم، العنوان، العميل…",
+      "status": "الحالة",
+      "all": "الكل",
+      "reset": "إعادة التعيين"
+    },
+    "statusValue": {
+      "DRAFT": "مسودة",
+      "SENT": "مُرسل",
+      "VIEWED": "تمت المشاهدة",
+      "ACCEPTED": "مقبول",
+      "REJECTED": "مرفوض",
+      "CHANGES_REQUESTED": "طلب تعديل",
+      "EXPIRED": "منتهي الصلاحية",
+      "CANCELLED": "ملغى"
+    },
+    "create": {
+      "title": "عرض سعر جديد",
+      "subtitle": "اختر العميل الذي سيُنشأ له هذا العرض.",
+      "client": "العميل",
+      "submit": "إنشاء العرض",
+      "noClients": "لا يوجد عملاء متاحون. يجب إنشاء عرض السعر من فرصة، أو تحويل عميل محتمل إلى عميل أولاً."
+    },
+    "detail": {
+      "draftLabel": "مسودة",
+      "backToQuotes": "العودة إلى عروض الأسعار",
+      "lockedNotice": "تم إرسال هذا العرض ولم يعد قابلاً للتعديل مباشرة. سيؤدي طلب تعديل من العميل إلى إنشاء نسخة جديدة.",
+      "header": "المعلومات العامة",
+      "items": "بنود العرض",
+      "installments": "دفعات السداد",
+      "totals": "الإجماليات",
+      "subtotal": "المجموع الفرعي",
+      "discountTotal": "الخصم",
+      "taxTotal": "الضريبة",
+      "total": "الإجمالي",
+      "delete": "حذف هذه المسودة",
+      "deleteConfirm": "هل تريد حذف هذه المسودة نهائياً؟",
+      "deleteConfirmYes": "نعم، احذف",
+      "cancel": "إلغاء",
+      "titleField": "العنوان",
+      "validUntil": "صالح حتى",
+      "introduction": "مقدمة",
+      "terms": "الشروط",
+      "internalNotes": "ملاحظات داخلية",
+      "internalNotesHint": "مرئية للفريق فقط، لا تظهر للعميل أبداً.",
+      "globalDiscountType": "خصم إجمالي",
+      "none": "بدون",
+      "percent": "نسبة مئوية",
+      "amount": "مبلغ",
+      "globalDiscountValuePercent": "نسبة الخصم (%)",
+      "globalDiscountValueAmount": "مبلغ الخصم",
+      "depositPercent": "دفعة أولى (%)",
+      "depositAmount": "دفعة أولى (مبلغ)",
+      "save": "حفظ",
+      "statusValue": {
+        "DRAFT": "مسودة",
+        "SENT": "مُرسل",
+        "VIEWED": "تمت المشاهدة",
+        "ACCEPTED": "مقبول",
+        "REJECTED": "مرفوض",
+        "CHANGES_REQUESTED": "طلب تعديل",
+        "EXPIRED": "منتهي الصلاحية",
+        "CANCELLED": "ملغى"
+      },
+      "item": {
+        "titleColumn": "البند",
+        "quantity": "الكمية",
+        "unitPrice": "سعر الوحدة",
+        "discount": "الخصم",
+        "tax": "الضريبة",
+        "lineTotal": "إجمالي السطر",
+        "edit": "تعديل",
+        "remove": "حذف",
+        "empty": "لا توجد بنود بعد.",
+        "service": "الخدمة (اختياري)",
+        "noService": "بدون خدمة (إدخال حر)",
+        "description": "الوصف",
+        "unit": "الوحدة",
+        "noTax": "بدون ضريبة",
+        "noTaxRatesHint": "لم يتم إعداد أي نسبة ضريبة بعد (سيتم ذلك في المرحلة 7).",
+        "saveEdit": "حفظ السطر",
+        "addItem": "إضافة سطر",
+        "cancel": "إلغاء"
+      },
+      "installment": {
+        "empty": "لا توجد دفعات محددة (دفعة واحدة).",
+        "remove": "حذف",
+        "label": "التسمية",
+        "percent": "النسبة المئوية",
+        "amount": "المبلغ",
+        "trigger": "المحفّز",
+        "dueDate": "تاريخ الاستحقاق",
+        "addInstallment": "إضافة دفعة",
+        "cancel": "إلغاء",
+        "triggerValue": {
+          "ON_ACCEPTANCE": "عند القبول",
+          "ON_MILESTONE": "عند مرحلة من المشروع",
+          "ON_DELIVERY": "عند التسليم",
+          "ON_DATE": "في تاريخ محدد"
+        }
+      }
+    }
   }
 }

@@ -10,7 +10,8 @@
     "content": "Content",
     "audit": "Audit log",
     "signOut": "Sign out",
-    "viewSite": "View site"
+    "viewSite": "View site",
+    "quotes": "Quotes"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -227,7 +228,21 @@
       "contact": "Contact",
       "owner": "Owner",
       "unassigned": "Unassigned",
-      "tasks": "Tasks"
+      "tasks": "Tasks",
+      "createQuote": "Create a quote",
+      "quotes": "Quotes",
+      "noQuotes": "No quotes for this opportunity.",
+      "draftQuote": "Draft",
+      "quoteStatusValue": {
+        "DRAFT": "Draft",
+        "SENT": "Sent",
+        "VIEWED": "Viewed",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected",
+        "CHANGES_REQUESTED": "Changes requested",
+        "EXPIRED": "Expired",
+        "CANCELLED": "Cancelled"
+      }
     },
     "leads": {
       "title": "Leads",
@@ -318,11 +333,24 @@
       "opportunities": "Opportunities",
       "noOpportunities": "No opportunities yet.",
       "comingSoon": "Coming soon",
-      "comingSoonBody": "Quotes, projects and invoices will appear here in a later phase.",
+      "comingSoonBody": "Projects and invoices will appear here in a future phase.",
       "timeline": "Timeline",
       "owner": "Owner",
       "unassigned": "Unassigned",
-      "tasks": "Tasks"
+      "tasks": "Tasks",
+      "quotes": "Quotes",
+      "noQuotes": "No quotes for this client.",
+      "draftQuote": "Draft",
+      "quoteStatusValue": {
+        "DRAFT": "Draft",
+        "SENT": "Sent",
+        "VIEWED": "Viewed",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected",
+        "CHANGES_REQUESTED": "Changes requested",
+        "EXPIRED": "Expired",
+        "CANCELLED": "Cancelled"
+      }
     },
     "task": {
       "empty": "No tasks yet.",
@@ -360,5 +388,120 @@
   "forbidden": {
     "title": "Access denied",
     "body": "You don't have permission to access this page."
+  },
+  "quotes": {
+    "title": "Quotes",
+    "subtitle": "All quotes, drafts and sent.",
+    "new": "New quote",
+    "number": "Number",
+    "client": "Client",
+    "status": "Status",
+    "total": "Total",
+    "createdAt": "Created",
+    "empty": "No quotes.",
+    "draftLabel": "Draft",
+    "filters": {
+      "search": "Search",
+      "searchPlaceholder": "Number, title, client…",
+      "status": "Status",
+      "all": "All",
+      "reset": "Reset"
+    },
+    "statusValue": {
+      "DRAFT": "Draft",
+      "SENT": "Sent",
+      "VIEWED": "Viewed",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected",
+      "CHANGES_REQUESTED": "Changes requested",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    },
+    "create": {
+      "title": "New quote",
+      "subtitle": "Choose the client to create this quote for.",
+      "client": "Client",
+      "submit": "Create quote",
+      "noClients": "No accessible clients. A quote must be created from an opportunity, or a lead must first be converted to a client."
+    },
+    "detail": {
+      "draftLabel": "Draft",
+      "backToQuotes": "Back to quotes",
+      "lockedNotice": "This quote has been sent and can no longer be edited directly. A change request from the client will create a new version.",
+      "header": "General information",
+      "items": "Quote lines",
+      "installments": "Payment installments",
+      "totals": "Totals",
+      "subtotal": "Subtotal",
+      "discountTotal": "Discount",
+      "taxTotal": "Tax",
+      "total": "Total",
+      "delete": "Delete this draft",
+      "deleteConfirm": "Permanently delete this draft?",
+      "deleteConfirmYes": "Yes, delete",
+      "cancel": "Cancel",
+      "titleField": "Title",
+      "validUntil": "Valid until",
+      "introduction": "Introduction",
+      "terms": "Terms",
+      "internalNotes": "Internal notes",
+      "internalNotesHint": "Visible to the team only, never to the client.",
+      "globalDiscountType": "Global discount",
+      "none": "None",
+      "percent": "Percentage",
+      "amount": "Amount",
+      "globalDiscountValuePercent": "Discount percentage (%)",
+      "globalDiscountValueAmount": "Discount amount",
+      "depositPercent": "Deposit (%)",
+      "depositAmount": "Deposit (amount)",
+      "save": "Save",
+      "statusValue": {
+        "DRAFT": "Draft",
+        "SENT": "Sent",
+        "VIEWED": "Viewed",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected",
+        "CHANGES_REQUESTED": "Changes requested",
+        "EXPIRED": "Expired",
+        "CANCELLED": "Cancelled"
+      },
+      "item": {
+        "titleColumn": "Item",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price",
+        "discount": "Discount",
+        "tax": "Tax",
+        "lineTotal": "Line total",
+        "edit": "Edit",
+        "remove": "Remove",
+        "empty": "No lines yet.",
+        "service": "Service (optional)",
+        "noService": "No service (free text)",
+        "description": "Description",
+        "unit": "Unit",
+        "noTax": "No tax",
+        "noTaxRatesHint": "No tax rate is configured yet (to be set up in Phase 7).",
+        "saveEdit": "Save line",
+        "addItem": "Add a line",
+        "cancel": "Cancel"
+      },
+      "installment": {
+        "empty": "No installments defined (single payment).",
+        "remove": "Remove",
+        "label": "Label",
+        "percent": "Percentage",
+        "amount": "Amount",
+        "trigger": "Trigger",
+        "dueDate": "Due date",
+        "addInstallment": "Add an installment",
+        "cancel": "Cancel",
+        "triggerValue": {
+          "ON_ACCEPTANCE": "On acceptance",
+          "ON_MILESTONE": "On a project milestone",
+          "ON_DELIVERY": "On delivery",
+          "ON_DATE": "On a fixed date"
+        }
+      }
+    }
   }
 }
