@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "quotes": "عروض الأسعار",
+    "signOut": "تسجيل الخروج"
+  },
+  "dashboard": {
+    "title": "مرحبًا بك",
+    "subtitle": "تجد هنا عروض أسعارك وحالتها.",
+    "quotesCard": "عروض الأسعار",
+    "quotesCardDescription": "اطّلع على عروض أسعارك واقبلها أو ارفضها.",
+    "quotesCardLink": "عرض عروض أسعاري"
+  },
+  "quotes": {
+    "title": "عروض أسعارك",
+    "empty": "لا توجد عروض أسعار حتى الآن.",
+    "number": "الرقم",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "sentAt": "أُرسل في",
+    "view": "عرض",
+    "statusValue": {
+      "SENT": "مُرسل",
+      "VIEWED": "تمت المشاهدة",
+      "ACCEPTED": "مقبول",
+      "REJECTED": "مرفوض",
+      "CHANGES_REQUESTED": "طلب تعديل",
+      "EXPIRED": "منتهي الصلاحية",
+      "CANCELLED": "ملغى"
+    }
+  },
+  "quoteDetail": {
+    "backToQuotes": "العودة إلى عروض أسعاري",
+    "sentAt": "أُرسل في",
+    "validUntil": "صالح حتى",
+    "introduction": "تقديم",
+    "terms": "الشروط",
+    "items": "التفاصيل",
+    "itemTitle": "البند",
+    "itemQuantity": "الكمية",
+    "itemUnitPrice": "سعر الوحدة",
+    "itemTotal": "إجمالي البند",
+    "installments": "جدول الدفعات",
+    "totals": "الإجماليات",
+    "subtotal": "المجموع الفرعي",
+    "discountTotal": "الخصم",
+    "taxTotal": "الضريبة",
+    "total": "الإجمالي",
+    "downloadPdf": "تحميل ملف PDF",
+    "statusValue": {
+      "SENT": "مُرسل",
+      "VIEWED": "تمت المشاهدة",
+      "ACCEPTED": "مقبول",
+      "REJECTED": "مرفوض",
+      "CHANGES_REQUESTED": "طلب تعديل",
+      "EXPIRED": "منتهي الصلاحية",
+      "CANCELLED": "ملغى"
+    },
+    "expiredNotice": "انتهت صلاحية هذا العرض ولم يعد بالإمكان قبوله عبر الإنترنت. تواصل معنا للحصول على عرض جديد.",
+    "decidedNotice": "لقد أجبت بالفعل على هذا العرض.",
+    "acceptedNotice": "لقد قبلت هذا العرض. تم إنشاء مشروعك، وسيتواصل معك فريقنا قريبًا.",
+    "rejectedNotice": "لقد رفضت هذا العرض.",
+    "changesRequestedNotice": "تم إرسال طلب التعديل الخاص بك إلى فريقنا.",
+    "decision": {
+      "heading": "قرارك",
+      "cancel": "إلغاء",
+      "accept": {
+        "title": "قبول هذا العرض",
+        "signerName": "اسمك الكامل",
+        "confirm": "بالنقر على «قبول هذا العرض»، أؤكد أنني قرأت وقبلت الشروط أعلاه.",
+        "submit": "قبول هذا العرض"
+      },
+      "reject": {
+        "title": "رفض هذا العرض",
+        "reason": "السبب (اختياري)",
+        "submit": "رفض هذا العرض"
+      },
+      "requestChanges": {
+        "title": "طلب تعديل",
+        "comment": "صف التعديل الذي ترغب فيه",
+        "submit": "إرسال الطلب"
+      }
+    },
+    "errorGeneric": "حدث خطأ ما. حاول مرة أخرى."
+  }
+}

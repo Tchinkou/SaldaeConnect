@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "quotes": "Quotes",
+    "signOut": "Sign out"
+  },
+  "dashboard": {
+    "title": "Welcome",
+    "subtitle": "Find your quotes and their status here.",
+    "quotesCard": "Quotes",
+    "quotesCardDescription": "View, accept, or decline your quotes.",
+    "quotesCardLink": "View my quotes"
+  },
+  "quotes": {
+    "title": "Your quotes",
+    "empty": "No quotes yet.",
+    "number": "Number",
+    "status": "Status",
+    "total": "Total",
+    "sentAt": "Sent on",
+    "view": "View",
+    "statusValue": {
+      "SENT": "Sent",
+      "VIEWED": "Viewed",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Declined",
+      "CHANGES_REQUESTED": "Changes requested",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "quoteDetail": {
+    "backToQuotes": "Back to my quotes",
+    "sentAt": "Sent on",
+    "validUntil": "Valid until",
+    "introduction": "Introduction",
+    "terms": "Terms",
+    "items": "Details",
+    "itemTitle": "Item",
+    "itemQuantity": "Quantity",
+    "itemUnitPrice": "Unit price",
+    "itemTotal": "Line total",
+    "installments": "Payment schedule",
+    "totals": "Totals",
+    "subtotal": "Subtotal",
+    "discountTotal": "Discount",
+    "taxTotal": "Tax",
+    "total": "Total",
+    "downloadPdf": "Download PDF",
+    "statusValue": {
+      "SENT": "Sent",
+      "VIEWED": "Viewed",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Declined",
+      "CHANGES_REQUESTED": "Changes requested",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    },
+    "expiredNotice": "This quote has expired and can no longer be accepted online. Contact us for a new one.",
+    "decidedNotice": "You have already responded to this quote.",
+    "acceptedNotice": "You accepted this quote. Your project has been created, our team will be in touch.",
+    "rejectedNotice": "You declined this quote.",
+    "changesRequestedNotice": "Your change request has been sent to our team.",
+    "decision": {
+      "heading": "Your decision",
+      "cancel": "Cancel",
+      "accept": {
+        "title": "Accept this quote",
+        "signerName": "Your full name",
+        "confirm": "By clicking \"Accept this quote\", I confirm I have read and accepted the terms above.",
+        "submit": "Accept this quote"
+      },
+      "reject": {
+        "title": "Decline this quote",
+        "reason": "Reason (optional)",
+        "submit": "Decline this quote"
+      },
+      "requestChanges": {
+        "title": "Request a change",
+        "comment": "Describe the change you'd like",
+        "submit": "Send request"
+      }
+    },
+    "errorGeneric": "Something went wrong. Please try again."
+  }
+}

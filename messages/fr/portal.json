@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "quotes": "Devis",
+    "signOut": "Déconnexion"
+  },
+  "dashboard": {
+    "title": "Bienvenue",
+    "subtitle": "Retrouvez ici vos devis et leur statut.",
+    "quotesCard": "Devis",
+    "quotesCardDescription": "Consultez, acceptez ou refusez vos devis.",
+    "quotesCardLink": "Voir mes devis"
+  },
+  "quotes": {
+    "title": "Vos devis",
+    "empty": "Aucun devis pour le moment.",
+    "number": "Numéro",
+    "status": "Statut",
+    "total": "Total",
+    "sentAt": "Envoyé le",
+    "view": "Consulter",
+    "statusValue": {
+      "SENT": "Envoyé",
+      "VIEWED": "Consulté",
+      "ACCEPTED": "Accepté",
+      "REJECTED": "Refusé",
+      "CHANGES_REQUESTED": "Modification demandée",
+      "EXPIRED": "Expiré",
+      "CANCELLED": "Annulé"
+    }
+  },
+  "quoteDetail": {
+    "backToQuotes": "Retour à mes devis",
+    "sentAt": "Envoyé le",
+    "validUntil": "Valable jusqu'au",
+    "introduction": "Présentation",
+    "terms": "Conditions",
+    "items": "Détail",
+    "itemTitle": "Désignation",
+    "itemQuantity": "Quantité",
+    "itemUnitPrice": "Prix unitaire",
+    "itemTotal": "Total ligne",
+    "installments": "Échéances de paiement",
+    "totals": "Totaux",
+    "subtotal": "Sous-total",
+    "discountTotal": "Remise",
+    "taxTotal": "Taxes",
+    "total": "Total",
+    "downloadPdf": "Télécharger le PDF",
+    "statusValue": {
+      "SENT": "Envoyé",
+      "VIEWED": "Consulté",
+      "ACCEPTED": "Accepté",
+      "REJECTED": "Refusé",
+      "CHANGES_REQUESTED": "Modification demandée",
+      "EXPIRED": "Expiré",
+      "CANCELLED": "Annulé"
+    },
+    "expiredNotice": "Ce devis a expiré et ne peut plus être accepté en ligne. Contactez-nous pour en obtenir un nouveau.",
+    "decidedNotice": "Vous avez déjà répondu à ce devis.",
+    "acceptedNotice": "Vous avez accepté ce devis. Votre projet a été créé, notre équipe va vous contacter.",
+    "rejectedNotice": "Vous avez refusé ce devis.",
+    "changesRequestedNotice": "Votre demande de modification a été transmise à notre équipe.",
+    "decision": {
+      "heading": "Votre décision",
+      "cancel": "Annuler",
+      "accept": {
+        "title": "Accepter ce devis",
+        "signerName": "Votre nom complet",
+        "confirm": "En cliquant sur « Accepter ce devis », je confirme avoir lu et accepté les conditions ci-dessus.",
+        "submit": "Accepter ce devis"
+      },
+      "reject": {
+        "title": "Refuser ce devis",
+        "reason": "Motif (facultatif)",
+        "submit": "Refuser ce devis"
+      },
+      "requestChanges": {
+        "title": "Demander une modification",
+        "comment": "Décrivez la modification souhaitée",
+        "submit": "Envoyer la demande"
+      }
+    },
+    "errorGeneric": "Une erreur est survenue. Réessayez."
+  }
+}
