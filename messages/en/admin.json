@@ -4,6 +4,7 @@
     "team": "Team",
     "settings": "Settings",
     "catalog": "Catalog",
+    "content": "Content",
     "audit": "Audit log",
     "signOut": "Sign out",
     "viewSite": "View site"
@@ -91,6 +92,55 @@
       "RECURRING": "Recurring",
       "BOOKING": "Booking",
       "TRANSACTION": "Transaction"
+    }
+  },
+  "content": {
+    "hubTitle": "Site content",
+    "hubSubtitle": "Key figures, testimonials and portfolio shown on the public site.",
+    "new": "New",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "active": "Active",
+    "inactive": "Inactive",
+    "isPublished": "Published",
+    "empty": "Nothing yet.",
+    "order": "Display order",
+    "keyFigures": {
+      "title": "Key figures",
+      "subtitle": "Shown on the homepage — hidden while none are active.",
+      "new": "New key figure",
+      "edit": "Edit key figure",
+      "value": "Value",
+      "suffix": "Suffix (e.g. \"+\", \"%\")",
+      "label": "Label"
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "subtitle": "Shown on the homepage — only active testimonials with publication consent are visible.",
+      "new": "New testimonial",
+      "edit": "Edit testimonial",
+      "authorName": "Author name",
+      "company": "Company",
+      "jobTitle": "Job title",
+      "content": "Testimonial",
+      "publicationConsent": "Publication consent obtained",
+      "noConsent": "Consent missing"
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "subtitle": "Case studies shown in the public portfolio.",
+      "new": "New project",
+      "edit": "Edit project",
+      "clientName": "Client name",
+      "isFeatured": "Featured",
+      "projectTitle": "Title",
+      "slug": "Slug",
+      "summary": "Summary",
+      "problem": "Problem",
+      "solution": "Solution",
+      "execution": "Execution",
+      "result": "Result"
     }
   },
   "audit": {

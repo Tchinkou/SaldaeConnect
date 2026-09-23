@@ -8,7 +8,9 @@
     "portfolio": "Our work",
     "about": "About",
     "contact": "Contact",
-    "login": "Sign in"
+    "login": "Sign in",
+    "cta": "Start a project",
+    "menu": "Menu"
   },
   "localeSwitcher": {
     "label": "Language",
@@ -18,8 +20,9 @@
   },
   "footer": {
     "rights": "All rights reserved.",
-    "legalNotice": "Legal notice",
-    "privacy": "Privacy"
+    "navTitle": "Navigation",
+    "legalTitle": "Legal",
+    "contactTitle": "Get in touch"
   },
   "actions": {
     "retry": "Retry"

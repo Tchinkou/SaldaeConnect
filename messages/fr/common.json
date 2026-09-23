@@ -8,7 +8,9 @@
     "portfolio": "Réalisations",
     "about": "À propos",
     "contact": "Contact",
-    "login": "Se connecter"
+    "login": "Se connecter",
+    "cta": "Démarrer un projet",
+    "menu": "Menu"
   },
   "localeSwitcher": {
     "label": "Langue",
@@ -18,8 +20,9 @@
   },
   "footer": {
     "rights": "Tous droits réservés.",
-    "legalNotice": "Mentions légales",
-    "privacy": "Confidentialité"
+    "navTitle": "Navigation",
+    "legalTitle": "Informations légales",
+    "contactTitle": "Nous contacter"
   },
   "actions": {
     "retry": "Réessayer"

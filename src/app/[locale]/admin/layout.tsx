@@ -37,6 +37,7 @@ export default async function AdminLayout({
     team: hasPermission(currentUser, "team.write"),
     settings: hasPermission(currentUser, "settings.write"),
     catalog: hasPermission(currentUser, "cms.write"),
+    content: hasPermission(currentUser, "cms.write"),
     audit: hasPermission(currentUser, "audit.read"),
   };
 

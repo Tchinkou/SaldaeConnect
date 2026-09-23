@@ -1,17 +1,140 @@
 {
   "home": {
-    "badge": "Phase 1 — Fondations",
-    "title": "L'agence numérique de Béjaïa, pensée pour durer.",
-    "subtitle": "SaldaeConnect combine développement, design et démarches numériques dans une seule plateforme. Cette page vérifie que les fondations techniques — langues, RTL, design system — fonctionnent avant la construction du site public.",
-    "ctaPrimary": "Démarrer un projet",
-    "ctaSecondary": "Découvrir nos services",
-    "checklistTitle": "Ce que cette page démontre",
-    "checklist": {
-      "i18n": "Trois langues (FR/EN/AR) via des URL préfixées",
-      "rtl": "Mise en page RTL correcte en arabe (icônes, espacements logiques)",
-      "designSystem": "Jetons de couleur, typographie et composants de base partagés",
-      "fonts": "Polices dédiées par langue (latine et arabe)"
+    "seoTitle": "SaldaeConnect — Agence numérique à Béjaïa",
+    "seoDescription": "Développement web et mobile, identité de marque et marketing digital, réservations et démarches en ligne. Demandez un devis gratuit.",
+    "hero": {
+      "title": "L'agence numérique qui fait avancer vos projets.",
+      "subtitle": "SaldaeConnect combine développement, design et démarches numériques dans une seule plateforme, pour des projets pensés pour durer.",
+      "ctaPrimary": "Démarrer un projet",
+      "ctaSecondary": "Découvrir nos services"
     },
-    "comingSoon": "Le site public complet (services, portfolio, formulaire de devis) arrive en phase 3."
+    "services": {
+      "title": "Nos services",
+      "viewAll": "Voir tous les services"
+    },
+    "whyUs": {
+      "title": "Pourquoi SaldaeConnect",
+      "points": {
+        "local": { "title": "Une équipe locale", "body": "Basée à Béjaïa, disponible pour un accompagnement de proximité." },
+        "multilingual": { "title": "Trois langues", "body": "Français, anglais et arabe, pour vos clients comme pour vos équipes." },
+        "transparent": { "title": "Suivi transparent", "body": "Un devis clair, un projet suivi, une facturation sans surprise." },
+        "durable": { "title": "Pensé pour durer", "body": "Des solutions solides plutôt que des livrables jetables." }
+      }
+    },
+    "testimonials": {
+      "title": "Ils nous font confiance"
+    },
+    "finalCta": {
+      "title": "Un projet en tête ?",
+      "subtitle": "Décrivez-nous votre besoin, nous revenons vers vous rapidement avec une proposition adaptée.",
+      "cta": "Démarrer un projet"
+    }
+  },
+  "services": {
+    "seoTitle": "Nos services — SaldaeConnect",
+    "seoDescription": "Développement, branding, marketing digital, rendez-vous et démarches : le catalogue de services SaldaeConnect.",
+    "title": "Nos services",
+    "subtitle": "Un catalogue pensé pour accompagner vos projets numériques du départ jusqu'au suivi.",
+    "empty": "Aucun service publié pour l'instant.",
+    "cta": "Demander un devis"
+  },
+  "serviceDetail": {
+    "faqTitle": "Questions fréquentes",
+    "cta": "Démarrer ce projet",
+    "backToServices": "Retour aux services"
+  },
+  "about": {
+    "seoTitle": "À propos — SaldaeConnect"
+  },
+  "contact": {
+    "seoTitle": "Contact — SaldaeConnect",
+    "seoDescription": "Contactez l'équipe SaldaeConnect par email, téléphone ou WhatsApp, ou envoyez-nous un message.",
+    "title": "Contactez-nous",
+    "subtitle": "Une question, un projet ? Écrivez-nous, nous répondons rapidement.",
+    "infoTitle": "Nos coordonnées",
+    "form": {
+      "name": "Nom complet",
+      "email": "Email",
+      "message": "Votre message",
+      "submit": "Envoyer le message",
+      "success": "Message envoyé. Nous vous répondrons rapidement.",
+      "errorGeneric": "Une erreur est survenue. Réessayez dans un instant.",
+      "errorTooManyRequests": "Trop de messages envoyés. Réessayez plus tard."
+    }
+  },
+  "legal": {
+    "provisionalNotice": "Ce texte est provisoire et en attente de validation juridique.",
+    "notFound": "Cette page n'existe pas dans cette langue pour le moment."
+  },
+  "portfolio": {
+    "seoTitle": "Réalisations — SaldaeConnect",
+    "title": "Nos réalisations",
+    "empty": "Aucune réalisation publiée pour le moment. Revenez bientôt."
+  },
+  "quote": {
+    "seoTitle": "Démarrer un projet — SaldaeConnect",
+    "title": "Démarrer un projet",
+    "subtitle": "Quelques étapes pour bien comprendre votre besoin. Vous pouvez revenir en arrière à tout moment.",
+    "steps": {
+      "service": "Service",
+      "questions": "Questions",
+      "budget": "Budget",
+      "timeline": "Délai",
+      "contact": "Coordonnées",
+      "message": "Message",
+      "summary": "Résumé"
+    },
+    "service": {
+      "title": "Quel service vous intéresse ?",
+      "placeholder": "Choisissez un service"
+    },
+    "budget": {
+      "title": "Quel est votre budget indicatif ?",
+      "unknown": "Je ne sais pas encore"
+    },
+    "timeline": {
+      "title": "Quel est le délai souhaité ?",
+      "placeholder": "Ex. dans les 2 mois, dès que possible…"
+    },
+    "contactStep": {
+      "title": "Vos coordonnées",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "phone": "Téléphone",
+      "companyName": "Entreprise (facultatif)",
+      "country": "Pays",
+      "city": "Ville"
+    },
+    "messageStep": {
+      "title": "Votre message",
+      "message": "Décrivez votre projet",
+      "files": "Pièces jointes (facultatif)",
+      "filesHint": "PDF, JPEG, PNG ou WebP, 10 Mo max par fichier, 5 fichiers max."
+    },
+    "summary": {
+      "title": "Résumé de votre demande",
+      "privacy": "En envoyant ce formulaire, vous acceptez que ces informations soient utilisées pour traiter votre demande.",
+      "privacyAccept": "J'accepte que mes données soient utilisées pour traiter ma demande.",
+      "submit": "Envoyer ma demande"
+    },
+    "actions": {
+      "back": "Précédent",
+      "next": "Suivant"
+    },
+    "confirmation": {
+      "title": "Demande envoyée",
+      "body": "Votre demande a été enregistrée sous le numéro {number}. Vous recevrez un email de confirmation.",
+      "backHome": "Retour à l'accueil"
+    },
+    "errors": {
+      "generic": "Une erreur est survenue lors de l'envoi. Vos réponses sont conservées, réessayez.",
+      "tooManyRequests": "Trop de demandes envoyées récemment. Réessayez plus tard.",
+      "required": "Ce champ est requis.",
+      "invalidEmail": "Email invalide.",
+      "tooManyFiles": "5 fichiers maximum.",
+      "fileTooLarge": "Ce fichier dépasse 10 Mo.",
+      "invalidFileType": "Type de fichier non accepté (PDF, JPEG, PNG, WebP)."
+    }
   }
 }

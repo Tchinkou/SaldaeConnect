@@ -31,7 +31,9 @@ export function defineAction<Schema extends z.ZodType, Output>(config: {
   };
   handler: (input: z.infer<Schema>, ctx: { user: CurrentUser }) => Promise<Output>;
 }) {
-  return async (rawInput: z.infer<Schema>): Promise<ActionResult<Output>> => {
+  // `z.input<Schema>` (forme avant analyse), pas `z.infer` (forme après) : un
+  // champ `.optional().default(...)` doit rester facultatif pour l'appelant.
+  return async (rawInput: z.input<Schema>): Promise<ActionResult<Output>> => {
     const requestHeaders = await headers();
     const ip = requestHeaders.get("x-forwarded-for");
     const userAgent = requestHeaders.get("user-agent");

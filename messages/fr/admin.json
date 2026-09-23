@@ -4,6 +4,7 @@
     "team": "Équipe",
     "settings": "Paramètres",
     "catalog": "Catalogue",
+    "content": "Contenu",
     "audit": "Journal d'audit",
     "signOut": "Se déconnecter",
     "viewSite": "Voir le site"
@@ -91,6 +92,55 @@
       "RECURRING": "Récurrent",
       "BOOKING": "Réservation",
       "TRANSACTION": "Transaction"
+    }
+  },
+  "content": {
+    "hubTitle": "Contenu du site",
+    "hubSubtitle": "Chiffres clés, témoignages et réalisations affichés sur le site public.",
+    "new": "Nouveau",
+    "edit": "Modifier",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "isPublished": "Publié",
+    "empty": "Aucun élément pour le moment.",
+    "order": "Ordre d'affichage",
+    "keyFigures": {
+      "title": "Chiffres clés",
+      "subtitle": "Affichés sur la page d'accueil — masqués tant qu'aucun n'est actif.",
+      "new": "Nouveau chiffre clé",
+      "edit": "Modifier le chiffre clé",
+      "value": "Valeur",
+      "suffix": "Suffixe (ex. « + », « % »)",
+      "label": "Libellé"
+    },
+    "testimonials": {
+      "title": "Témoignages",
+      "subtitle": "Affichés sur la page d'accueil — seuls les témoignages actifs avec consentement de publication sont visibles.",
+      "new": "Nouveau témoignage",
+      "edit": "Modifier le témoignage",
+      "authorName": "Nom de l'auteur",
+      "company": "Entreprise",
+      "jobTitle": "Fonction",
+      "content": "Témoignage",
+      "publicationConsent": "Consentement de publication obtenu",
+      "noConsent": "Consentement manquant"
+    },
+    "portfolio": {
+      "title": "Réalisations",
+      "subtitle": "Études de cas affichées dans le portfolio public.",
+      "new": "Nouvelle réalisation",
+      "edit": "Modifier la réalisation",
+      "clientName": "Nom du client",
+      "isFeatured": "Mise en avant",
+      "projectTitle": "Titre",
+      "slug": "Slug",
+      "summary": "Résumé",
+      "problem": "Problème",
+      "solution": "Solution",
+      "execution": "Exécution",
+      "result": "Résultat"
     }
   },
   "audit": {

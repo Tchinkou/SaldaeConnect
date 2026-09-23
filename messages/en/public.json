@@ -1,17 +1,140 @@
 {
   "home": {
-    "badge": "Phase 1 — Foundations",
-    "title": "Béjaïa's digital agency, built to last.",
-    "subtitle": "SaldaeConnect brings development, design and digital services together in one platform. This page checks that the technical foundations — languages, RTL, design system — work before the public site is built.",
-    "ctaPrimary": "Start a project",
-    "ctaSecondary": "Explore our services",
-    "checklistTitle": "What this page demonstrates",
-    "checklist": {
-      "i18n": "Three languages (FR/EN/AR) via prefixed URLs",
-      "rtl": "Correct RTL layout in Arabic (icons, logical spacing)",
-      "designSystem": "Shared color, typography and component tokens",
-      "fonts": "Dedicated fonts per language (Latin and Arabic)"
+    "seoTitle": "SaldaeConnect — Digital agency in Béjaïa",
+    "seoDescription": "Web and mobile development, brand identity, digital marketing, bookings and online processes. Request a free quote.",
+    "hero": {
+      "title": "The digital agency that moves your projects forward.",
+      "subtitle": "SaldaeConnect brings together development, design and digital processes on a single platform, for projects built to last.",
+      "ctaPrimary": "Start a project",
+      "ctaSecondary": "Explore our services"
     },
-    "comingSoon": "The full public site (services, portfolio, quote form) ships in phase 3."
+    "services": {
+      "title": "Our services",
+      "viewAll": "View all services"
+    },
+    "whyUs": {
+      "title": "Why SaldaeConnect",
+      "points": {
+        "local": { "title": "A local team", "body": "Based in Béjaïa, available for hands-on support." },
+        "multilingual": { "title": "Three languages", "body": "French, English and Arabic, for your customers and your teams." },
+        "transparent": { "title": "Transparent tracking", "body": "A clear quote, a tracked project, invoicing without surprises." },
+        "durable": { "title": "Built to last", "body": "Solid solutions rather than disposable deliverables." }
+      }
+    },
+    "testimonials": {
+      "title": "Trusted by our clients"
+    },
+    "finalCta": {
+      "title": "Got a project in mind?",
+      "subtitle": "Tell us what you need and we'll get back to you quickly with a tailored proposal.",
+      "cta": "Start a project"
+    }
+  },
+  "services": {
+    "seoTitle": "Our services — SaldaeConnect",
+    "seoDescription": "Development, branding, digital marketing, appointments and processes: the SaldaeConnect service catalogue.",
+    "title": "Our services",
+    "subtitle": "A catalogue built to support your digital projects from kickoff to follow-up.",
+    "empty": "No services published yet.",
+    "cta": "Request a quote"
+  },
+  "serviceDetail": {
+    "faqTitle": "Frequently asked questions",
+    "cta": "Start this project",
+    "backToServices": "Back to services"
+  },
+  "about": {
+    "seoTitle": "About — SaldaeConnect"
+  },
+  "contact": {
+    "seoTitle": "Contact — SaldaeConnect",
+    "seoDescription": "Contact the SaldaeConnect team by email, phone or WhatsApp, or send us a message.",
+    "title": "Contact us",
+    "subtitle": "A question, a project? Write to us, we reply quickly.",
+    "infoTitle": "Our contact details",
+    "form": {
+      "name": "Full name",
+      "email": "Email",
+      "message": "Your message",
+      "submit": "Send message",
+      "success": "Message sent. We'll get back to you shortly.",
+      "errorGeneric": "Something went wrong. Please try again in a moment.",
+      "errorTooManyRequests": "Too many messages sent. Please try again later."
+    }
+  },
+  "legal": {
+    "provisionalNotice": "This text is provisional and pending legal validation.",
+    "notFound": "This page doesn't exist in this language yet."
+  },
+  "portfolio": {
+    "seoTitle": "Our work — SaldaeConnect",
+    "title": "Our work",
+    "empty": "No published work yet. Check back soon."
+  },
+  "quote": {
+    "seoTitle": "Start a project — SaldaeConnect",
+    "title": "Start a project",
+    "subtitle": "A few steps to understand your needs. You can go back at any time.",
+    "steps": {
+      "service": "Service",
+      "questions": "Questions",
+      "budget": "Budget",
+      "timeline": "Timeline",
+      "contact": "Contact details",
+      "message": "Message",
+      "summary": "Summary"
+    },
+    "service": {
+      "title": "Which service are you interested in?",
+      "placeholder": "Choose a service"
+    },
+    "budget": {
+      "title": "What's your indicative budget?",
+      "unknown": "I don't know yet"
+    },
+    "timeline": {
+      "title": "What's your desired timeline?",
+      "placeholder": "E.g. within 2 months, as soon as possible…"
+    },
+    "contactStep": {
+      "title": "Your contact details",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "companyName": "Company (optional)",
+      "country": "Country",
+      "city": "City"
+    },
+    "messageStep": {
+      "title": "Your message",
+      "message": "Describe your project",
+      "files": "Attachments (optional)",
+      "filesHint": "PDF, JPEG, PNG or WebP, 10 MB max per file, 5 files max."
+    },
+    "summary": {
+      "title": "Summary of your request",
+      "privacy": "By sending this form, you agree that this information will be used to process your request.",
+      "privacyAccept": "I agree that my data will be used to process my request.",
+      "submit": "Send my request"
+    },
+    "actions": {
+      "back": "Back",
+      "next": "Next"
+    },
+    "confirmation": {
+      "title": "Request sent",
+      "body": "Your request has been recorded under number {number}. You'll receive a confirmation email.",
+      "backHome": "Back to home"
+    },
+    "errors": {
+      "generic": "Something went wrong while sending. Your answers are kept, please try again.",
+      "tooManyRequests": "Too many requests sent recently. Please try again later.",
+      "required": "This field is required.",
+      "invalidEmail": "Invalid email.",
+      "tooManyFiles": "5 files maximum.",
+      "fileTooLarge": "This file is over 10 MB.",
+      "invalidFileType": "File type not accepted (PDF, JPEG, PNG, WebP)."
+    }
   }
 }

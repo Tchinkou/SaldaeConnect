@@ -8,7 +8,9 @@
     "portfolio": "أعمالنا",
     "about": "من نحن",
     "contact": "اتصل بنا",
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "cta": "ابدأ مشروعًا",
+    "menu": "القائمة"
   },
   "localeSwitcher": {
     "label": "اللغة",
@@ -18,8 +20,9 @@
   },
   "footer": {
     "rights": "جميع الحقوق محفوظة.",
-    "legalNotice": "الإشعار القانوني",
-    "privacy": "الخصوصية"
+    "navTitle": "التصفح",
+    "legalTitle": "معلومات قانونية",
+    "contactTitle": "تواصل معنا"
   },
   "actions": {
     "retry": "إعادة المحاولة"
