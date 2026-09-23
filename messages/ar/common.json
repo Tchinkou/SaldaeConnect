@@ -41,7 +41,10 @@
       "quote_expired": "انتهت صلاحية عرض السعر {quoteNumber}",
       "project_status_changed": "المشروع {projectName} : {status}",
       "project_message": "رسالة جديدة في مشروع",
-      "fallback": "إشعار جديد"
+      "fallback": "إشعار جديد",
+      "invoice_issued": "تم إصدار الفاتورة {number}",
+      "invoice_payment_recorded": "تم تسجيل دفعة على الفاتورة {number}",
+      "invoice_overdue": "الفاتورة {number} متأخرة"
     },
     "projectStatus": {
       "PLANNING": "التخطيط",

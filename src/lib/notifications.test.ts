@@ -20,4 +20,19 @@ describe("notificationDisplay", () => {
   it("tolerates a null/non-object params", () => {
     expect(notificationDisplay("project.message", null)).toEqual({ key: "project_message", values: {} });
   });
+
+  it("maps invoice notification types (Phase 7)", () => {
+    expect(notificationDisplay("invoice.issued", { number: "FAC-2026-0001" })).toEqual({
+      key: "invoice_issued",
+      values: { number: "FAC-2026-0001" },
+    });
+    expect(notificationDisplay("invoice.payment_recorded", { number: "FAC-2026-0001" })).toEqual({
+      key: "invoice_payment_recorded",
+      values: { number: "FAC-2026-0001" },
+    });
+    expect(notificationDisplay("invoice.overdue", { number: "FAC-2026-0001" })).toEqual({
+      key: "invoice_overdue",
+      values: { number: "FAC-2026-0001" },
+    });
+  });
 });

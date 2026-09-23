@@ -12,6 +12,7 @@ import { ForbiddenError } from "@/server/core/errors";
 import { InvoiceHeaderForm } from "@/app/[locale]/admin/invoices/[id]/invoice-header-form";
 import { InvoiceItemsEditor } from "@/app/[locale]/admin/invoices/[id]/invoice-items-editor";
 import { DeleteInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/delete-invoice-button";
+import { IssueInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/issue-invoice-button";
 
 const STATUS_TONE = {
   DRAFT: "neutral",
@@ -52,6 +53,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
   }
 
   const canWrite = hasPermission(currentUser, "invoice.write") && invoice.status === "DRAFT";
+  const canIssue = hasPermission(currentUser, "invoice.issue") && invoice.status === "DRAFT" && invoice.items.length > 0;
 
   const [taxRates, services] = await Promise.all([
     prisma.taxRate.findMany({ where: { isActive: true }, orderBy: { ratePercent: "asc" } }),
@@ -86,6 +88,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
               {t("downloadPdf")}
             </a>
           ) : null}
+          {canIssue ? <IssueInvoiceButton invoiceId={invoice.id} /> : null}
           {canWrite ? <DeleteInvoiceButton invoiceId={invoice.id} clientId={invoice.client.id} /> : null}
           <Link href="/admin/invoices" className="text-sm font-medium text-brand-600 hover:underline">
             {t("backToInvoices")}

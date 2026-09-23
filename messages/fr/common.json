@@ -41,7 +41,10 @@
       "quote_expired": "Devis {quoteNumber} expiré",
       "project_status_changed": "Projet {projectName} : {status}",
       "project_message": "Nouveau message sur un projet",
-      "fallback": "Nouvelle notification"
+      "fallback": "Nouvelle notification",
+      "invoice_issued": "Facture {number} émise",
+      "invoice_payment_recorded": "Paiement enregistré sur la facture {number}",
+      "invoice_overdue": "Facture {number} en retard"
     },
     "projectStatus": {
       "PLANNING": "planification",

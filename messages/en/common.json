@@ -41,7 +41,10 @@
       "quote_expired": "Quote {quoteNumber} expired",
       "project_status_changed": "Project {projectName}: {status}",
       "project_message": "New message on a project",
-      "fallback": "New notification"
+      "fallback": "New notification",
+      "invoice_issued": "Invoice {number} issued",
+      "invoice_payment_recorded": "Payment recorded on invoice {number}",
+      "invoice_overdue": "Invoice {number} overdue"
     },
     "projectStatus": {
       "PLANNING": "planning",

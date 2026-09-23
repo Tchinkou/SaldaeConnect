@@ -751,7 +751,10 @@
         "saveEdit": "Save line",
         "addItem": "Add a line",
         "cancel": "Cancel"
-      }
+      },
+      "issue": "Issue",
+      "issueConfirm": "Issue this invoice? It will no longer be editable.",
+      "issueConfirmYes": "Yes, issue"
     }
   }
 }

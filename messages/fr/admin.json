@@ -751,7 +751,10 @@
         "saveEdit": "Enregistrer la ligne",
         "addItem": "Ajouter une ligne",
         "cancel": "Annuler"
-      }
+      },
+      "issue": "Émettre",
+      "issueConfirm": "Émettre cette facture ? Elle ne sera plus modifiable.",
+      "issueConfirmYes": "Oui, émettre"
     }
   }
 }

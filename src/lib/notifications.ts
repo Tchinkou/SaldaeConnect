@@ -37,6 +37,12 @@ export function notificationDisplay(type: string, params: unknown): Notification
       return { key: "project_status_changed", values: { projectName: str(p.projectName), status: str(p.status) } };
     case "project.message":
       return { key: "project_message", values: {} };
+    case "invoice.issued":
+      return { key: "invoice_issued", values: { number: str(p.number) } };
+    case "invoice.payment_recorded":
+      return { key: "invoice_payment_recorded", values: { number: str(p.number) } };
+    case "invoice.overdue":
+      return { key: "invoice_overdue", values: { number: str(p.number) } };
     default:
       return { key: "fallback", values: {} };
   }
