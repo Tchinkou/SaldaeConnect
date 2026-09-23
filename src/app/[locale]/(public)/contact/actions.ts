@@ -6,6 +6,7 @@ import { definePublicAction } from "@/server/core/public-action";
 import { ValidationError } from "@/server/core/errors";
 import { getActiveAdmins, createNotifications } from "@/server/core/notify-admins";
 import { sendNewContactMessageNotificationEmail } from "@/server/core/email/send-new-contact-message-notification-email";
+import { pickDefaultOwner } from "@/server/core/crm/attribution";
 import { env } from "@/server/core/env";
 
 const contactSchema = z.object({
@@ -43,6 +44,7 @@ export const submitContactMessageAction = definePublicAction({
             email: input.email,
             locale: input.locale,
             sourceId: (await tx.leadSource.findUnique({ where: { key: "website" } }))?.id,
+            ownerId: await pickDefaultOwner(tx),
           },
         }));
 
@@ -58,14 +60,12 @@ export const submitContactMessageAction = definePublicAction({
       return record;
     });
 
-    // Le lien pointe vers le tableau de bord admin : la fiche lead dédiée
-    // (/admin/crm/leads/[id]) arrive en phase 4 (CRM), pas encore construite.
     const admins = await getActiveAdmins();
     await createNotifications(
       admins,
       "lead.contact_message",
       { leadId: lead.id, contactName: input.name },
-      "/admin",
+      `/admin/leads/${lead.id}`,
     );
     await Promise.all(
       admins
@@ -74,7 +74,7 @@ export const submitContactMessageAction = definePublicAction({
           sendNewContactMessageNotificationEmail({
             to: admin.email,
             contactName: input.name,
-            crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${admin.locale}/admin`,
+            crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${admin.locale}/admin/leads/${lead.id}`,
             locale: admin.locale,
           }),
         ),

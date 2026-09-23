@@ -1,6 +1,9 @@
 {
   "nav": {
     "dashboard": "لوحة التحكم",
+    "crm": "إدارة العملاء",
+    "leads": "العملاء المحتملون",
+    "clients": "العملاء",
     "team": "الفريق",
     "settings": "الإعدادات",
     "catalog": "الكتالوج",
@@ -154,6 +157,205 @@
     },
     "system": "النظام",
     "empty": "لا توجد إدخالات بعد."
+  },
+  "crm": {
+    "title": "إدارة علاقات العملاء",
+    "subtitle": "العملاء المحتملون والفرص، من أول اتصال حتى التحويل.",
+    "boardView": "عرض اللوحة",
+    "listView": "عرض القائمة",
+    "dashboard": {
+      "newLeads": "عملاء محتملون جدد (30 يومًا)",
+      "qualified": "مؤهَّلون",
+      "activeOpportunities": "الفرص النشطة",
+      "overdueTasks": "مهام متأخرة",
+      "conversionRate": "معدل التحويل"
+    },
+    "filters": {
+      "owner": "المسؤول",
+      "all": "الكل",
+      "service": "الخدمة",
+      "source": "المصدر",
+      "period": "الفترة",
+      "amount": "الميزانية",
+      "reset": "إعادة تعيين",
+      "search": "بحث",
+      "searchPlaceholder": "الاسم، البريد الإلكتروني، الشركة…",
+      "status": "الحالة",
+      "statusValue": {
+        "OPEN": "مفتوح",
+        "CONVERTED": "محوَّل",
+        "DISQUALIFIED": "مستبعد"
+      },
+      "clientStatusValue": {
+        "PROSPECT": "عميل محتمل",
+        "ACTIVE": "نشط",
+        "INACTIVE": "غير نشط"
+      }
+    },
+    "board": {
+      "lostReasonTitle": "سبب الخسارة",
+      "lostReasonSubtitle": "حدد سبب خسارة هذه الفرصة قبل نقلها.",
+      "noLostReasons": "لا توجد أسباب خسارة معدة.",
+      "cancel": "إلغاء",
+      "owner": "المسؤول: {name}",
+      "unassigned": "غير مُسند"
+    },
+    "list": {
+      "number": "الرقم",
+      "contact": "جهة الاتصال",
+      "service": "الخدمة",
+      "stage": "المرحلة",
+      "owner": "المسؤول",
+      "budget": "الميزانية",
+      "empty": "لا توجد فرص حتى الآن."
+    },
+    "opportunity": {
+      "backToBoard": "العودة إلى إدارة العملاء",
+      "details": "التفاصيل",
+      "service": "الخدمة",
+      "budget": "الميزانية",
+      "notSpecified": "غير محدد",
+      "deadline": "الموعد المطلوب",
+      "source": "المصدر",
+      "message": "الرسالة",
+      "answers": "إجابات النموذج",
+      "timeline": "السجل الزمني",
+      "stageHistory": "سجل المراحل",
+      "noStageChanges": "لا توجد تغييرات في المرحلة حتى الآن.",
+      "initialStage": "المرحلة الأولية",
+      "automatic": "تلقائي",
+      "contact": "جهة الاتصال",
+      "owner": "المسؤول",
+      "unassigned": "غير مُسند",
+      "tasks": "المهام"
+    },
+    "leads": {
+      "title": "العملاء المحتملون",
+      "subtitle": "جهات اتصال واردة، قبل التحويل إلى عميل.",
+      "new": "عميل محتمل جديد",
+      "name": "الاسم",
+      "source": "المصدر",
+      "status": "الحالة",
+      "owner": "المسؤول",
+      "createdAt": "تاريخ الإنشاء",
+      "statusValue": {
+        "OPEN": "مفتوح",
+        "CONVERTED": "محوَّل",
+        "DISQUALIFIED": "مستبعد"
+      },
+      "unassigned": "غير مُسند",
+      "empty": "لا يوجد عملاء محتملون حتى الآن."
+    },
+    "newLead": {
+      "title": "عميل محتمل جديد",
+      "subtitle": "إنشاء عميل محتمل يدويًا (اتصال هاتفي، معرض، إلخ).",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "companyName": "الشركة",
+      "source": "المصدر",
+      "service": "الخدمة المعنية",
+      "noService": "بدون خدمة (اتصال فقط)",
+      "serviceHint": "عند اختيار خدمة، يتم إنشاء فرصة تلقائيًا.",
+      "note": "ملاحظة",
+      "submit": "إنشاء العميل المحتمل"
+    },
+    "lead": {
+      "statusValue": {
+        "OPEN": "مفتوح",
+        "CONVERTED": "محوَّل",
+        "DISQUALIFIED": "مستبعد"
+      },
+      "backToLeads": "العودة إلى العملاء المحتملين",
+      "identity": "الهوية",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "location": "الموقع",
+      "source": "المصدر",
+      "createdAt": "تاريخ الإنشاء",
+      "opportunities": "الفرص",
+      "noOpportunities": "لا توجد فرص حتى الآن.",
+      "timeline": "السجل الزمني",
+      "owner": "المسؤول",
+      "unassigned": "غير مُسند",
+      "viewClient": "عرض بطاقة العميل",
+      "convert": "تحويل إلى عميل",
+      "disqualify": "استبعاد",
+      "disqualifyReasonPlaceholder": "سبب الاستبعاد…",
+      "confirmDisqualify": "تأكيد الاستبعاد"
+    },
+    "clients": {
+      "title": "العملاء",
+      "subtitle": "العملاء الناتجون عن تحويل عملاء محتملين.",
+      "code": "الرمز",
+      "name": "الاسم",
+      "status": "الحالة",
+      "owner": "المسؤول",
+      "createdAt": "تاريخ الإنشاء",
+      "statusValue": {
+        "PROSPECT": "عميل محتمل",
+        "ACTIVE": "نشط",
+        "INACTIVE": "غير نشط"
+      },
+      "unassigned": "غير مُسند",
+      "empty": "لا يوجد عملاء حتى الآن."
+    },
+    "clientDetail": {
+      "statusValue": {
+        "PROSPECT": "عميل محتمل",
+        "ACTIVE": "نشط",
+        "INACTIVE": "غير نشط"
+      },
+      "backToClients": "العودة إلى العملاء",
+      "identity": "الهوية",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "location": "الموقع",
+      "createdAt": "تاريخ الإنشاء",
+      "contacts": "جهات الاتصال",
+      "primaryContact": "جهة الاتصال الرئيسية",
+      "opportunities": "الفرص",
+      "noOpportunities": "لا توجد فرص حتى الآن.",
+      "comingSoon": "قريبًا",
+      "comingSoonBody": "ستظهر هنا عروض الأسعار والمشاريع والفواتير في مرحلة لاحقة.",
+      "timeline": "السجل الزمني",
+      "owner": "المسؤول",
+      "unassigned": "غير مُسند",
+      "tasks": "المهام"
+    },
+    "task": {
+      "empty": "لا توجد مهام حتى الآن.",
+      "priority": {
+        "LOW": "منخفضة",
+        "MEDIUM": "متوسطة",
+        "HIGH": "عالية",
+        "URGENT": "عاجلة"
+      },
+      "assignedTo": "مُسندة إلى {name}",
+      "titlePlaceholder": "عنوان المهمة…",
+      "unassigned": "غير مُسندة",
+      "add": "إضافة"
+    },
+    "activity": {
+      "empty": "لا يوجد نشاط حتى الآن.",
+      "type": {
+        "NOTE": "ملاحظة",
+        "CALL": "اتصال",
+        "EMAIL": "بريد إلكتروني",
+        "MEETING": "اجتماع",
+        "WHATSAPP": "واتساب",
+        "STAGE_CHANGE": "تغيير المرحلة",
+        "SYSTEM": "النظام"
+      },
+      "by": "بواسطة {name}",
+      "subjectPlaceholder": "الموضوع (اختياري)",
+      "bodyPlaceholder": "التفاصيل…",
+      "submit": "إضافة"
+    },
+    "common": {
+      "unassigned": "غير مُسند"
+    }
   },
   "forbidden": {
     "title": "الوصول مرفوض",

@@ -1,6 +1,9 @@
 {
   "nav": {
     "dashboard": "Dashboard",
+    "crm": "CRM",
+    "leads": "Leads",
+    "clients": "Clients",
     "team": "Team",
     "settings": "Settings",
     "catalog": "Catalog",
@@ -154,6 +157,205 @@
     },
     "system": "System",
     "empty": "No entries yet."
+  },
+  "crm": {
+    "title": "CRM",
+    "subtitle": "Leads and opportunities, from first contact to conversion.",
+    "boardView": "Board view",
+    "listView": "List view",
+    "dashboard": {
+      "newLeads": "New leads (30d)",
+      "qualified": "Qualified",
+      "activeOpportunities": "Active opportunities",
+      "overdueTasks": "Overdue tasks",
+      "conversionRate": "Conversion rate"
+    },
+    "filters": {
+      "owner": "Owner",
+      "all": "All",
+      "service": "Service",
+      "source": "Source",
+      "period": "Period",
+      "amount": "Budget",
+      "reset": "Reset",
+      "search": "Search",
+      "searchPlaceholder": "Name, email, company…",
+      "status": "Status",
+      "statusValue": {
+        "OPEN": "Open",
+        "CONVERTED": "Converted",
+        "DISQUALIFIED": "Disqualified"
+      },
+      "clientStatusValue": {
+        "PROSPECT": "Prospect",
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      }
+    },
+    "board": {
+      "lostReasonTitle": "Lost reason",
+      "lostReasonSubtitle": "Say why this opportunity was lost before moving it.",
+      "noLostReasons": "No lost reasons configured.",
+      "cancel": "Cancel",
+      "owner": "Owner: {name}",
+      "unassigned": "Unassigned"
+    },
+    "list": {
+      "number": "Number",
+      "contact": "Contact",
+      "service": "Service",
+      "stage": "Stage",
+      "owner": "Owner",
+      "budget": "Budget",
+      "empty": "No opportunities yet."
+    },
+    "opportunity": {
+      "backToBoard": "Back to CRM",
+      "details": "Details",
+      "service": "Service",
+      "budget": "Budget",
+      "notSpecified": "Not specified",
+      "deadline": "Desired deadline",
+      "source": "Source",
+      "message": "Message",
+      "answers": "Form answers",
+      "timeline": "Timeline",
+      "stageHistory": "Stage history",
+      "noStageChanges": "No stage changes yet.",
+      "initialStage": "Initial stage",
+      "automatic": "Automatic",
+      "contact": "Contact",
+      "owner": "Owner",
+      "unassigned": "Unassigned",
+      "tasks": "Tasks"
+    },
+    "leads": {
+      "title": "Leads",
+      "subtitle": "Incoming contacts, before conversion to a client.",
+      "new": "New lead",
+      "name": "Name",
+      "source": "Source",
+      "status": "Status",
+      "owner": "Owner",
+      "createdAt": "Created",
+      "statusValue": {
+        "OPEN": "Open",
+        "CONVERTED": "Converted",
+        "DISQUALIFIED": "Disqualified"
+      },
+      "unassigned": "Unassigned",
+      "empty": "No leads yet."
+    },
+    "newLead": {
+      "title": "New lead",
+      "subtitle": "Create a lead manually (phone contact, trade show, etc.).",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "companyName": "Company",
+      "source": "Source",
+      "service": "Service of interest",
+      "noService": "No service (contact only)",
+      "serviceHint": "If a service is chosen, an opportunity is created automatically.",
+      "note": "Note",
+      "submit": "Create lead"
+    },
+    "lead": {
+      "statusValue": {
+        "OPEN": "Open",
+        "CONVERTED": "Converted",
+        "DISQUALIFIED": "Disqualified"
+      },
+      "backToLeads": "Back to leads",
+      "identity": "Identity",
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "source": "Source",
+      "createdAt": "Created",
+      "opportunities": "Opportunities",
+      "noOpportunities": "No opportunities yet.",
+      "timeline": "Timeline",
+      "owner": "Owner",
+      "unassigned": "Unassigned",
+      "viewClient": "View client",
+      "convert": "Convert to client",
+      "disqualify": "Disqualify",
+      "disqualifyReasonPlaceholder": "Reason for disqualifying…",
+      "confirmDisqualify": "Confirm disqualification"
+    },
+    "clients": {
+      "title": "Clients",
+      "subtitle": "Clients created from lead conversion.",
+      "code": "Code",
+      "name": "Name",
+      "status": "Status",
+      "owner": "Owner",
+      "createdAt": "Created",
+      "statusValue": {
+        "PROSPECT": "Prospect",
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      },
+      "unassigned": "Unassigned",
+      "empty": "No clients yet."
+    },
+    "clientDetail": {
+      "statusValue": {
+        "PROSPECT": "Prospect",
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive"
+      },
+      "backToClients": "Back to clients",
+      "identity": "Identity",
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "createdAt": "Created",
+      "contacts": "Contacts",
+      "primaryContact": "Primary contact",
+      "opportunities": "Opportunities",
+      "noOpportunities": "No opportunities yet.",
+      "comingSoon": "Coming soon",
+      "comingSoonBody": "Quotes, projects and invoices will appear here in a later phase.",
+      "timeline": "Timeline",
+      "owner": "Owner",
+      "unassigned": "Unassigned",
+      "tasks": "Tasks"
+    },
+    "task": {
+      "empty": "No tasks yet.",
+      "priority": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High",
+        "URGENT": "Urgent"
+      },
+      "assignedTo": "Assigned to {name}",
+      "titlePlaceholder": "Task title…",
+      "unassigned": "Unassigned",
+      "add": "Add"
+    },
+    "activity": {
+      "empty": "No activity yet.",
+      "type": {
+        "NOTE": "Note",
+        "CALL": "Call",
+        "EMAIL": "Email",
+        "MEETING": "Meeting",
+        "WHATSAPP": "WhatsApp",
+        "STAGE_CHANGE": "Stage change",
+        "SYSTEM": "System"
+      },
+      "by": "By {name}",
+      "subjectPlaceholder": "Subject (optional)",
+      "bodyPlaceholder": "Details…",
+      "submit": "Add"
+    },
+    "common": {
+      "unassigned": "Unassigned"
+    }
   },
   "forbidden": {
     "title": "Access denied",

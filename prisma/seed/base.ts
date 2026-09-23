@@ -295,6 +295,16 @@ async function seedSettings() {
         hostingProvider: null,
       },
     },
+    {
+      // Attribution par défaut des nouveaux leads/opportunités (§E.2) : tour
+      // de rôle entre le staff actif habilité, ou un responsable fixe.
+      key: "crm",
+      value: {
+        attributionMode: "round_robin",
+        fixedOwnerId: null,
+        lastAssignedOwnerId: null,
+      },
+    },
   ];
 
   for (const { key, value } of settings) {

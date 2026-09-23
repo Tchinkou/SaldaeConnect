@@ -39,6 +39,9 @@ export default async function AdminLayout({
     catalog: hasPermission(currentUser, "cms.write"),
     content: hasPermission(currentUser, "cms.write"),
     audit: hasPermission(currentUser, "audit.read"),
+    crm: hasPermission(currentUser, "opportunity.read"),
+    leads: hasPermission(currentUser, "lead.read"),
+    clients: hasPermission(currentUser, "client.read"),
   };
 
   return (
@@ -62,7 +65,7 @@ export default async function AdminLayout({
         </div>
       </aside>
       <div className="flex-1 bg-surface-muted">
-        <div className="mx-auto flex max-w-4xl flex-col gap-6 p-6 sm:p-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 p-6 sm:p-8">
           <div className="flex items-center justify-end gap-2 text-sm text-foreground/70">
             {currentUser.user.name} · {currentUser.roles.join(", ")}
           </div>

@@ -1,6 +1,9 @@
 {
   "nav": {
     "dashboard": "Tableau de bord",
+    "crm": "CRM",
+    "leads": "Prospects",
+    "clients": "Clients",
     "team": "Équipe",
     "settings": "Paramètres",
     "catalog": "Catalogue",
@@ -154,6 +157,205 @@
     },
     "system": "Système",
     "empty": "Aucune entrée pour le moment."
+  },
+  "crm": {
+    "title": "CRM",
+    "subtitle": "Prospects et opportunités, du premier contact à la conversion.",
+    "boardView": "Vue Kanban",
+    "listView": "Vue liste",
+    "dashboard": {
+      "newLeads": "Nouveaux prospects (30j)",
+      "qualified": "Qualifiés",
+      "activeOpportunities": "Opportunités actives",
+      "overdueTasks": "Tâches en retard",
+      "conversionRate": "Taux de conversion"
+    },
+    "filters": {
+      "owner": "Responsable",
+      "all": "Tous",
+      "service": "Service",
+      "source": "Source",
+      "period": "Période",
+      "amount": "Budget",
+      "reset": "Réinitialiser",
+      "search": "Recherche",
+      "searchPlaceholder": "Nom, email, entreprise…",
+      "status": "Statut",
+      "statusValue": {
+        "OPEN": "Ouvert",
+        "CONVERTED": "Converti",
+        "DISQUALIFIED": "Disqualifié"
+      },
+      "clientStatusValue": {
+        "PROSPECT": "Prospect",
+        "ACTIVE": "Actif",
+        "INACTIVE": "Inactif"
+      }
+    },
+    "board": {
+      "lostReasonTitle": "Motif de perte",
+      "lostReasonSubtitle": "Indiquez pourquoi cette opportunité est perdue avant de la déplacer.",
+      "noLostReasons": "Aucun motif de perte configuré.",
+      "cancel": "Annuler",
+      "owner": "Responsable : {name}",
+      "unassigned": "Non attribué"
+    },
+    "list": {
+      "number": "Numéro",
+      "contact": "Contact",
+      "service": "Service",
+      "stage": "Étape",
+      "owner": "Responsable",
+      "budget": "Budget",
+      "empty": "Aucune opportunité pour le moment."
+    },
+    "opportunity": {
+      "backToBoard": "Retour au CRM",
+      "details": "Détails",
+      "service": "Service",
+      "budget": "Budget",
+      "notSpecified": "Non précisé",
+      "deadline": "Échéance souhaitée",
+      "source": "Source",
+      "message": "Message",
+      "answers": "Réponses au formulaire",
+      "timeline": "Historique",
+      "stageHistory": "Historique des étapes",
+      "noStageChanges": "Aucun changement d'étape pour le moment.",
+      "initialStage": "Étape initiale",
+      "automatic": "Automatique",
+      "contact": "Contact",
+      "owner": "Responsable",
+      "unassigned": "Non attribué",
+      "tasks": "Tâches"
+    },
+    "leads": {
+      "title": "Prospects",
+      "subtitle": "Contacts entrants, avant conversion en client.",
+      "new": "Nouveau prospect",
+      "name": "Nom",
+      "source": "Source",
+      "status": "Statut",
+      "owner": "Responsable",
+      "createdAt": "Créé le",
+      "statusValue": {
+        "OPEN": "Ouvert",
+        "CONVERTED": "Converti",
+        "DISQUALIFIED": "Disqualifié"
+      },
+      "unassigned": "Non attribué",
+      "empty": "Aucun prospect pour le moment."
+    },
+    "newLead": {
+      "title": "Nouveau prospect",
+      "subtitle": "Créer un prospect manuellement (contact téléphonique, salon, etc.).",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "phone": "Téléphone",
+      "companyName": "Entreprise",
+      "source": "Source",
+      "service": "Service concerné",
+      "noService": "Aucun service (contact seul)",
+      "serviceHint": "Si un service est choisi, une opportunité est créée automatiquement.",
+      "note": "Note",
+      "submit": "Créer le prospect"
+    },
+    "lead": {
+      "statusValue": {
+        "OPEN": "Ouvert",
+        "CONVERTED": "Converti",
+        "DISQUALIFIED": "Disqualifié"
+      },
+      "backToLeads": "Retour aux prospects",
+      "identity": "Identité",
+      "email": "Email",
+      "phone": "Téléphone",
+      "location": "Localisation",
+      "source": "Source",
+      "createdAt": "Créé le",
+      "opportunities": "Opportunités",
+      "noOpportunities": "Aucune opportunité pour le moment.",
+      "timeline": "Historique",
+      "owner": "Responsable",
+      "unassigned": "Non attribué",
+      "viewClient": "Voir la fiche client",
+      "convert": "Convertir en client",
+      "disqualify": "Disqualifier",
+      "disqualifyReasonPlaceholder": "Motif de la disqualification…",
+      "confirmDisqualify": "Confirmer la disqualification"
+    },
+    "clients": {
+      "title": "Clients",
+      "subtitle": "Clients issus de la conversion de prospects.",
+      "code": "Code",
+      "name": "Nom",
+      "status": "Statut",
+      "owner": "Responsable",
+      "createdAt": "Créé le",
+      "statusValue": {
+        "PROSPECT": "Prospect",
+        "ACTIVE": "Actif",
+        "INACTIVE": "Inactif"
+      },
+      "unassigned": "Non attribué",
+      "empty": "Aucun client pour le moment."
+    },
+    "clientDetail": {
+      "statusValue": {
+        "PROSPECT": "Prospect",
+        "ACTIVE": "Actif",
+        "INACTIVE": "Inactif"
+      },
+      "backToClients": "Retour aux clients",
+      "identity": "Identité",
+      "email": "Email",
+      "phone": "Téléphone",
+      "location": "Localisation",
+      "createdAt": "Créé le",
+      "contacts": "Contacts",
+      "primaryContact": "Contact principal",
+      "opportunities": "Opportunités",
+      "noOpportunities": "Aucune opportunité pour le moment.",
+      "comingSoon": "Bientôt disponible",
+      "comingSoonBody": "Devis, projets et factures apparaîtront ici dans une prochaine phase.",
+      "timeline": "Historique",
+      "owner": "Responsable",
+      "unassigned": "Non attribué",
+      "tasks": "Tâches"
+    },
+    "task": {
+      "empty": "Aucune tâche pour le moment.",
+      "priority": {
+        "LOW": "Basse",
+        "MEDIUM": "Moyenne",
+        "HIGH": "Haute",
+        "URGENT": "Urgente"
+      },
+      "assignedTo": "Assigné à {name}",
+      "titlePlaceholder": "Titre de la tâche…",
+      "unassigned": "Non assigné",
+      "add": "Ajouter"
+    },
+    "activity": {
+      "empty": "Aucune activité pour le moment.",
+      "type": {
+        "NOTE": "Note",
+        "CALL": "Appel",
+        "EMAIL": "Email",
+        "MEETING": "Rendez-vous",
+        "WHATSAPP": "WhatsApp",
+        "STAGE_CHANGE": "Changement d'étape",
+        "SYSTEM": "Système"
+      },
+      "by": "Par {name}",
+      "subjectPlaceholder": "Sujet (optionnel)",
+      "bodyPlaceholder": "Détails…",
+      "submit": "Ajouter"
+    },
+    "common": {
+      "unassigned": "Non attribué"
+    }
   },
   "forbidden": {
     "title": "Accès refusé",

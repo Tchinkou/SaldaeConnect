@@ -7,13 +7,25 @@ import { cn } from "@/lib/cn";
 export function AdminNav({
   permissions,
 }: {
-  permissions: { team: boolean; settings: boolean; catalog: boolean; content: boolean; audit: boolean };
+  permissions: {
+    team: boolean;
+    settings: boolean;
+    catalog: boolean;
+    content: boolean;
+    audit: boolean;
+    crm: boolean;
+    leads: boolean;
+    clients: boolean;
+  };
 }) {
   const t = useTranslations("admin.nav");
   const pathname = usePathname();
 
   const items = [
     { href: "/admin", label: t("dashboard"), show: true },
+    { href: "/admin/crm", label: t("crm"), show: permissions.crm },
+    { href: "/admin/leads", label: t("leads"), show: permissions.leads },
+    { href: "/admin/clients", label: t("clients"), show: permissions.clients },
     { href: "/admin/team", label: t("team"), show: permissions.team },
     { href: "/admin/catalogue", label: t("catalog"), show: permissions.catalog },
     { href: "/admin/content", label: t("content"), show: permissions.content },

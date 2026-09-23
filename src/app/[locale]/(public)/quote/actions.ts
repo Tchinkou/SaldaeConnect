@@ -12,6 +12,7 @@ import {
   PUBLIC_UPLOAD_MAX_FILES,
 } from "@/server/core/storage";
 import { getActiveAdmins, createNotifications } from "@/server/core/notify-admins";
+import { pickDefaultOwner } from "@/server/core/crm/attribution";
 import { sendRequestConfirmationEmail } from "@/server/core/email/send-request-confirmation-email";
 import { sendNewRequestNotificationEmail } from "@/server/core/email/send-new-request-notification-email";
 import { env } from "@/server/core/env";
@@ -77,6 +78,7 @@ export const submitRequestAction = definePublicAction({
           }),
         ]);
 
+        const isNewLead = !existingClient && !existingLead;
         const lead =
           existingClient || existingLead
             ? existingLead
@@ -92,8 +94,15 @@ export const submitRequestAction = definePublicAction({
                   locale: input.locale,
                   privacyAcceptedAt: new Date(),
                   sourceId: (await tx.leadSource.findUnique({ where: { key: "website" } }))?.id,
+                  ownerId: await pickDefaultOwner(tx),
                 },
               });
+
+        // Une opportunité rattachée à un lead/client existant suit son
+        // responsable ; sinon (ou s'il n'en a pas encore) on en attribue un.
+        const ownerId = isNewLead
+          ? lead!.ownerId
+          : ((existingClient?.ownerId ?? existingLead?.ownerId) || (await pickDefaultOwner(tx)));
 
         const stage = await tx.pipelineStage.findUniqueOrThrow({ where: { key: "new_lead" } });
         const requestNumber = await nextNumber(tx, "REQUEST");
@@ -106,6 +115,7 @@ export const submitRequestAction = definePublicAction({
             clientId: existingClient?.id,
             serviceId: service.id,
             stageId: stage.id,
+            ownerId,
             budgetMin: input.budgetMin !== undefined ? BigInt(input.budgetMin) : undefined,
             budgetMax: input.budgetMax !== undefined ? BigInt(input.budgetMax) : undefined,
             budgetCurrency: input.budgetMin !== undefined || input.budgetMax !== undefined ? "DZD" : undefined,
@@ -165,13 +175,11 @@ export const submitRequestAction = definePublicAction({
       }
 
       const admins = await getActiveAdmins();
-      // Le lien pointe vers le tableau de bord admin : le pipeline CRM dédié
-      // (/admin/crm) arrive en phase 4, pas encore construit.
       await createNotifications(
         admins,
         "opportunity.created",
         { opportunityId: opportunityRecord.id, requestNumber: opportunityRecord.number },
-        "/admin",
+        `/admin/crm/opportunities/${opportunityRecord.id}`,
       );
 
       await Promise.all([
@@ -188,7 +196,7 @@ export const submitRequestAction = definePublicAction({
               requestNumber: opportunityRecord.number,
               serviceName: service.translations[0]!.name,
               contactName: `${input.firstName} ${input.lastName}`,
-              crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${admin.locale}/admin`,
+              crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${admin.locale}/admin/crm/opportunities/${opportunityRecord.id}`,
               locale: admin.locale,
             }),
           ),
