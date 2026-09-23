@@ -761,7 +761,24 @@
       "createCreditNote": "Create credit note",
       "cancelledNotice": "Invoice cancelled. Reason: {reason}",
       "creditNoteOf": "Credit note for invoice",
-      "creditNotesList": "Related credit notes:"
+      "creditNotesList": "Related credit notes:",
+      "payments": "Payments",
+      "payment": {
+        "empty": "No payments recorded.",
+        "reversed": "reversed",
+        "reversalReasonLabel": "Reason",
+        "reversalReasonPlaceholder": "Reversal reason",
+        "reverse": "Reverse this payment",
+        "reverseConfirmYes": "Confirm",
+        "cancel": "Cancel",
+        "amount": "Amount",
+        "paidAt": "Date",
+        "method": "Payment method",
+        "noMethod": "Not specified",
+        "reference": "Reference",
+        "note": "Note",
+        "record": "Record a payment"
+      }
     }
   }
 }

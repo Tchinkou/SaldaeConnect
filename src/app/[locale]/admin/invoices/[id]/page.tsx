@@ -15,6 +15,7 @@ import { DeleteInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/delete-i
 import { IssueInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/issue-invoice-button";
 import { CancelInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/cancel-invoice-button";
 import { CreateCreditNoteButton } from "@/app/[locale]/admin/invoices/[id]/create-credit-note-button";
+import { InvoicePayments } from "@/app/[locale]/admin/invoices/[id]/invoice-payments";
 
 const STATUS_TONE = {
   DRAFT: "neutral",
@@ -62,14 +63,22 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
     hasPermission(currentUser, "invoice.issue") && (invoice.status === "SENT" || invoice.status === "OVERDUE");
   const canCreateCreditNote =
     hasPermission(currentUser, "invoice.write") && invoice.type !== "CREDIT_NOTE" && invoice.status !== "DRAFT";
+  const canRecordPayment =
+    hasPermission(currentUser, "payment.write") &&
+    (invoice.status === "SENT" || invoice.status === "OVERDUE" || invoice.status === "PARTIALLY_PAID");
+  const canReversePayment = hasPermission(currentUser, "payment.write") && invoice.status !== "DRAFT";
 
-  const [taxRates, services] = await Promise.all([
+  const [taxRates, services, payments, paymentMethods] = await Promise.all([
     prisma.taxRate.findMany({ where: { isActive: true }, orderBy: { ratePercent: "asc" } }),
     prisma.service.findMany({
       where: { isActive: true },
       orderBy: { order: "asc" },
       include: { translations: { where: { locale } } },
     }),
+    invoice.status === "DRAFT"
+      ? Promise.resolve([])
+      : prisma.payment.findMany({ where: { invoiceId: invoice.id }, orderBy: { paidAt: "desc" }, include: { method: { include: { translations: { where: { locale } } } } } }),
+    prisma.paymentMethod.findMany({ where: { isActive: true }, orderBy: { key: "asc" }, include: { translations: { where: { locale } } } }),
   ]);
 
   return (
@@ -211,6 +220,36 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
               ) : null}
             </CardContent>
           </Card>
+
+          {invoice.status !== "DRAFT" ? (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">{t("payments")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InvoicePayments
+                  invoiceId={invoice.id}
+                  currency={invoice.currency}
+                  canRecord={canRecordPayment}
+                  canReverse={canReversePayment}
+                  payments={payments.map((payment) => ({
+                    id: payment.id,
+                    amount: Number(payment.amount) / 100,
+                    paidAt: payment.paidAt.toISOString().slice(0, 10),
+                    methodName: payment.method?.translations[0]?.name ?? null,
+                    reference: payment.reference,
+                    note: payment.note,
+                    status: payment.status,
+                    reversalReason: payment.reversalReason,
+                  }))}
+                  paymentMethods={paymentMethods.map((method) => ({
+                    id: method.id,
+                    name: method.translations[0]?.name ?? method.key,
+                  }))}
+                />
+              </CardContent>
+            </Card>
+          ) : null}
         </div>
       </div>
     </div>

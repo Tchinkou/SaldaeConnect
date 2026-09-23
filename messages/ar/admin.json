@@ -761,7 +761,24 @@
       "createCreditNote": "إنشاء إشعار دائن",
       "cancelledNotice": "تم إلغاء الفاتورة. السبب: {reason}",
       "creditNoteOf": "إشعار دائن للفاتورة",
-      "creditNotesList": "إشعارات دائنة مرتبطة:"
+      "creditNotesList": "إشعارات دائنة مرتبطة:",
+      "payments": "المدفوعات",
+      "payment": {
+        "empty": "لا توجد مدفوعات مسجلة.",
+        "reversed": "ملغى",
+        "reversalReasonLabel": "السبب",
+        "reversalReasonPlaceholder": "سبب الإلغاء",
+        "reverse": "إلغاء هذا الدفع",
+        "reverseConfirmYes": "تأكيد",
+        "cancel": "إلغاء",
+        "amount": "المبلغ",
+        "paidAt": "التاريخ",
+        "method": "طريقة الدفع",
+        "noMethod": "غير محدد",
+        "reference": "المرجع",
+        "note": "ملاحظة",
+        "record": "تسجيل دفعة"
+      }
     }
   }
 }

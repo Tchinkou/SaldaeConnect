@@ -761,7 +761,24 @@
       "createCreditNote": "Créer un avoir",
       "cancelledNotice": "Facture annulée. Motif : {reason}",
       "creditNoteOf": "Avoir sur la facture",
-      "creditNotesList": "Avoirs liés :"
+      "creditNotesList": "Avoirs liés :",
+      "payments": "Paiements",
+      "payment": {
+        "empty": "Aucun paiement enregistré.",
+        "reversed": "annulé",
+        "reversalReasonLabel": "Motif",
+        "reversalReasonPlaceholder": "Motif de l'annulation",
+        "reverse": "Annuler ce paiement",
+        "reverseConfirmYes": "Confirmer",
+        "cancel": "Annuler",
+        "amount": "Montant",
+        "paidAt": "Date",
+        "method": "Moyen de paiement",
+        "noMethod": "Non précisé",
+        "reference": "Référence",
+        "note": "Note",
+        "record": "Enregistrer un paiement"
+      }
     }
   }
 }
