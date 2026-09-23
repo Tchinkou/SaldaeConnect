@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
 
-/** Tableau de bord minimal du portail (§J) — sera enrichi en phase 8 (projets, factures, messages…). */
+/** Tableau de bord minimal du portail (§J) — sera enrichi en phase 8 (factures, réservations, transactions…). */
 export default async function PortalDashboardPage() {
   const t = await getTranslations("portal.dashboard");
 
@@ -21,6 +21,18 @@ export default async function PortalDashboardPage() {
           <p className="text-sm text-foreground/70">{t("quotesCardDescription")}</p>
           <Link href="/portal/quotes" className="text-sm font-medium text-brand-600 hover:underline">
             {t("quotesCardLink")}
+          </Link>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">{t("projectsCard")}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <p className="text-sm text-foreground/70">{t("projectsCardDescription")}</p>
+          <Link href="/portal/projects" className="text-sm font-medium text-brand-600 hover:underline">
+            {t("projectsCardLink")}
           </Link>
         </CardContent>
       </Card>

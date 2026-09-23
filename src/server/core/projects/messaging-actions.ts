@@ -76,6 +76,37 @@ export const listProjectMessagesAction = defineAction({
   },
 });
 
+const listPortalProjectMessagesSchema = z.object({ projectId: z.string().min(1) });
+
+/** Vue portail des messages d'un projet : jamais les notes internes, ni leurs pièces jointes (§F.4). */
+export const listPortalProjectMessagesAction = definePortalAction({
+  schema: listPortalProjectMessagesSchema,
+  handler: async (input, { clientId }) => {
+    const project = await prisma.project.findUnique({ where: { id: input.projectId }, select: { clientId: true } });
+    if (!project || project.clientId !== clientId) {
+      throw new ValidationError("Projet introuvable.");
+    }
+
+    const conversation = await prisma.conversation.findFirst({ where: { projectId: input.projectId, type: "PROJECT" } });
+    if (!conversation) return [];
+
+    const messages = await prisma.message.findMany({
+      where: { conversationId: conversation.id, deletedAt: null, isInternalNote: false },
+      orderBy: { createdAt: "asc" },
+      include: { files: { where: { status: "ACTIVE" } } },
+    });
+    const nameById = await resolveOwnerNames(messages.map((m) => m.authorId));
+
+    return messages.map((m) => ({
+      id: m.id,
+      body: m.body,
+      createdAt: m.createdAt.toISOString(),
+      authorName: m.authorId ? (nameById.get(m.authorId) ?? null) : null,
+      files: m.files.map((f) => ({ id: f.id, originalName: f.originalName, sizeBytes: f.sizeBytes.toString() })),
+    }));
+  },
+});
+
 const sendProjectMessageSchema = z.object({
   projectId: z.string().min(1),
   body: z.string().trim().min(1).max(4000),

@@ -9,7 +9,10 @@
     "subtitle": "Retrouvez ici vos devis et leur statut.",
     "quotesCard": "Devis",
     "quotesCardDescription": "Consultez, acceptez ou refusez vos devis.",
-    "quotesCardLink": "Voir mes devis"
+    "quotesCardLink": "Voir mes devis",
+    "projectsCard": "Projets",
+    "projectsCardDescription": "Suivez l'avancement de vos projets.",
+    "projectsCardLink": "Voir mes projets"
   },
   "quotes": {
     "title": "Vos devis",
@@ -82,5 +85,52 @@
       }
     },
     "errorGeneric": "Une erreur est survenue. Réessayez."
+  },
+  "projects": {
+    "title": "Mes projets",
+    "empty": "Aucun projet pour le moment.",
+    "statusValue": {
+      "PLANNING": "Planification",
+      "IN_PROGRESS": "En cours",
+      "WAITING_CLIENT": "En attente client",
+      "REVIEW": "Révision",
+      "COMPLETED": "Terminé",
+      "ARCHIVED": "Archivé"
+    },
+    "detail": {
+      "backToProjects": "Retour à mes projets",
+      "progress": "Progression",
+      "milestones": "Jalons",
+      "noMilestones": "Aucun jalon pour le moment.",
+      "milestoneStatusValue": {
+        "TODO": "À faire",
+        "IN_PROGRESS": "En cours",
+        "DONE": "Fait",
+        "CANCELLED": "Annulé"
+      },
+      "tasks": "Tâches",
+      "noTasks": "Aucune tâche visible pour le moment.",
+      "files": "Fichiers",
+      "messages": "Messages",
+      "statusValue": {
+        "PLANNING": "Planification",
+        "IN_PROGRESS": "En cours",
+        "WAITING_CLIENT": "En attente client",
+        "REVIEW": "Révision",
+        "COMPLETED": "Terminé",
+        "ARCHIVED": "Archivé"
+      },
+      "file": {
+        "empty": "Aucun fichier pour le moment.",
+        "add": "Envoyer"
+      },
+      "message": {
+        "loading": "Chargement…",
+        "empty": "Aucun message pour le moment.",
+        "unknownAuthor": "Utilisateur supprimé",
+        "bodyPlaceholder": "Écrire un message…",
+        "add": "Envoyer"
+      }
+    }
   }
 }

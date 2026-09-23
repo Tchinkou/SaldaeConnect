@@ -9,7 +9,10 @@
     "subtitle": "تجد هنا عروض أسعارك وحالتها.",
     "quotesCard": "عروض الأسعار",
     "quotesCardDescription": "اطّلع على عروض أسعارك واقبلها أو ارفضها.",
-    "quotesCardLink": "عرض عروض أسعاري"
+    "quotesCardLink": "عرض عروض أسعاري",
+    "projectsCard": "المشاريع",
+    "projectsCardDescription": "تابع تقدم مشاريعك.",
+    "projectsCardLink": "عرض مشاريعي"
   },
   "quotes": {
     "title": "عروض أسعارك",
@@ -82,5 +85,52 @@
       }
     },
     "errorGeneric": "حدث خطأ ما. حاول مرة أخرى."
+  },
+  "projects": {
+    "title": "مشاريعي",
+    "empty": "لا توجد مشاريع بعد.",
+    "statusValue": {
+      "PLANNING": "التخطيط",
+      "IN_PROGRESS": "قيد التنفيذ",
+      "WAITING_CLIENT": "بانتظار العميل",
+      "REVIEW": "المراجعة",
+      "COMPLETED": "منتهٍ",
+      "ARCHIVED": "مؤرشف"
+    },
+    "detail": {
+      "backToProjects": "العودة إلى مشاريعي",
+      "progress": "التقدم",
+      "milestones": "المراحل",
+      "noMilestones": "لا توجد مراحل بعد.",
+      "milestoneStatusValue": {
+        "TODO": "للقيام به",
+        "IN_PROGRESS": "قيد التنفيذ",
+        "DONE": "منجز",
+        "CANCELLED": "ملغى"
+      },
+      "tasks": "المهام",
+      "noTasks": "لا توجد مهام مرئية بعد.",
+      "files": "الملفات",
+      "messages": "الرسائل",
+      "statusValue": {
+        "PLANNING": "التخطيط",
+        "IN_PROGRESS": "قيد التنفيذ",
+        "WAITING_CLIENT": "بانتظار العميل",
+        "REVIEW": "المراجعة",
+        "COMPLETED": "منتهٍ",
+        "ARCHIVED": "مؤرشف"
+      },
+      "file": {
+        "empty": "لا توجد ملفات بعد.",
+        "add": "إرسال"
+      },
+      "message": {
+        "loading": "جارٍ التحميل…",
+        "empty": "لا توجد رسائل بعد.",
+        "unknownAuthor": "مستخدم محذوف",
+        "bodyPlaceholder": "اكتب رسالة…",
+        "add": "إرسال"
+      }
+    }
   }
 }

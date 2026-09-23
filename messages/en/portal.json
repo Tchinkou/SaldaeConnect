@@ -9,7 +9,10 @@
     "subtitle": "Find your quotes and their status here.",
     "quotesCard": "Quotes",
     "quotesCardDescription": "View, accept, or decline your quotes.",
-    "quotesCardLink": "View my quotes"
+    "quotesCardLink": "View my quotes",
+    "projectsCard": "Projects",
+    "projectsCardDescription": "Track the progress of your projects.",
+    "projectsCardLink": "View my projects"
   },
   "quotes": {
     "title": "Your quotes",
@@ -82,5 +85,52 @@
       }
     },
     "errorGeneric": "Something went wrong. Please try again."
+  },
+  "projects": {
+    "title": "My projects",
+    "empty": "No projects yet.",
+    "statusValue": {
+      "PLANNING": "Planning",
+      "IN_PROGRESS": "In progress",
+      "WAITING_CLIENT": "Waiting on client",
+      "REVIEW": "Review",
+      "COMPLETED": "Completed",
+      "ARCHIVED": "Archived"
+    },
+    "detail": {
+      "backToProjects": "Back to my projects",
+      "progress": "Progress",
+      "milestones": "Milestones",
+      "noMilestones": "No milestones yet.",
+      "milestoneStatusValue": {
+        "TODO": "To do",
+        "IN_PROGRESS": "In progress",
+        "DONE": "Done",
+        "CANCELLED": "Cancelled"
+      },
+      "tasks": "Tasks",
+      "noTasks": "No visible tasks yet.",
+      "files": "Files",
+      "messages": "Messages",
+      "statusValue": {
+        "PLANNING": "Planning",
+        "IN_PROGRESS": "In progress",
+        "WAITING_CLIENT": "Waiting on client",
+        "REVIEW": "Review",
+        "COMPLETED": "Completed",
+        "ARCHIVED": "Archived"
+      },
+      "file": {
+        "empty": "No files yet.",
+        "add": "Upload"
+      },
+      "message": {
+        "loading": "Loading…",
+        "empty": "No messages yet.",
+        "unknownAuthor": "Deleted user",
+        "bodyPlaceholder": "Write a message…",
+        "add": "Send"
+      }
+    }
   }
 }
