@@ -75,7 +75,30 @@
       "whatsapp": "واتساب"
     },
     "save": "حفظ",
-    "saved": "تم حفظ الإعدادات."
+    "saved": "تم حفظ الإعدادات.",
+    "taxRates": {
+      "title": "معدلات الضريبة",
+      "empty": "لا يوجد معدل ضريبة محدد.",
+      "name": "الاسم",
+      "ratePercent": "المعدل (%)",
+      "legalMention": "الملاحظة القانونية (فرنسي)",
+      "default": "افتراضي",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "add": "إضافة",
+      "edit": "تعديل",
+      "remove": "حذف",
+      "save": "حفظ",
+      "cancel": "إلغاء"
+    },
+    "paymentMethods": {
+      "title": "طرق الدفع",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "edit": "تعديل",
+      "save": "حفظ",
+      "cancel": "إلغاء"
+    }
   },
   "catalog": {
     "title": "كتالوج الخدمات",

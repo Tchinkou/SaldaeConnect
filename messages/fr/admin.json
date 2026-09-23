@@ -75,7 +75,30 @@
       "whatsapp": "WhatsApp"
     },
     "save": "Enregistrer",
-    "saved": "Paramètres enregistrés."
+    "saved": "Paramètres enregistrés.",
+    "taxRates": {
+      "title": "Taux de taxe",
+      "empty": "Aucun taux de taxe défini.",
+      "name": "Nom",
+      "ratePercent": "Taux (%)",
+      "legalMention": "Mention légale (FR)",
+      "default": "Par défaut",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "add": "Ajouter",
+      "edit": "Modifier",
+      "remove": "Supprimer",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    },
+    "paymentMethods": {
+      "title": "Moyens de paiement",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
+    }
   },
   "catalog": {
     "title": "Catalogue de services",

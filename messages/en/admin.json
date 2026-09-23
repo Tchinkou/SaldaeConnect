@@ -75,7 +75,30 @@
       "whatsapp": "WhatsApp"
     },
     "save": "Save",
-    "saved": "Settings saved."
+    "saved": "Settings saved.",
+    "taxRates": {
+      "title": "Tax rates",
+      "empty": "No tax rate defined.",
+      "name": "Name",
+      "ratePercent": "Rate (%)",
+      "legalMention": "Legal mention (FR)",
+      "default": "Default",
+      "active": "Active",
+      "inactive": "Inactive",
+      "add": "Add",
+      "edit": "Edit",
+      "remove": "Remove",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "paymentMethods": {
+      "title": "Payment methods",
+      "active": "Active",
+      "inactive": "Inactive",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
   },
   "catalog": {
     "title": "Service catalog",
