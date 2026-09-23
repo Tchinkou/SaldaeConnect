@@ -43,3 +43,24 @@ export function assertQuoteOwnerInScope(currentUser: CurrentUser, permission: Pe
   if (clientOwnerId === currentUser.user.id) return;
   throw new ForbiddenError();
 }
+
+/**
+ * `Project` n'a pas d'`ownerId` mais un `managerId` (§F.4) : le responsable
+ * de la livraison, distinct du `Client.ownerId` (qui a mené la phase
+ * commerciale). Le périmètre `ASSIGNED` de `project.*` suit ce
+ * `managerId` — c'est lui, pas le commercial, qui doit voir « ses »
+ * projets dans un périmètre restreint.
+ */
+export function projectWhereClause(currentUser: CurrentUser, permission: PermissionKey): { managerId?: string } {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return {};
+  return { managerId: currentUser.user.id };
+}
+
+/** Lève une erreur si le périmètre `ASSIGNED` ne couvre pas le responsable du projet. */
+export function assertProjectManagerInScope(currentUser: CurrentUser, permission: PermissionKey, managerId: string | null): void {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return;
+  if (managerId === currentUser.user.id) return;
+  throw new ForbiddenError();
+}

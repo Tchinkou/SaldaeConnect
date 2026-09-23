@@ -1,8 +1,7 @@
 import "server-only";
 import { prisma } from "@/server/core/db/client";
 import { recordActivity } from "@/server/core/crm/timeline";
-import { createNotifications } from "@/server/core/notify-admins";
-import { resolveQuoteRecipients } from "@/server/core/quotes/notify";
+import { createNotifications, resolveStaffRecipients } from "@/server/core/notify-admins";
 import { logAudit } from "@/server/core/audit";
 
 /**
@@ -49,7 +48,7 @@ export async function runQuotesExpireJob(): Promise<{
           quoteId: quote.id,
         });
 
-        const recipients = await resolveQuoteRecipients(tx, quote.client.ownerId);
+        const recipients = await resolveStaffRecipients(tx, quote.client.ownerId);
         await createNotifications(
           recipients,
           "quote.expired",

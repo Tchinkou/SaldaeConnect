@@ -6,8 +6,7 @@ import { formatMoney } from "@/server/core/money";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
-import { createNotifications } from "@/server/core/notify-admins";
-import { resolveQuoteRecipients } from "@/server/core/quotes/notify";
+import { createNotifications, resolveStaffRecipients } from "@/server/core/notify-admins";
 import { QuoteDecisionPanel } from "@/app/[locale]/portal/quotes/[id]/quote-decision-panel";
 
 const STATUS_TONE = {
@@ -56,7 +55,7 @@ export default async function PortalQuoteDetailPage({ params }: { params: Promis
         },
       });
 
-      const recipients = await resolveQuoteRecipients(tx, updated.client.ownerId);
+      const recipients = await resolveStaffRecipients(tx, updated.client.ownerId);
       await createNotifications(
         recipients,
         "quote.viewed",

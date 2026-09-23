@@ -11,7 +11,8 @@
     "audit": "Journal d'audit",
     "signOut": "Se déconnecter",
     "viewSite": "Voir le site",
-    "quotes": "Devis"
+    "quotes": "Devis",
+    "projects": "Projets"
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -363,7 +364,8 @@
       "assignedTo": "Assigné à {name}",
       "titlePlaceholder": "Titre de la tâche…",
       "unassigned": "Non assigné",
-      "add": "Ajouter"
+      "add": "Ajouter",
+      "visibleToClient": "Visible par le client"
     },
     "activity": {
       "empty": "Aucune activité pour le moment.",
@@ -505,6 +507,97 @@
           "ON_DELIVERY": "À la livraison",
           "ON_DATE": "À une date fixe"
         }
+      }
+    }
+  },
+  "projects": {
+    "title": "Projets",
+    "subtitle": "Projets créés automatiquement à l'acceptation d'un devis.",
+    "number": "Numéro",
+    "client": "Client",
+    "status": "Statut",
+    "progress": "Progression",
+    "budget": "Budget",
+    "empty": "Aucun projet pour le moment.",
+    "filters": {
+      "search": "Recherche",
+      "searchPlaceholder": "Numéro, nom, client…",
+      "status": "Statut",
+      "all": "Tous",
+      "reset": "Réinitialiser"
+    },
+    "statusValue": {
+      "PLANNING": "Planification",
+      "IN_PROGRESS": "En cours",
+      "WAITING_CLIENT": "En attente client",
+      "REVIEW": "Révision",
+      "COMPLETED": "Terminé",
+      "ARCHIVED": "Archivé"
+    },
+    "detail": {
+      "backToProjects": "Retour aux projets",
+      "changeStatus": "Changer le statut",
+      "statusNotePlaceholder": "Précision (optionnel, par ex. ce qui est attendu du client)…",
+      "confirmStatus": "Confirmer",
+      "cancel": "Annuler",
+      "statusValue": {
+        "PLANNING": "Planification",
+        "IN_PROGRESS": "En cours",
+        "WAITING_CLIENT": "En attente client",
+        "REVIEW": "Révision",
+        "COMPLETED": "Terminé",
+        "ARCHIVED": "Archivé"
+      },
+      "progressTitle": "Progression",
+      "milestones": "Jalons",
+      "tasks": "Tâches",
+      "timeline": "Chronologie",
+      "details": "Détails",
+      "budget": "Budget",
+      "startDate": "Date de début",
+      "dueDate": "Échéance",
+      "manager": "Responsable",
+      "notSpecified": "Non précisé",
+      "unassigned": "Non assigné",
+      "membersTitle": "Membres de l'équipe",
+      "statusHistory": "Historique des statuts",
+      "noStatusChanges": "Aucun changement de statut.",
+      "initialStatus": "Statut initial",
+      "automatic": "Automatique",
+      "members": {
+        "empty": "Aucun membre pour le moment.",
+        "remove": "Retirer",
+        "selectStaff": "Choisir un membre du staff…",
+        "add": "Ajouter",
+        "role": {
+          "MANAGER": "Responsable",
+          "MEMBER": "Membre",
+          "VIEWER": "Observateur"
+        }
+      },
+      "milestone": {
+        "empty": "Aucun jalon défini.",
+        "weightDisplay": "Poids : {weight}",
+        "weight": "Poids",
+        "statusValue": {
+          "TODO": "À faire",
+          "IN_PROGRESS": "En cours",
+          "DONE": "Fait",
+          "CANCELLED": "Annulé"
+        },
+        "remove": "Supprimer",
+        "title": "Titre",
+        "dueDate": "Échéance",
+        "add": "Ajouter un jalon",
+        "cancel": "Annuler"
+      },
+      "progress": {
+        "mode": {
+          "TASKS": "Selon les tâches",
+          "MILESTONES": "Selon les jalons",
+          "MANUAL": "Manuelle"
+        },
+        "save": "Enregistrer"
       }
     }
   }

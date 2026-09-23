@@ -11,7 +11,8 @@
     "audit": "سجل التدقيق",
     "signOut": "تسجيل الخروج",
     "viewSite": "عرض الموقع",
-    "quotes": "عروض الأسعار"
+    "quotes": "عروض الأسعار",
+    "projects": "المشاريع"
   },
   "dashboard": {
     "title": "لوحة التحكم",
@@ -363,7 +364,8 @@
       "assignedTo": "مُسندة إلى {name}",
       "titlePlaceholder": "عنوان المهمة…",
       "unassigned": "غير مُسندة",
-      "add": "إضافة"
+      "add": "إضافة",
+      "visibleToClient": "مرئي للعميل"
     },
     "activity": {
       "empty": "لا يوجد نشاط حتى الآن.",
@@ -505,6 +507,97 @@
           "ON_DELIVERY": "عند التسليم",
           "ON_DATE": "في تاريخ محدد"
         }
+      }
+    }
+  },
+  "projects": {
+    "title": "المشاريع",
+    "subtitle": "مشاريع تُنشأ تلقائيًا عند قبول عرض سعر.",
+    "number": "الرقم",
+    "client": "العميل",
+    "status": "الحالة",
+    "progress": "التقدم",
+    "budget": "الميزانية",
+    "empty": "لا توجد مشاريع بعد.",
+    "filters": {
+      "search": "بحث",
+      "searchPlaceholder": "الرقم، الاسم، العميل…",
+      "status": "الحالة",
+      "all": "الكل",
+      "reset": "إعادة تعيين"
+    },
+    "statusValue": {
+      "PLANNING": "التخطيط",
+      "IN_PROGRESS": "قيد التنفيذ",
+      "WAITING_CLIENT": "بانتظار العميل",
+      "REVIEW": "المراجعة",
+      "COMPLETED": "منتهٍ",
+      "ARCHIVED": "مؤرشف"
+    },
+    "detail": {
+      "backToProjects": "العودة إلى المشاريع",
+      "changeStatus": "تغيير الحالة",
+      "statusNotePlaceholder": "ملاحظة (اختياري، مثلاً ما هو متوقع من العميل)…",
+      "confirmStatus": "تأكيد",
+      "cancel": "إلغاء",
+      "statusValue": {
+        "PLANNING": "التخطيط",
+        "IN_PROGRESS": "قيد التنفيذ",
+        "WAITING_CLIENT": "بانتظار العميل",
+        "REVIEW": "المراجعة",
+        "COMPLETED": "منتهٍ",
+        "ARCHIVED": "مؤرشف"
+      },
+      "progressTitle": "التقدم",
+      "milestones": "المراحل",
+      "tasks": "المهام",
+      "timeline": "الجدول الزمني",
+      "details": "التفاصيل",
+      "budget": "الميزانية",
+      "startDate": "تاريخ البدء",
+      "dueDate": "تاريخ الاستحقاق",
+      "manager": "المسؤول",
+      "notSpecified": "غير محدد",
+      "unassigned": "غير معيّن",
+      "membersTitle": "أعضاء الفريق",
+      "statusHistory": "سجل الحالات",
+      "noStatusChanges": "لا توجد تغييرات في الحالة.",
+      "initialStatus": "الحالة الأولية",
+      "automatic": "تلقائي",
+      "members": {
+        "empty": "لا يوجد أعضاء بعد.",
+        "remove": "إزالة",
+        "selectStaff": "اختر عضوًا من الفريق…",
+        "add": "إضافة",
+        "role": {
+          "MANAGER": "مسؤول",
+          "MEMBER": "عضو",
+          "VIEWER": "مراقب"
+        }
+      },
+      "milestone": {
+        "empty": "لا توجد مراحل محددة.",
+        "weightDisplay": "الوزن: {weight}",
+        "weight": "الوزن",
+        "statusValue": {
+          "TODO": "للقيام به",
+          "IN_PROGRESS": "قيد التنفيذ",
+          "DONE": "منجز",
+          "CANCELLED": "ملغى"
+        },
+        "remove": "حذف",
+        "title": "العنوان",
+        "dueDate": "تاريخ الاستحقاق",
+        "add": "إضافة مرحلة",
+        "cancel": "إلغاء"
+      },
+      "progress": {
+        "mode": {
+          "TASKS": "حسب المهام",
+          "MILESTONES": "حسب المراحل",
+          "MANUAL": "يدوية"
+        },
+        "save": "حفظ"
       }
     }
   }

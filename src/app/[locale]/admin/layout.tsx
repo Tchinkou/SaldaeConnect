@@ -48,6 +48,7 @@ export default async function AdminLayout({
     leads: hasPermission(currentUser, "lead.read"),
     clients: hasPermission(currentUser, "client.read"),
     quotes: hasPermission(currentUser, "quote.read"),
+    projects: hasPermission(currentUser, "project.read"),
   };
 
   return (

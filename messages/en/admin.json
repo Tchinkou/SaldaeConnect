@@ -11,7 +11,8 @@
     "audit": "Audit log",
     "signOut": "Sign out",
     "viewSite": "View site",
-    "quotes": "Quotes"
+    "quotes": "Quotes",
+    "projects": "Projects"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -363,7 +364,8 @@
       "assignedTo": "Assigned to {name}",
       "titlePlaceholder": "Task title…",
       "unassigned": "Unassigned",
-      "add": "Add"
+      "add": "Add",
+      "visibleToClient": "Visible to client"
     },
     "activity": {
       "empty": "No activity yet.",
@@ -505,6 +507,97 @@
           "ON_DELIVERY": "On delivery",
           "ON_DATE": "On a fixed date"
         }
+      }
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Projects automatically created when a quote is accepted.",
+    "number": "Number",
+    "client": "Client",
+    "status": "Status",
+    "progress": "Progress",
+    "budget": "Budget",
+    "empty": "No projects yet.",
+    "filters": {
+      "search": "Search",
+      "searchPlaceholder": "Number, name, client…",
+      "status": "Status",
+      "all": "All",
+      "reset": "Reset"
+    },
+    "statusValue": {
+      "PLANNING": "Planning",
+      "IN_PROGRESS": "In progress",
+      "WAITING_CLIENT": "Waiting on client",
+      "REVIEW": "Review",
+      "COMPLETED": "Completed",
+      "ARCHIVED": "Archived"
+    },
+    "detail": {
+      "backToProjects": "Back to projects",
+      "changeStatus": "Change status",
+      "statusNotePlaceholder": "Note (optional, e.g. what's expected from the client)…",
+      "confirmStatus": "Confirm",
+      "cancel": "Cancel",
+      "statusValue": {
+        "PLANNING": "Planning",
+        "IN_PROGRESS": "In progress",
+        "WAITING_CLIENT": "Waiting on client",
+        "REVIEW": "Review",
+        "COMPLETED": "Completed",
+        "ARCHIVED": "Archived"
+      },
+      "progressTitle": "Progress",
+      "milestones": "Milestones",
+      "tasks": "Tasks",
+      "timeline": "Timeline",
+      "details": "Details",
+      "budget": "Budget",
+      "startDate": "Start date",
+      "dueDate": "Due date",
+      "manager": "Manager",
+      "notSpecified": "Not specified",
+      "unassigned": "Unassigned",
+      "membersTitle": "Team members",
+      "statusHistory": "Status history",
+      "noStatusChanges": "No status changes.",
+      "initialStatus": "Initial status",
+      "automatic": "Automatic",
+      "members": {
+        "empty": "No members yet.",
+        "remove": "Remove",
+        "selectStaff": "Choose a staff member…",
+        "add": "Add",
+        "role": {
+          "MANAGER": "Manager",
+          "MEMBER": "Member",
+          "VIEWER": "Viewer"
+        }
+      },
+      "milestone": {
+        "empty": "No milestones defined.",
+        "weightDisplay": "Weight: {weight}",
+        "weight": "Weight",
+        "statusValue": {
+          "TODO": "To do",
+          "IN_PROGRESS": "In progress",
+          "DONE": "Done",
+          "CANCELLED": "Cancelled"
+        },
+        "remove": "Remove",
+        "title": "Title",
+        "dueDate": "Due date",
+        "add": "Add milestone",
+        "cancel": "Cancel"
+      },
+      "progress": {
+        "mode": {
+          "TASKS": "By tasks",
+          "MILESTONES": "By milestones",
+          "MANUAL": "Manual"
+        },
+        "save": "Save"
       }
     }
   }

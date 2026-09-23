@@ -9,8 +9,7 @@ import { ValidationError } from "@/server/core/errors";
 import { nextNumber } from "@/server/core/numbering";
 import { recordActivity } from "@/server/core/crm/timeline";
 import { advanceOpportunityStage } from "@/server/core/crm/stage";
-import { resolveQuoteRecipients } from "@/server/core/quotes/notify";
-import { createNotifications } from "@/server/core/notify-admins";
+import { createNotifications, resolveStaffRecipients } from "@/server/core/notify-admins";
 import { sendQuoteAcceptedConfirmationEmail } from "@/server/core/email/send-quote-accepted-confirmation-email";
 import { sendQuoteDecisionNotificationEmail } from "@/server/core/email/send-quote-decision-notification-email";
 
@@ -126,7 +125,7 @@ export const acceptQuoteAction = definePortalAction({
         quoteId: quote.id,
       });
 
-      const recipients = await resolveQuoteRecipients(tx, client.ownerId);
+      const recipients = await resolveStaffRecipients(tx, client.ownerId);
       await createNotifications(
         recipients,
         "quote.accepted",
@@ -212,7 +211,7 @@ export const rejectQuoteAction = definePortalAction({
         quoteId: quote.id,
       });
 
-      const recipients = await resolveQuoteRecipients(tx, quote.client.ownerId);
+      const recipients = await resolveStaffRecipients(tx, quote.client.ownerId);
       await createNotifications(
         recipients,
         "quote.rejected",
@@ -285,7 +284,7 @@ export const requestQuoteChangesAction = definePortalAction({
         quoteId: quote.id,
       });
 
-      const recipients = await resolveQuoteRecipients(tx, quote.client.ownerId);
+      const recipients = await resolveStaffRecipients(tx, quote.client.ownerId);
       await createNotifications(
         recipients,
         "quote.changes_requested",

@@ -9,10 +9,14 @@ import { addTaskAction } from "@/server/core/crm/task-actions";
 export function AddTaskForm({
   opportunityId,
   clientId,
+  projectId,
+  milestoneId,
   staff,
 }: {
   opportunityId?: string;
   clientId?: string;
+  projectId?: string;
+  milestoneId?: string;
   staff: Array<{ id: string; name: string }>;
 }) {
   const t = useTranslations("admin.crm.task");
@@ -21,6 +25,7 @@ export function AddTaskForm({
   const [dueAt, setDueAt] = useState("");
   const [priority, setPriority] = useState<"LOW" | "MEDIUM" | "HIGH" | "URGENT">("MEDIUM");
   const [assigneeId, setAssigneeId] = useState("");
+  const [visibleToClient, setVisibleToClient] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,6 +43,9 @@ export function AddTaskForm({
           assigneeId: assigneeId || null,
           opportunityId,
           clientId,
+          projectId,
+          milestoneId,
+          visibleToClient,
         });
         setSubmitting(false);
         if (!result.ok) {
@@ -48,6 +56,7 @@ export function AddTaskForm({
         setDueAt("");
         setPriority("MEDIUM");
         setAssigneeId("");
+        setVisibleToClient(false);
         router.refresh();
       }}
     >
@@ -89,6 +98,17 @@ export function AddTaskForm({
           </option>
         ))}
       </select>
+      {projectId ? (
+        <label className="flex h-9 items-center gap-1.5 text-xs text-foreground/70">
+          <input
+            type="checkbox"
+            checked={visibleToClient}
+            onChange={(event) => setVisibleToClient(event.target.checked)}
+            className="h-4 w-4 rounded border-border"
+          />
+          {t("visibleToClient")}
+        </label>
+      ) : null}
       <Button type="submit" isLoading={submitting} size="sm">
         {t("add")}
       </Button>
