@@ -665,6 +665,31 @@
         "internalNote": "Note interne",
         "bodyPlaceholder": "Écrire un message…",
         "add": "Envoyer"
+      },
+      "financial": {
+        "title": "Financier",
+        "quoted": "Devisé",
+        "billed": "Facturé",
+        "collected": "Encaissé",
+        "remainingToBill": "Reste à facturer"
+      },
+      "invoice": {
+        "title": "Factures",
+        "empty": "Aucune facture pour ce projet.",
+        "draftLabel": "Brouillon",
+        "typeValue": {
+          "STANDARD": "Facture",
+          "DEPOSIT": "Acompte",
+          "CREDIT_NOTE": "Avoir"
+        },
+        "statusValue": {
+          "DRAFT": "Brouillon",
+          "SENT": "Émise",
+          "PARTIALLY_PAID": "Partiellement payée",
+          "PAID": "Payée",
+          "OVERDUE": "En retard",
+          "CANCELLED": "Annulée"
+        }
       }
     }
   },

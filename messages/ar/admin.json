@@ -665,6 +665,31 @@
         "internalNote": "ملاحظة داخلية",
         "bodyPlaceholder": "اكتب رسالة…",
         "add": "إرسال"
+      },
+      "financial": {
+        "title": "الوضع المالي",
+        "quoted": "المُقتَرَح",
+        "billed": "المفوتر",
+        "collected": "المحصّل",
+        "remainingToBill": "المتبقي للفوترة"
+      },
+      "invoice": {
+        "title": "الفواتير",
+        "empty": "لا توجد فواتير لهذا المشروع.",
+        "draftLabel": "مسودة",
+        "typeValue": {
+          "STANDARD": "فاتورة",
+          "DEPOSIT": "دفعة مقدمة",
+          "CREDIT_NOTE": "إشعار دائن"
+        },
+        "statusValue": {
+          "DRAFT": "مسودة",
+          "SENT": "صادرة",
+          "PARTIALLY_PAID": "مدفوعة جزئيًا",
+          "PAID": "مدفوعة",
+          "OVERDUE": "متأخرة",
+          "CANCELLED": "ملغاة"
+        }
       }
     }
   },
