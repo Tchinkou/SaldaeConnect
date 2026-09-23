@@ -137,27 +137,35 @@ export const acceptQuoteAction = definePortalAction({
       return { quote, client, project, recipients };
     });
 
-    await Promise.all([
-      ...outcome.recipients.map((recipient) =>
-        sendQuoteDecisionNotificationEmail({
-          to: recipient.email,
-          quoteNumber: outcome.quote.number ?? outcome.quote.id,
-          clientName: outcome.client.displayName,
-          decision: "ACCEPTED",
-          crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${recipient.locale}/admin/quotes/${outcome.quote.id}`,
-          locale: recipient.locale,
-        }),
-      ),
-      ctx.user.user.email
-        ? sendQuoteAcceptedConfirmationEmail({
-            to: ctx.user.user.email,
+    // Effets de bord après validation en base : la décision du client est
+    // déjà enregistrée (projet créé, etc.) à ce stade — un échec d'email ne
+    // doit jamais transformer une acceptation réussie en erreur affichée au
+    // client (même convention que quote/actions.ts, formulaire public).
+    try {
+      await Promise.all([
+        ...outcome.recipients.map((recipient) =>
+          sendQuoteDecisionNotificationEmail({
+            to: recipient.email,
             quoteNumber: outcome.quote.number ?? outcome.quote.id,
-            projectNumber: outcome.project.number,
-            portalUrl: `${env.NEXT_PUBLIC_APP_URL}/${outcome.quote.locale}/portal/quotes/${outcome.quote.id}`,
-            locale: outcome.quote.locale,
-          })
-        : null,
-    ]);
+            clientName: outcome.client.displayName,
+            decision: "ACCEPTED",
+            crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${recipient.locale}/admin/quotes/${outcome.quote.id}`,
+            locale: recipient.locale,
+          }),
+        ),
+        ctx.user.user.email
+          ? sendQuoteAcceptedConfirmationEmail({
+              to: ctx.user.user.email,
+              quoteNumber: outcome.quote.number ?? outcome.quote.id,
+              projectNumber: outcome.project.number,
+              portalUrl: `${env.NEXT_PUBLIC_APP_URL}/${outcome.quote.locale}/portal/quotes/${outcome.quote.id}`,
+              locale: outcome.quote.locale,
+            })
+          : null,
+      ]);
+    } catch (error) {
+      console.error("Échec des effets secondaires après acceptation du devis", error);
+    }
 
     return { quoteId: outcome.quote.id, projectId: outcome.project.id };
   },
@@ -215,18 +223,22 @@ export const rejectQuoteAction = definePortalAction({
       return { quote, client: quote.client, recipients };
     });
 
-    await Promise.all(
-      outcome.recipients.map((recipient) =>
-        sendQuoteDecisionNotificationEmail({
-          to: recipient.email,
-          quoteNumber: outcome.quote.number ?? outcome.quote.id,
-          clientName: outcome.client.displayName,
-          decision: "REJECTED",
-          crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${recipient.locale}/admin/quotes/${outcome.quote.id}`,
-          locale: recipient.locale,
-        }),
-      ),
-    );
+    try {
+      await Promise.all(
+        outcome.recipients.map((recipient) =>
+          sendQuoteDecisionNotificationEmail({
+            to: recipient.email,
+            quoteNumber: outcome.quote.number ?? outcome.quote.id,
+            clientName: outcome.client.displayName,
+            decision: "REJECTED",
+            crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${recipient.locale}/admin/quotes/${outcome.quote.id}`,
+            locale: recipient.locale,
+          }),
+        ),
+      );
+    } catch (error) {
+      console.error("Échec des effets secondaires après refus du devis", error);
+    }
 
     return { quoteId: outcome.quote.id };
   },
@@ -284,18 +296,22 @@ export const requestQuoteChangesAction = definePortalAction({
       return { quote, client: quote.client, recipients };
     });
 
-    await Promise.all(
-      outcome.recipients.map((recipient) =>
-        sendQuoteDecisionNotificationEmail({
-          to: recipient.email,
-          quoteNumber: outcome.quote.number ?? outcome.quote.id,
-          clientName: outcome.client.displayName,
-          decision: "CHANGES_REQUESTED",
-          crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${recipient.locale}/admin/quotes/${outcome.quote.id}`,
-          locale: recipient.locale,
-        }),
-      ),
-    );
+    try {
+      await Promise.all(
+        outcome.recipients.map((recipient) =>
+          sendQuoteDecisionNotificationEmail({
+            to: recipient.email,
+            quoteNumber: outcome.quote.number ?? outcome.quote.id,
+            clientName: outcome.client.displayName,
+            decision: "CHANGES_REQUESTED",
+            crmUrl: `${env.NEXT_PUBLIC_APP_URL}/${recipient.locale}/admin/quotes/${outcome.quote.id}`,
+            locale: recipient.locale,
+          }),
+        ),
+      );
+    } catch (error) {
+      console.error("Échec des effets secondaires après demande de modification du devis", error);
+    }
 
     return { quoteId: outcome.quote.id };
   },
