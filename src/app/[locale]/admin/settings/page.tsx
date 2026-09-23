@@ -8,6 +8,7 @@ import { ContactForm } from "./contact-form";
 import { SocialForm } from "./social-form";
 import { TaxRatesForm } from "./tax-rates-form";
 import { PaymentMethodsForm } from "./payment-methods-form";
+import { AutoDraftDepositToggle } from "./auto-draft-deposit-toggle";
 import type { BrandSettingValue, ThemeSettingValue, ContactSettingValue, SocialSettingValue } from "./actions";
 
 export default async function SettingsPage() {
@@ -19,11 +20,12 @@ export default async function SettingsPage() {
   const t = await getTranslations("admin.settings");
 
   const [settings, taxRates, paymentMethods] = await Promise.all([
-    prisma.setting.findMany({ where: { key: { in: ["brand", "theme", "contact", "social"] } } }),
+    prisma.setting.findMany({ where: { key: { in: ["brand", "theme", "contact", "social", "invoicing"] } } }),
     prisma.taxRate.findMany({ orderBy: { name: "asc" } }),
     prisma.paymentMethod.findMany({ orderBy: { key: "asc" }, include: { translations: true } }),
   ]);
   const byKey = Object.fromEntries(settings.map((setting) => [setting.key, setting.value]));
+  const invoicingSetting = byKey.invoicing as { autoDraftDepositInvoice?: boolean } | undefined;
 
   return (
     <div className="flex flex-col gap-6">
@@ -79,6 +81,15 @@ export default async function SettingsPage() {
               isActive: rate.isActive,
             }))}
           />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">{t("invoicing.title")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AutoDraftDepositToggle initialEnabled={invoicingSetting?.autoDraftDepositInvoice ?? true} />
         </CardContent>
       </Card>
 

@@ -7,6 +7,7 @@ import { prisma } from "@/server/core/db/client";
 import { env } from "@/server/core/env";
 import { ValidationError } from "@/server/core/errors";
 import { nextNumber } from "@/server/core/numbering";
+import { recomputeInvoiceTotals } from "@/server/core/invoices/totals";
 import { recordActivity } from "@/server/core/crm/timeline";
 import { advanceOpportunityStage } from "@/server/core/crm/stage";
 import { createNotifications, resolveStaffRecipients } from "@/server/core/notify-admins";
@@ -99,6 +100,50 @@ export const acceptQuoteAction = definePortalAction({
 
       if (quote.opportunityId) {
         await advanceOpportunityStage(tx, quote.opportunityId, "accepted", null);
+      }
+
+      // §F.3 étape 5 : si le devis prévoit un acompte et que le paramètre est
+      // activé, brouillon de facture d'acompte — jamais émis automatiquement,
+      // un admin le vérifie et l'émet (voir issueInvoiceAction).
+      const depositAmountMinor =
+        quote.depositAmount ?? (quote.depositPercent != null ? (quote.total * BigInt(quote.depositPercent)) / 100n : null);
+      if (depositAmountMinor && depositAmountMinor > 0n) {
+        const invoicingSetting = await tx.setting.findUnique({ where: { key: "invoicing" } });
+        const autoDraftDepositInvoice =
+          (invoicingSetting?.value as { autoDraftDepositInvoice?: boolean } | null)?.autoDraftDepositInvoice ?? true;
+        if (autoDraftDepositInvoice) {
+          const depositInvoice = await tx.invoice.create({
+            data: {
+              clientId: quote.clientId,
+              type: "DEPOSIT",
+              projectId: project.id,
+              quoteId: quote.id,
+              currency: quote.currency,
+              status: "DRAFT",
+              items: {
+                create: [
+                  {
+                    position: 0,
+                    title: `Acompte — devis ${quote.number ?? quote.id}`,
+                    quantity: 1,
+                    unitPrice: depositAmountMinor,
+                    discountPercent: 0,
+                    lineTotal: depositAmountMinor,
+                  },
+                ],
+              },
+            },
+          });
+          await recomputeInvoiceTotals(tx, depositInvoice.id);
+          await recordActivity(tx, {
+            type: "SYSTEM",
+            subject: "Brouillon de facture d'acompte créé",
+            clientId: quote.clientId,
+            projectId: project.id,
+            quoteId: quote.id,
+            invoiceId: depositInvoice.id,
+          });
+        }
       }
 
       await tx.quoteDecision.create({

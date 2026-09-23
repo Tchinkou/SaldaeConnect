@@ -99,6 +99,11 @@
       "edit": "Edit",
       "save": "Save",
       "cancel": "Cancel"
+    },
+    "invoicing": {
+      "title": "Invoicing",
+      "autoDraftDepositInvoice": "Automatically create a deposit invoice draft when a quote is accepted",
+      "autoDraftDepositInvoiceHint": "If the quote includes a deposit, a draft is created automatically — never issued automatically, an admin reviews and issues it."
     }
   },
   "catalog": {

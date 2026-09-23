@@ -106,3 +106,30 @@ export const updatePaymentMethodAction = defineAction({
     return { paymentMethodId: input.paymentMethodId };
   },
 });
+
+/**
+ * Bascule du paramètre §F.3.5 : "si le devis prévoit un acompte et que le
+ * paramètre est activé : brouillon de facture d'acompte". Action dédiée
+ * plutôt que le formulaire générique `updateSettingAction` (settings/actions.ts)
+ * pour ne jamais risquer d'écraser les autres champs de la clé "invoicing"
+ * (devise, mode d'arrondi…) avec un formulaire qui n'en connaît qu'un seul.
+ */
+export const updateAutoDraftDepositInvoiceAction = defineAction({
+  permission: "settings.write",
+  schema: z.object({ enabled: z.boolean() }),
+  audit: {
+    category: "BUSINESS",
+    action: "settings.invoicing.autoDraftDepositInvoice",
+    entityType: "Setting",
+    entityId: () => "invoicing",
+  },
+  handler: async (input) => {
+    const setting = await prisma.setting.findUnique({ where: { key: "invoicing" } });
+    const value = (setting?.value && typeof setting.value === "object" ? setting.value : {}) as Record<string, unknown>;
+    await prisma.setting.update({
+      where: { key: "invoicing" },
+      data: { value: { ...value, autoDraftDepositInvoice: input.enabled } },
+    });
+    return { enabled: input.enabled };
+  },
+});

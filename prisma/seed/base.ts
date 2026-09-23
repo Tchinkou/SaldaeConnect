@@ -256,6 +256,7 @@ async function seedSettings() {
         defaultCurrency: "DZD",
         secondaryCurrencies: ["EUR"],
         roundingMode: "HALF_UP",
+        autoDraftDepositInvoice: true,
         note: "Taux de taxe et mentions légales à valider avec le comptable avant la première facture réelle (§K).",
       },
     },

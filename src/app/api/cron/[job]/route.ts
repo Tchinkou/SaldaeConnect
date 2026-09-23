@@ -3,6 +3,7 @@ import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { env } from "@/server/core/env";
 import { runQuotesExpireJob } from "@/server/core/cron/quotes-expire";
+import { runInvoicesOverdueJob } from "@/server/core/cron/invoices-overdue";
 
 /**
  * Point d'entrée cron unique (§A.2, `/api/cron/[job]/route.ts`), protégé par
@@ -13,6 +14,7 @@ import { runQuotesExpireJob } from "@/server/core/cron/quotes-expire";
  */
 const JOBS: Record<string, () => Promise<unknown>> = {
   "quotes-expire": runQuotesExpireJob,
+  "invoices-overdue": runInvoicesOverdueJob,
 };
 
 function isAuthorized(request: Request): boolean {

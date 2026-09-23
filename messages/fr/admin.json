@@ -99,6 +99,11 @@
       "edit": "Modifier",
       "save": "Enregistrer",
       "cancel": "Annuler"
+    },
+    "invoicing": {
+      "title": "Facturation",
+      "autoDraftDepositInvoice": "Créer automatiquement un brouillon de facture d'acompte à l'acceptation d'un devis",
+      "autoDraftDepositInvoiceHint": "Si le devis prévoit un acompte, un brouillon est créé automatiquement — jamais émis automatiquement, un admin le vérifie et l'émet."
     }
   },
   "catalog": {
