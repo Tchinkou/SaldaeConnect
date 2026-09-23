@@ -263,6 +263,10 @@ export const issueInvoiceAction = defineAction({
 
       const number = await nextNumber(tx, invoice.type === "CREDIT_NOTE" ? "CREDIT_NOTE" : "INVOICE");
 
+      const originalInvoice = invoice.originalInvoiceId
+        ? await tx.invoice.findUnique({ where: { id: invoice.originalInvoiceId }, select: { number: true } })
+        : null;
+
       const contact = await tx.clientContact.findFirst({
         where: { clientId: invoice.clientId, email: { not: null } },
         orderBy: [{ isPrimary: "desc" }],
@@ -287,10 +291,11 @@ export const issueInvoiceAction = defineAction({
         brandName,
         legalName,
         clientLocale: invoice.client.preferredLocale || "fr",
+        originalInvoiceNumber: originalInvoice?.number ?? null,
       };
     });
 
-    const { invoice, contactUserId, contactEmail, brandName, legalName, clientLocale } = prepared;
+    const { invoice, contactUserId, contactEmail, brandName, legalName, clientLocale, originalInvoiceNumber } = prepared;
     const issueDate = new Date();
 
     const html = buildInvoicePdfHtml({
@@ -318,7 +323,7 @@ export const issueInvoiceAction = defineAction({
       legalName,
       clientDisplayName: invoice.client.displayName,
       clientAddress: [invoice.client.address, invoice.client.city, invoice.client.country].filter(Boolean).join(", ") || null,
-      originalInvoiceNumber: null,
+      originalInvoiceNumber,
     });
 
     const pdfBytes = await getPdfRenderer().render(html);
@@ -424,5 +429,119 @@ export const issueInvoiceAction = defineAction({
     }
 
     return { invoiceId: invoice.id };
+  },
+});
+
+/**
+ * Annulation d'une facture émise (§F.5) : uniquement depuis ÉMISE ou EN
+ * RETARD (jamais une facture déjà brouillon — pas besoin — ni déjà payée,
+ * partiellement ou non : un encaissement réel n'est jamais effacé par une
+ * annulation, seul un avoir peut corriger un montant après paiement). Motif
+ * obligatoire, rien n'est supprimé — §F.5 : "Les règles exactes (annulation,
+ * avoir, mentions) sont à valider avec le comptable", donc volontairement
+ * minimal : statut + motif, pas d'écriture comptable automatique.
+ */
+const cancelInvoiceSchema = z.object({ invoiceId: z.string().min(1), cancelReason: z.string().trim().min(1).max(1000) });
+
+export const cancelInvoiceAction = defineAction({
+  permission: "invoice.issue",
+  schema: cancelInvoiceSchema,
+  audit: { category: "BUSINESS", action: "invoice.cancel", entityType: "Invoice", entityId: (input) => input.invoiceId },
+  handler: async (input, { user }) => {
+    return prisma.$transaction(async (tx) => {
+      const invoice = await tx.invoice.findUnique({ where: { id: input.invoiceId }, include: { client: true } });
+      if (!invoice) throw new ValidationError("Facture introuvable.");
+      assertInvoiceOwnerInScope(user, "invoice.issue", invoice.client.ownerId);
+      if (invoice.status !== "SENT" && invoice.status !== "OVERDUE") {
+        throw new ValidationError("Seule une facture émise ou en retard peut être annulée.");
+      }
+
+      await tx.invoice.update({
+        where: { id: invoice.id },
+        data: { status: "CANCELLED", cancelledAt: new Date(), cancelReason: input.cancelReason },
+      });
+
+      await recordActivity(tx, {
+        type: "SYSTEM",
+        subject: "Facture annulée",
+        body: input.cancelReason,
+        actorId: user.user.id,
+        clientId: invoice.clientId,
+        invoiceId: invoice.id,
+      });
+
+      return { invoiceId: invoice.id };
+    });
+  },
+});
+
+/**
+ * Crée un avoir brouillon (§F.5) lié à une facture émise, pré-rempli avec
+ * les lignes de l'originale — l'admin les ajuste (supprime les lignes non
+ * concernées, corrige les quantités) avant émission pour ne créditer que le
+ * montant réellement dû. L'avoir suit ensuite le même cycle qu'une facture
+ * normale (brouillon → émission via `issueInvoiceAction`, qui lui attribue
+ * déjà un numéro de la séquence CREDIT_NOTE séparée).
+ */
+const createCreditNoteSchema = z.object({ invoiceId: z.string().min(1) });
+
+export const createCreditNoteAction = defineAction({
+  permission: "invoice.write",
+  schema: createCreditNoteSchema,
+  handler: async (input, { user }) => {
+    return prisma.$transaction(async (tx) => {
+      const original = await tx.invoice.findUnique({
+        where: { id: input.invoiceId },
+        include: { client: true, items: { orderBy: { position: "asc" } } },
+      });
+      if (!original) throw new ValidationError("Facture introuvable.");
+      assertInvoiceOwnerInScope(user, "invoice.write", original.client.ownerId);
+      if (original.type === "CREDIT_NOTE") throw new ValidationError("Un avoir ne peut pas lui-même être avoir.");
+      if (original.status === "DRAFT") throw new ValidationError("Cette facture n'a pas encore été émise — modifiez-la directement.");
+
+      const creditNote = await tx.invoice.create({
+        data: {
+          clientId: original.clientId,
+          type: "CREDIT_NOTE",
+          projectId: original.projectId,
+          originalInvoiceId: original.id,
+          currency: original.currency,
+          status: "DRAFT",
+          items: {
+            create: original.items.map((item) => ({
+              position: item.position,
+              serviceId: item.serviceId,
+              title: item.title,
+              description: item.description,
+              quantity: item.quantity,
+              unit: item.unit,
+              unitPrice: item.unitPrice,
+              discountPercent: item.discountPercent,
+              taxRateId: item.taxRateId,
+              taxRatePercent: item.taxRatePercent,
+              lineTotal: item.lineTotal,
+            })),
+          },
+        },
+      });
+
+      await recomputeInvoiceTotals(tx, creditNote.id);
+
+      await recordActivity(tx, {
+        type: "SYSTEM",
+        subject: "Avoir créé (brouillon)",
+        actorId: user.user.id,
+        clientId: original.clientId,
+        invoiceId: creditNote.id,
+      });
+
+      return { invoiceId: creditNote.id };
+    });
+  },
+  audit: {
+    category: "BUSINESS",
+    action: "invoice.creditNote.create",
+    entityType: "Invoice",
+    entityId: (_input, output) => output.invoiceId,
   },
 });

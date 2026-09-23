@@ -754,7 +754,14 @@
       },
       "issue": "Émettre",
       "issueConfirm": "Émettre cette facture ? Elle ne sera plus modifiable.",
-      "issueConfirmYes": "Oui, émettre"
+      "issueConfirmYes": "Oui, émettre",
+      "cancelInvoice": "Annuler",
+      "cancelReasonPlaceholder": "Motif de l'annulation",
+      "cancelInvoiceConfirmYes": "Confirmer l'annulation",
+      "createCreditNote": "Créer un avoir",
+      "cancelledNotice": "Facture annulée. Motif : {reason}",
+      "creditNoteOf": "Avoir sur la facture",
+      "creditNotesList": "Avoirs liés :"
     }
   }
 }

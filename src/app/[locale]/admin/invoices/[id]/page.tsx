@@ -13,6 +13,8 @@ import { InvoiceHeaderForm } from "@/app/[locale]/admin/invoices/[id]/invoice-he
 import { InvoiceItemsEditor } from "@/app/[locale]/admin/invoices/[id]/invoice-items-editor";
 import { DeleteInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/delete-invoice-button";
 import { IssueInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/issue-invoice-button";
+import { CancelInvoiceButton } from "@/app/[locale]/admin/invoices/[id]/cancel-invoice-button";
+import { CreateCreditNoteButton } from "@/app/[locale]/admin/invoices/[id]/create-credit-note-button";
 
 const STATUS_TONE = {
   DRAFT: "neutral",
@@ -39,6 +41,8 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
       client: true,
       project: true,
       quote: true,
+      originalInvoice: true,
+      creditNotes: { orderBy: { createdAt: "asc" } },
       items: { orderBy: { position: "asc" } },
     },
   });
@@ -54,6 +58,10 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
 
   const canWrite = hasPermission(currentUser, "invoice.write") && invoice.status === "DRAFT";
   const canIssue = hasPermission(currentUser, "invoice.issue") && invoice.status === "DRAFT" && invoice.items.length > 0;
+  const canCancel =
+    hasPermission(currentUser, "invoice.issue") && (invoice.status === "SENT" || invoice.status === "OVERDUE");
+  const canCreateCreditNote =
+    hasPermission(currentUser, "invoice.write") && invoice.type !== "CREDIT_NOTE" && invoice.status !== "DRAFT";
 
   const [taxRates, services] = await Promise.all([
     prisma.taxRate.findMany({ where: { isActive: true }, orderBy: { ratePercent: "asc" } }),
@@ -89,6 +97,8 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
             </a>
           ) : null}
           {canIssue ? <IssueInvoiceButton invoiceId={invoice.id} /> : null}
+          {canCreateCreditNote ? <CreateCreditNoteButton invoiceId={invoice.id} /> : null}
+          {canCancel ? <CancelInvoiceButton invoiceId={invoice.id} /> : null}
           {canWrite ? <DeleteInvoiceButton invoiceId={invoice.id} clientId={invoice.client.id} /> : null}
           <Link href="/admin/invoices" className="text-sm font-medium text-brand-600 hover:underline">
             {t("backToInvoices")}
@@ -98,6 +108,35 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
 
       {!canWrite && invoice.status !== "DRAFT" ? (
         <p className="rounded-md border border-border bg-surface-muted px-3 py-2 text-sm text-foreground/70">{t("lockedNotice")}</p>
+      ) : null}
+
+      {invoice.status === "CANCELLED" && invoice.cancelReason ? (
+        <p className="rounded-md border border-danger-200 bg-danger-50 px-3 py-2 text-sm text-danger-700">
+          {t("cancelledNotice", { reason: invoice.cancelReason })}
+        </p>
+      ) : null}
+
+      {invoice.originalInvoice ? (
+        <p className="text-sm text-foreground/70">
+          {t("creditNoteOf")}{" "}
+          <Link href={`/admin/invoices/${invoice.originalInvoice.id}`} className="font-medium text-brand-600 hover:underline">
+            {invoice.originalInvoice.number ?? t("draftLabel")}
+          </Link>
+        </p>
+      ) : null}
+
+      {invoice.creditNotes.length > 0 ? (
+        <div className="text-sm text-foreground/70">
+          {t("creditNotesList")}{" "}
+          {invoice.creditNotes.map((cn, index) => (
+            <span key={cn.id}>
+              {index > 0 ? ", " : ""}
+              <Link href={`/admin/invoices/${cn.id}`} className="font-medium text-brand-600 hover:underline">
+                {cn.number ?? t("draftLabel")}
+              </Link>
+            </span>
+          ))}
+        </div>
       ) : null}
 
       <div className="grid gap-6 lg:grid-cols-3">

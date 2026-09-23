@@ -754,7 +754,14 @@
       },
       "issue": "إصدار",
       "issueConfirm": "إصدار هذه الفاتورة؟ لن يعد بالإمكان تعديلها.",
-      "issueConfirmYes": "نعم، أصدر"
+      "issueConfirmYes": "نعم، أصدر",
+      "cancelInvoice": "إلغاء",
+      "cancelReasonPlaceholder": "سبب الإلغاء",
+      "cancelInvoiceConfirmYes": "تأكيد الإلغاء",
+      "createCreditNote": "إنشاء إشعار دائن",
+      "cancelledNotice": "تم إلغاء الفاتورة. السبب: {reason}",
+      "creditNoteOf": "إشعار دائن للفاتورة",
+      "creditNotesList": "إشعارات دائنة مرتبطة:"
     }
   }
 }

@@ -754,7 +754,14 @@
       },
       "issue": "Issue",
       "issueConfirm": "Issue this invoice? It will no longer be editable.",
-      "issueConfirmYes": "Yes, issue"
+      "issueConfirmYes": "Yes, issue",
+      "cancelInvoice": "Cancel",
+      "cancelReasonPlaceholder": "Cancellation reason",
+      "cancelInvoiceConfirmYes": "Confirm cancellation",
+      "createCreditNote": "Create credit note",
+      "cancelledNotice": "Invoice cancelled. Reason: {reason}",
+      "creditNoteOf": "Credit note for invoice",
+      "creditNotesList": "Related credit notes:"
     }
   }
 }
