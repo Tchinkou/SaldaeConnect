@@ -12,7 +12,10 @@
     "quotesCardLink": "Voir mes devis",
     "projectsCard": "Projets",
     "projectsCardDescription": "Suivez l'avancement de vos projets.",
-    "projectsCardLink": "Voir mes projets"
+    "projectsCardLink": "Voir mes projets",
+    "invoicesCard": "Factures",
+    "invoicesCardDescription": "Consultez vos factures et leur statut de paiement.",
+    "invoicesCardLink": "Voir mes factures"
   },
   "quotes": {
     "title": "Vos devis",
@@ -131,6 +134,59 @@
         "bodyPlaceholder": "Écrire un message…",
         "add": "Envoyer"
       }
+    }
+  },
+  "invoices": {
+    "title": "Vos factures",
+    "empty": "Aucune facture pour le moment.",
+    "number": "Numéro",
+    "status": "Statut",
+    "total": "Total",
+    "typeValue": {
+      "STANDARD": "Facture",
+      "DEPOSIT": "Acompte",
+      "CREDIT_NOTE": "Avoir"
+    },
+    "statusValue": {
+      "SENT": "Émise",
+      "PARTIALLY_PAID": "Partiellement payée",
+      "PAID": "Payée",
+      "OVERDUE": "En retard",
+      "CANCELLED": "Annulée"
+    }
+  },
+  "invoiceDetail": {
+    "backToInvoices": "Retour à mes factures",
+    "issueDate": "Émise le",
+    "dueDate": "Échéance",
+    "downloadPdf": "Télécharger le PDF",
+    "items": "Détail",
+    "itemTitle": "Désignation",
+    "itemQuantity": "Quantité",
+    "itemUnitPrice": "Prix unitaire",
+    "itemTotal": "Total ligne",
+    "payments": "Paiements",
+    "totals": "Totaux",
+    "subtotal": "Sous-total",
+    "discountTotal": "Remise",
+    "taxTotal": "Taxes",
+    "total": "Total",
+    "amountPaid": "Payé",
+    "balanceDue": "Solde restant",
+    "cancelledNotice": "Cette facture a été annulée.",
+    "overdueNotice": "Cette facture est en retard de paiement.",
+    "creditNoteOf": "Avoir sur la facture",
+    "typeValue": {
+      "STANDARD": "Facture",
+      "DEPOSIT": "Acompte",
+      "CREDIT_NOTE": "Avoir"
+    },
+    "statusValue": {
+      "SENT": "Émise",
+      "PARTIALLY_PAID": "Partiellement payée",
+      "PAID": "Payée",
+      "OVERDUE": "En retard",
+      "CANCELLED": "Annulée"
     }
   }
 }

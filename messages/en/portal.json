@@ -12,7 +12,10 @@
     "quotesCardLink": "View my quotes",
     "projectsCard": "Projects",
     "projectsCardDescription": "Track the progress of your projects.",
-    "projectsCardLink": "View my projects"
+    "projectsCardLink": "View my projects",
+    "invoicesCard": "Invoices",
+    "invoicesCardDescription": "View your invoices and their payment status.",
+    "invoicesCardLink": "View my invoices"
   },
   "quotes": {
     "title": "Your quotes",
@@ -131,6 +134,59 @@
         "bodyPlaceholder": "Write a message…",
         "add": "Send"
       }
+    }
+  },
+  "invoices": {
+    "title": "Your invoices",
+    "empty": "No invoices yet.",
+    "number": "Number",
+    "status": "Status",
+    "total": "Total",
+    "typeValue": {
+      "STANDARD": "Invoice",
+      "DEPOSIT": "Deposit",
+      "CREDIT_NOTE": "Credit note"
+    },
+    "statusValue": {
+      "SENT": "Issued",
+      "PARTIALLY_PAID": "Partially paid",
+      "PAID": "Paid",
+      "OVERDUE": "Overdue",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "invoiceDetail": {
+    "backToInvoices": "Back to my invoices",
+    "issueDate": "Issued on",
+    "dueDate": "Due date",
+    "downloadPdf": "Download PDF",
+    "items": "Details",
+    "itemTitle": "Description",
+    "itemQuantity": "Quantity",
+    "itemUnitPrice": "Unit price",
+    "itemTotal": "Line total",
+    "payments": "Payments",
+    "totals": "Totals",
+    "subtotal": "Subtotal",
+    "discountTotal": "Discount",
+    "taxTotal": "Tax",
+    "total": "Total",
+    "amountPaid": "Paid",
+    "balanceDue": "Balance due",
+    "cancelledNotice": "This invoice was cancelled.",
+    "overdueNotice": "This invoice is overdue.",
+    "creditNoteOf": "Credit note for invoice",
+    "typeValue": {
+      "STANDARD": "Invoice",
+      "DEPOSIT": "Deposit",
+      "CREDIT_NOTE": "Credit note"
+    },
+    "statusValue": {
+      "SENT": "Issued",
+      "PARTIALLY_PAID": "Partially paid",
+      "PAID": "Paid",
+      "OVERDUE": "Overdue",
+      "CANCELLED": "Cancelled"
     }
   }
 }

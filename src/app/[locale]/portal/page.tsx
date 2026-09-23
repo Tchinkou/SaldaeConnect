@@ -36,6 +36,18 @@ export default async function PortalDashboardPage() {
           </Link>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">{t("invoicesCard")}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <p className="text-sm text-foreground/70">{t("invoicesCardDescription")}</p>
+          <Link href="/portal/invoices" className="text-sm font-medium text-brand-600 hover:underline">
+            {t("invoicesCardLink")}
+          </Link>
+        </CardContent>
+      </Card>
     </div>
   );
 }

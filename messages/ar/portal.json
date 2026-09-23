@@ -12,7 +12,10 @@
     "quotesCardLink": "عرض عروض أسعاري",
     "projectsCard": "المشاريع",
     "projectsCardDescription": "تابع تقدم مشاريعك.",
-    "projectsCardLink": "عرض مشاريعي"
+    "projectsCardLink": "عرض مشاريعي",
+    "invoicesCard": "الفواتير",
+    "invoicesCardDescription": "اطّلع على فواتيرك وحالة دفعها.",
+    "invoicesCardLink": "عرض فواتيري"
   },
   "quotes": {
     "title": "عروض أسعارك",
@@ -131,6 +134,59 @@
         "bodyPlaceholder": "اكتب رسالة…",
         "add": "إرسال"
       }
+    }
+  },
+  "invoices": {
+    "title": "فواتيرك",
+    "empty": "لا توجد فواتير بعد.",
+    "number": "الرقم",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "typeValue": {
+      "STANDARD": "فاتورة",
+      "DEPOSIT": "دفعة مقدمة",
+      "CREDIT_NOTE": "إشعار دائن"
+    },
+    "statusValue": {
+      "SENT": "صادرة",
+      "PARTIALLY_PAID": "مدفوعة جزئيًا",
+      "PAID": "مدفوعة",
+      "OVERDUE": "متأخرة",
+      "CANCELLED": "ملغاة"
+    }
+  },
+  "invoiceDetail": {
+    "backToInvoices": "العودة إلى فواتيري",
+    "issueDate": "صدرت في",
+    "dueDate": "تاريخ الاستحقاق",
+    "downloadPdf": "تحميل PDF",
+    "items": "التفاصيل",
+    "itemTitle": "الوصف",
+    "itemQuantity": "الكمية",
+    "itemUnitPrice": "سعر الوحدة",
+    "itemTotal": "إجمالي السطر",
+    "payments": "المدفوعات",
+    "totals": "الإجماليات",
+    "subtotal": "المجموع الفرعي",
+    "discountTotal": "الخصم",
+    "taxTotal": "الضريبة",
+    "total": "الإجمالي",
+    "amountPaid": "المدفوع",
+    "balanceDue": "الرصيد المتبقي",
+    "cancelledNotice": "تم إلغاء هذه الفاتورة.",
+    "overdueNotice": "هذه الفاتورة متأخرة السداد.",
+    "creditNoteOf": "إشعار دائن للفاتورة",
+    "typeValue": {
+      "STANDARD": "فاتورة",
+      "DEPOSIT": "دفعة مقدمة",
+      "CREDIT_NOTE": "إشعار دائن"
+    },
+    "statusValue": {
+      "SENT": "صادرة",
+      "PARTIALLY_PAID": "مدفوعة جزئيًا",
+      "PAID": "مدفوعة",
+      "OVERDUE": "متأخرة",
+      "CANCELLED": "ملغاة"
     }
   }
 }
