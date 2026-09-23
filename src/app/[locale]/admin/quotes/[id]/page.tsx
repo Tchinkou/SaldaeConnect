@@ -13,6 +13,7 @@ import { QuoteHeaderForm } from "@/app/[locale]/admin/quotes/[id]/quote-header-f
 import { QuoteItemsEditor } from "@/app/[locale]/admin/quotes/[id]/quote-items-editor";
 import { QuoteInstallmentsEditor } from "@/app/[locale]/admin/quotes/[id]/quote-installments-editor";
 import { DeleteQuoteButton } from "@/app/[locale]/admin/quotes/[id]/delete-quote-button";
+import { SendQuoteButton } from "@/app/[locale]/admin/quotes/[id]/send-quote-button";
 
 const STATUS_TONE = {
   DRAFT: "neutral",
@@ -42,6 +43,7 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
       opportunity: true,
       items: { orderBy: { position: "asc" } },
       installments: { orderBy: { position: "asc" } },
+      versions: { orderBy: { version: "desc" }, take: 1 },
     },
   });
 
@@ -55,6 +57,7 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
   }
 
   const canWrite = hasPermission(currentUser, "quote.write") && quote.status === "DRAFT";
+  const canSend = hasPermission(currentUser, "quote.send") && quote.status === "DRAFT" && quote.items.length > 0;
 
   const [taxRates, services] = await Promise.all([
     prisma.taxRate.findMany({ where: { isActive: true }, orderBy: { ratePercent: "asc" } }),
@@ -84,6 +87,15 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
           </div>
         </div>
         <div className="flex items-center gap-3">
+          {quote.versions[0]?.pdfFileId ? (
+            <a
+              href={`/api/files/${quote.versions[0].pdfFileId}`}
+              className="text-sm font-medium text-brand-600 hover:underline"
+            >
+              {t("downloadPdf")}
+            </a>
+          ) : null}
+          {canSend ? <SendQuoteButton quoteId={quote.id} /> : null}
           {canWrite ? <DeleteQuoteButton quoteId={quote.id} clientId={quote.client.id} /> : null}
           <Link href="/admin/quotes" className="text-sm font-medium text-brand-600 hover:underline">
             {t("backToQuotes")}

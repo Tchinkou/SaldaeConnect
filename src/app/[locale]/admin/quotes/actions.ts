@@ -1,5 +1,6 @@
 "use server";
 import "server-only";
+import { randomBytes, createHash } from "node:crypto";
 import { z } from "zod";
 import { defineAction } from "@/server/core/action";
 import { prisma } from "@/server/core/db/client";
@@ -9,8 +10,15 @@ import type { CurrentUser } from "@/server/core/authz/session";
 import { assertQuoteOwnerInScope } from "@/server/core/authz/ownership";
 import { convertLeadToClient } from "@/server/core/crm/convert";
 import { recomputeQuoteTotals, assertQuoteIsDraft } from "@/server/core/quotes/totals";
+import { buildQuotePdfHtml } from "@/server/core/quotes/pdf-template";
 import { recordActivity } from "@/server/core/crm/timeline";
+import { advanceOpportunityStage } from "@/server/core/crm/stage";
 import { toMinorUnits } from "@/server/core/money";
+import { nextNumber } from "@/server/core/numbering";
+import { getPdfRenderer } from "@/server/core/pdf";
+import { storeGeneratedFile } from "@/server/core/storage";
+import { env } from "@/server/core/env";
+import { sendQuoteAvailableEmail } from "@/server/core/email/send-quote-available-email";
 
 /** Charge un devis en écriture : vérifie le périmètre (via le client rattaché) et qu'il est encore en brouillon. */
 async function loadDraftQuoteForWrite(tx: Prisma.TransactionClient, user: CurrentUser, quoteId: string) {
@@ -319,4 +327,217 @@ export const deleteQuoteAction = defineAction({
     });
   },
   audit: { category: "BUSINESS", action: "quote.delete", entityType: "Quote", entityId: (input) => input.quoteId },
+});
+
+/**
+ * Envoi d'un devis (§F.2) : recalcule les totaux, fige une `QuoteVersion`
+ * (instantané + PDF + empreinte SHA-256), passe le devis en "Envoyé", fait
+ * avancer l'opportunité, invite le client au portail s'il n'y a pas encore
+ * accès. Découpé en trois étapes plutôt qu'une seule transaction Postgres
+ * unique : le rendu PDF (Chromium, un sous-processus externe) ne doit pas
+ * tenir une connexion/transaction Postgres ouverte pendant qu'il tourne.
+ * Rien n'est jamais marqué "Envoyé" sans qu'une version et un PDF existent
+ * réellement (§48) — un échec entre le rendu et la validation finale laisse
+ * au pire un fichier PDF orphelin sur disque, jamais un devis dans un état
+ * incohérent.
+ */
+const sendQuoteSchema = z.object({ quoteId: z.string().min(1) });
+
+export const sendQuoteAction = defineAction({
+  permission: "quote.send",
+  schema: sendQuoteSchema,
+  audit: { category: "BUSINESS", action: "quote.send", entityType: "Quote", entityId: (input) => input.quoteId },
+  handler: async (input, { user }) => {
+    const prepared = await prisma.$transaction(async (tx) => {
+      const quote = await tx.quote.findUnique({
+        where: { id: input.quoteId },
+        include: {
+          client: true,
+          items: { orderBy: { position: "asc" } },
+          installments: { orderBy: { position: "asc" } },
+        },
+      });
+      if (!quote) throw new ValidationError("Devis introuvable.");
+      assertQuoteOwnerInScope(user, "quote.send", quote.client.ownerId);
+      assertQuoteIsDraft(quote.status);
+      if (quote.items.length === 0) {
+        throw new ValidationError("Le devis doit contenir au moins une ligne avant d'être envoyé.");
+      }
+
+      await recomputeQuoteTotals(tx, quote.id);
+
+      let number = quote.number;
+      if (!number) {
+        number = await nextNumber(tx, "QUOTE");
+        await tx.quote.update({ where: { id: quote.id }, data: { number } });
+      }
+
+      const contact = quote.contactId
+        ? await tx.clientContact.findUnique({ where: { id: quote.contactId } })
+        : await tx.clientContact.findFirst({
+            where: { clientId: quote.clientId, email: { not: null } },
+            orderBy: [{ isPrimary: "desc" }],
+          });
+      if (!contact || !contact.email) {
+        throw new ValidationError("Aucun contact avec adresse email pour ce client — ajoutez-en un avant l'envoi.");
+      }
+      const contactEmail = contact.email;
+
+      const [brandSetting, legalSetting] = await Promise.all([
+        tx.setting.findUnique({ where: { key: "brand" } }),
+        tx.setting.findUnique({ where: { key: "legal" } }),
+      ]);
+
+      return {
+        quote: { ...quote, number },
+        contactId: contact.id,
+        contactUserId: contact.userId,
+        contactEmail,
+        brandName: (brandSetting?.value as { name?: string } | null)?.name ?? "SaldaeConnect",
+        legalName: (legalSetting?.value as { legalName?: string | null } | null)?.legalName ?? null,
+      };
+    });
+
+    const { quote, contactUserId, contactEmail, brandName, legalName } = prepared;
+
+    const html = buildQuotePdfHtml({
+      number: quote.number,
+      title: quote.title,
+      locale: quote.locale,
+      currency: quote.currency,
+      sentAt: new Date(),
+      validUntil: quote.validUntil,
+      introduction: quote.introduction,
+      terms: quote.terms,
+      subtotal: quote.subtotal,
+      discountTotal: quote.discountTotal,
+      taxTotal: quote.taxTotal,
+      total: quote.total,
+      items: quote.items.map((item) => ({
+        title: item.title,
+        description: item.description,
+        quantity: Number(item.quantity),
+        unit: item.unit,
+        unitPrice: item.unitPrice,
+        lineTotal: item.lineTotal,
+      })),
+      installments: quote.installments.map((installment) => ({
+        label: installment.label,
+        percent: installment.percent != null ? Number(installment.percent) : null,
+        amount: installment.amount,
+      })),
+      brandName,
+      legalName,
+      clientDisplayName: quote.client.displayName,
+      clientAddress: [quote.client.address, quote.client.city, quote.client.country].filter(Boolean).join(", ") || null,
+    });
+
+    const pdfBytes = await getPdfRenderer().render(html);
+    const stored = await storeGeneratedFile(pdfBytes);
+
+    const outcome = await prisma.$transaction(async (tx) => {
+      const current = await tx.quote.findUniqueOrThrow({ where: { id: quote.id } });
+      assertQuoteIsDraft(current.status);
+
+      const file = await tx.file.create({
+        data: {
+          storageKey: stored.storageKey,
+          originalName: `Devis-${quote.number}.pdf`,
+          safeName: `devis-${quote.number}.pdf`,
+          mimeType: "application/pdf",
+          sizeBytes: stored.sizeBytes,
+          sha256: stored.sha256,
+          uploadedById: user.user.id,
+          visibility: "CLIENT",
+          category: "QUOTE_PDF",
+          status: "ACTIVE",
+          clientId: quote.clientId,
+        },
+      });
+
+      const version = quote.currentVersion + 1;
+      await tx.quoteVersion.create({
+        data: {
+          quoteId: quote.id,
+          version,
+          snapshot: {
+            number: quote.number,
+            title: quote.title,
+            introduction: quote.introduction,
+            terms: quote.terms,
+            currency: quote.currency,
+            subtotal: quote.subtotal.toString(),
+            discountTotal: quote.discountTotal.toString(),
+            taxTotal: quote.taxTotal.toString(),
+            total: quote.total.toString(),
+            items: quote.items.map((item) => ({
+              title: item.title,
+              description: item.description,
+              quantity: item.quantity.toString(),
+              unit: item.unit,
+              unitPrice: item.unitPrice.toString(),
+              discountPercent: item.discountPercent.toString(),
+              taxRatePercent: item.taxRatePercent?.toString() ?? null,
+              lineTotal: item.lineTotal.toString(),
+            })),
+            installments: quote.installments.map((installment) => ({
+              label: installment.label,
+              percent: installment.percent?.toString() ?? null,
+              amount: installment.amount?.toString() ?? null,
+              trigger: installment.trigger,
+            })),
+          },
+          pdfFileId: file.id,
+          contentHash: stored.sha256,
+          sentById: user.user.id,
+        },
+      });
+
+      await tx.quote.update({
+        where: { id: quote.id },
+        data: { status: "SENT", sentAt: new Date(), currentVersion: version },
+      });
+
+      await recordActivity(tx, {
+        type: "SYSTEM",
+        subject: "Devis envoyé au client",
+        actorId: user.user.id,
+        clientId: quote.clientId,
+        opportunityId: quote.opportunityId ?? undefined,
+        quoteId: quote.id,
+      });
+
+      if (quote.opportunityId) {
+        await advanceOpportunityStage(tx, quote.opportunityId, "quote_sent", user.user.id);
+      }
+
+      let acceptUrl: string | null = null;
+      if (!contactUserId) {
+        await tx.invitation.deleteMany({ where: { email: contactEmail, clientId: quote.clientId, acceptedAt: null } });
+        const rawToken = randomBytes(32).toString("base64url");
+        const tokenHash = createHash("sha256").update(rawToken).digest("hex");
+        await tx.invitation.create({
+          data: {
+            email: contactEmail,
+            clientId: quote.clientId,
+            tokenHash,
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            invitedById: user.user.id,
+          },
+        });
+        acceptUrl = `${env.NEXT_PUBLIC_APP_URL}/${quote.locale}/accept-invitation/${rawToken}`;
+      }
+
+      return { acceptUrl };
+    });
+
+    try {
+      const ctaUrl = outcome.acceptUrl ?? `${env.NEXT_PUBLIC_APP_URL}/${quote.locale}/login`;
+      await sendQuoteAvailableEmail({ to: contactEmail, quoteNumber: quote.number, ctaUrl, locale: quote.locale });
+    } catch (error) {
+      console.error("Échec de l'envoi de l'email de disponibilité d'un devis", error);
+    }
+
+    return { quoteId: quote.id };
+  },
 });
