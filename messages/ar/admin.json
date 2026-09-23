@@ -365,7 +365,17 @@
       "titlePlaceholder": "عنوان المهمة…",
       "unassigned": "غير مُسندة",
       "add": "إضافة",
-      "visibleToClient": "مرئي للعميل"
+      "visibleToClient": "مرئي للعميل",
+      "comment": {
+        "show": "التعليقات",
+        "hide": "إخفاء",
+        "loading": "جارٍ التحميل…",
+        "empty": "لا توجد تعليقات.",
+        "unknownAuthor": "مستخدم محذوف",
+        "visibleToClient": "مرئي للعميل",
+        "bodyPlaceholder": "أضف تعليقًا…",
+        "add": "إضافة"
+      }
     },
     "activity": {
       "empty": "لا يوجد نشاط حتى الآن.",

@@ -164,6 +164,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   priority: task.priority,
                   dueAt: task.dueAt ? task.dueAt.toISOString() : null,
                   assigneeName: task.assigneeId ? (nameById.get(task.assigneeId) ?? null) : null,
+                  isProjectTask: true,
                 }))}
               />
             </CardContent>

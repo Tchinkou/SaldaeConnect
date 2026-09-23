@@ -365,7 +365,17 @@
       "titlePlaceholder": "Task title…",
       "unassigned": "Unassigned",
       "add": "Add",
-      "visibleToClient": "Visible to client"
+      "visibleToClient": "Visible to client",
+      "comment": {
+        "show": "Comments",
+        "hide": "Hide",
+        "loading": "Loading…",
+        "empty": "No comments.",
+        "unknownAuthor": "Deleted user",
+        "visibleToClient": "Visible to client",
+        "bodyPlaceholder": "Add a comment…",
+        "add": "Add"
+      }
     },
     "activity": {
       "empty": "No activity yet.",

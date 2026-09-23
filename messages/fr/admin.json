@@ -365,7 +365,17 @@
       "titlePlaceholder": "Titre de la tâche…",
       "unassigned": "Non assigné",
       "add": "Ajouter",
-      "visibleToClient": "Visible par le client"
+      "visibleToClient": "Visible par le client",
+      "comment": {
+        "show": "Commentaires",
+        "hide": "Masquer",
+        "loading": "Chargement…",
+        "empty": "Aucun commentaire.",
+        "unknownAuthor": "Utilisateur supprimé",
+        "visibleToClient": "Visible par le client",
+        "bodyPlaceholder": "Ajouter un commentaire…",
+        "add": "Ajouter"
+      }
     },
     "activity": {
       "empty": "Aucune activité pour le moment.",
