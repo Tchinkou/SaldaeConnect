@@ -1,0 +1,14 @@
+// Schéma Prisma de SaldaeConnect — fichier de base (générateur, datasource).
+// Le schéma est découpé par domaine métier (voir docs/database.md) ; Prisma
+// fusionne tous les fichiers du dossier prisma/schema au moment de la
+// validation et de la génération.
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../../src/generated/prisma"
+  previewFeatures = ["fullTextSearchPostgres", "partialIndexes"]
+}
+
+datasource db {
+  provider = "postgresql"
+}

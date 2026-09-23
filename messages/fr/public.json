@@ -1,0 +1,17 @@
+{
+  "home": {
+    "badge": "Phase 1 — Fondations",
+    "title": "L'agence numérique de Béjaïa, pensée pour durer.",
+    "subtitle": "SaldaeConnect combine développement, design et démarches numériques dans une seule plateforme. Cette page vérifie que les fondations techniques — langues, RTL, design system — fonctionnent avant la construction du site public.",
+    "ctaPrimary": "Démarrer un projet",
+    "ctaSecondary": "Découvrir nos services",
+    "checklistTitle": "Ce que cette page démontre",
+    "checklist": {
+      "i18n": "Trois langues (FR/EN/AR) via des URL préfixées",
+      "rtl": "Mise en page RTL correcte en arabe (icônes, espacements logiques)",
+      "designSystem": "Jetons de couleur, typographie et composants de base partagés",
+      "fonts": "Polices dédiées par langue (latine et arabe)"
+    },
+    "comingSoon": "Le site public complet (services, portfolio, formulaire de devis) arrive en phase 3."
+  }
+}

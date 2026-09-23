@@ -1,0 +1,51 @@
+{
+  "name": "saldaeconnect",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed/index.ts",
+    "db:studio": "prisma studio",
+    "db:reset-dev": "tsx prisma/seed/lib/reset-dev-data.ts",
+    "auth:generate": "echo 'Retirez temporairement les imports \"server-only\" de src/server/core/** (voir docs/architecture.md §A.5), puis lancez : npx @better-auth/cli generate --output prisma/schema/10-identity.prisma'",
+    "create-admin": "tsx scripts/create-admin.ts"
+  },
+  "dependencies": {
+    "@node-rs/argon2": "^2.2.1",
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "better-auth": "^1.7.5",
+    "class-variance-authority": "^0.7.1",
+    "client-only": "^0.0.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^18.0.3",
+    "next": "16.3.6",
+    "next-intl": "^4.14.6",
+    "pg": "^8.23.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.19.43",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "prisma": "^7.10.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,94 @@
+// Domaine réservations (voir docs/database.md §B.3 et docs/architecture.md §D.5).
+
+enum ReservationStatus {
+  REQUESTED
+  CONFIRMED
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum AvailabilityExceptionType {
+  CLOSED
+  EXTRA
+}
+
+model AvailabilityRule {
+  id        String    @id @default(uuid(7))
+  serviceId String?
+  weekday   Int // 0 = dimanche … 6 = samedi
+  startTime String // "09:00"
+  endTime   String // "17:00"
+  validFrom DateTime?
+  validTo   DateTime?
+
+  service Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId, weekday])
+  @@map("availability_rules")
+}
+
+model AvailabilityException {
+  id        String                    @id @default(uuid(7))
+  date      DateTime                  @db.Date
+  startTime String?
+  endTime   String?
+  type      AvailabilityExceptionType
+  reason    String?
+
+  @@index([date])
+  @@map("availability_exceptions")
+}
+
+model Reservation {
+  id                    String            @id @default(uuid(7))
+  number                String            @unique
+  serviceId             String
+  clientId              String?
+  leadId                String?
+  /// Instantané des coordonnées au moment de la demande (nom, email, téléphone).
+  contact               Json
+  status                ReservationStatus @default(REQUESTED)
+  startsAt              DateTime?
+  endsAt                DateTime?
+  preferredFrom         DateTime?
+  preferredTo           DateTime?
+  externalAppointmentAt DateTime?
+  externalReference     String?
+  /// Réponses au formulaire ; les champs sensibles (n° de passeport…) sont
+  /// chiffrés individuellement avant écriture (voir server/core/crypto).
+  answers               Json?
+  assignedToId          String?
+  cancelReason          String?
+  invoiceId             String?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  service Service  @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  client  Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  lead    Lead?    @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  invoice Invoice? @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+
+  statusChanges ReservationStatusChange[]
+  conversations Conversation[]
+  files         File[]
+
+  @@index([serviceId, startsAt])
+  @@index([status])
+  @@map("reservations")
+}
+
+model ReservationStatusChange {
+  id            String             @id @default(uuid(7))
+  reservationId String
+  fromStatus    ReservationStatus?
+  toStatus      ReservationStatus
+  changedById   String?
+  note          String?
+  createdAt     DateTime           @default(now())
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId, createdAt])
+  @@map("reservation_status_changes")
+}

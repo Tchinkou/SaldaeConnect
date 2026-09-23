@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "SaldaeConnect"
+  },
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "portfolio": "Réalisations",
+    "about": "À propos",
+    "contact": "Contact",
+    "login": "Se connecter"
+  },
+  "localeSwitcher": {
+    "label": "Langue",
+    "fr": "Français",
+    "en": "English",
+    "ar": "العربية"
+  },
+  "footer": {
+    "rights": "Tous droits réservés.",
+    "legalNotice": "Mentions légales",
+    "privacy": "Confidentialité"
+  },
+  "actions": {
+    "retry": "Réessayer"
+  }
+}

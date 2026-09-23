@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/*
+ * Jetons du design system SaldaeConnect (voir docs/architecture.md, Annexe 1).
+ * Toute couleur, tout composant lit ces variables — jamais de couleur en dur.
+ * Les couleurs de marque (--brand-*) sont la valeur par défaut ; en
+ * production elles seront injectées depuis Setting.theme (phase 2).
+ */
+:root {
+  --color-ink-950: #0b1220;
+  --color-ink-900: #101a2c;
+  --color-ink-700: #33415a;
+  --color-ink-500: #5b6b85;
+  --color-ink-300: #a3aec2;
+  --color-ink-100: #e8ecf3;
+  --color-ink-50: #f5f7fa;
+
+  --color-brand-700: #1742a8;
+  --color-brand-600: #1d4ed8;
+  --color-brand-500: #3b6ae4;
+  --color-brand-100: #dbe6fb;
+  --color-brand-50: #eef3fd;
+
+  --color-accent-600: #b8763a;
+  --color-accent-500: #d08c4a;
+  --color-accent-100: #f5e3d0;
+
+  --color-success-600: #15803d;
+  --color-success-100: #dcfce7;
+  --color-warning-600: #b45309;
+  --color-warning-100: #fef3c7;
+  --color-danger-600: #b91c1c;
+  --color-danger-100: #fee2e2;
+  --color-info-600: #0369a1;
+  --color-info-100: #e0f2fe;
+
+  --background: #ffffff;
+  --foreground: var(--color-ink-950);
+  --surface: #ffffff;
+  --surface-muted: var(--color-ink-50);
+  --border: var(--color-ink-100);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 1px 2px rgb(11 18 32 / 0.06);
+  --shadow-md: 0 4px 16px rgb(11 18 32 / 0.08);
+  --shadow-lg: 0 16px 40px rgb(11 18 32 / 0.12);
+
+  --font-latin-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-latin-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-ibm-plex-arabic), "Segoe UI", Tahoma, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: var(--color-ink-950);
+    --foreground: var(--color-ink-50);
+    --surface: var(--color-ink-900);
+    --surface-muted: #16213a;
+    --border: #223047;
+  }
+}
+
+:root[data-theme="dark"] {
+  --background: var(--color-ink-950);
+  --foreground: var(--color-ink-50);
+  --surface: var(--color-ink-900);
+  --surface-muted: #16213a;
+  --border: #223047;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+
+  --color-ink-950: var(--color-ink-950);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-500: var(--color-ink-500);
+  --color-ink-300: var(--color-ink-300);
+  --color-ink-100: var(--color-ink-100);
+  --color-ink-50: var(--color-ink-50);
+
+  --color-brand-700: var(--color-brand-700);
+  --color-brand-600: var(--color-brand-600);
+  --color-brand-500: var(--color-brand-500);
+  --color-brand-100: var(--color-brand-100);
+  --color-brand-50: var(--color-brand-50);
+
+  --color-accent-600: var(--color-accent-600);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-100: var(--color-accent-100);
+
+  --color-success-600: var(--color-success-600);
+  --color-success-100: var(--color-success-100);
+  --color-warning-600: var(--color-warning-600);
+  --color-warning-100: var(--color-warning-100);
+  --color-danger-600: var(--color-danger-600);
+  --color-danger-100: var(--color-danger-100);
+  --color-info-600: var(--color-info-600);
+  --color-info-100: var(--color-info-100);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --font-sans: var(--font-latin-sans);
+  --font-body: var(--font-latin-body);
+  --font-arabic: var(--font-arabic);
+}
+
+/* La langue arabe utilise sa propre police, appliquée via [dir="rtl"]. */
+[dir="rtl"] {
+  --font-latin-sans: var(--font-arabic);
+  --font-latin-body: var(--font-arabic);
+  font-feature-settings: normal;
+  letter-spacing: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-latin-body);
+}
+
+/* Respecte la préférence de réduction des animations (§39). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

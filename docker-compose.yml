@@ -1,0 +1,64 @@
+name: saldaeconnect
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: saldaeconnect
+      POSTGRES_PASSWORD: saldaeconnect_dev
+      POSTGRES_DB: saldaeconnect
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saldaeconnect"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Base séparée utilisée uniquement par `prisma migrate dev` pour calculer
+  # les migrations (voir SHADOW_DATABASE_URL dans .env.example).
+  postgres-shadow:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: saldaeconnect
+      POSTGRES_PASSWORD: saldaeconnect_dev
+      POSTGRES_DB: saldaeconnect_shadow
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_shadow_data:/var/lib/postgresql/data
+
+  # Boîte mail de développement : capture tous les emails sortants au lieu
+  # de les envoyer réellement. Interface sur http://localhost:8025.
+  # Utilisez EMAIL_PROVIDER=console (par défaut) tant que l'abstraction SMTP
+  # n'est pas branchée dessus, ou consultez les journaux du terminal.
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+  # Stockage compatible S3 pour le développement local (voir
+  # STORAGE_PROVIDER=s3 dans .env.example une fois l'intégration branchée).
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: saldaeconnect
+      MINIO_ROOT_PASSWORD: saldaeconnect_dev
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  postgres_data:
+  postgres_shadow_data:
+  minio_data:

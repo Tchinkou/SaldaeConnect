@@ -1,0 +1,46 @@
+// Domaine audit et sécurité (voir docs/database.md §B.3 et docs/architecture.md §H.5).
+
+enum AuditCategory {
+  SECURITY
+  BUSINESS
+  DATA
+}
+
+/// Journal d'actions sensibles, en ajout seul (append-only) — l'application
+/// n'a aucune fonction de modification ou de suppression sur cette table.
+model AuditLog {
+  id          String        @id @default(uuid(7))
+  category    AuditCategory
+  actorUserId String?
+  /// Nom affiché figé au moment de l'action (survit à la suppression du compte).
+  actorLabel  String?
+  actorRoles  String[]      @default([])
+  /// "quote.update", "auth.login_failed"…
+  action      String
+  entityType  String?
+  entityId    String?
+  entityLabel String? // ex. "DEV-2026-0012"
+  /// Avant/après ; les champs sensibles sont masqués avant écriture.
+  changes     Json?
+  ip          String?
+  userAgent   String?
+  requestId   String?
+  createdAt   DateTime      @default(now())
+
+  actor User? @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([actorUserId, createdAt])
+  @@index([action, createdAt])
+  @@map("audit_logs")
+}
+
+/// Compteurs de limitation de débit (implémentation PostgreSQL par défaut,
+/// voir server/core/rate-limit — un adaptateur Redis reste possible plus tard).
+model RateLimitBucket {
+  key         String   @id
+  windowStart DateTime
+  count       Int      @default(0)
+
+  @@map("rate_limit_buckets")
+}

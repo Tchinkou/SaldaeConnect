@@ -1,0 +1,17 @@
+{
+  "home": {
+    "badge": "Phase 1 — Foundations",
+    "title": "Béjaïa's digital agency, built to last.",
+    "subtitle": "SaldaeConnect brings development, design and digital services together in one platform. This page checks that the technical foundations — languages, RTL, design system — work before the public site is built.",
+    "ctaPrimary": "Start a project",
+    "ctaSecondary": "Explore our services",
+    "checklistTitle": "What this page demonstrates",
+    "checklist": {
+      "i18n": "Three languages (FR/EN/AR) via prefixed URLs",
+      "rtl": "Correct RTL layout in Arabic (icons, logical spacing)",
+      "designSystem": "Shared color, typography and component tokens",
+      "fonts": "Dedicated fonts per language (Latin and Arabic)"
+    },
+    "comingSoon": "The full public site (services, portfolio, quote form) ships in phase 3."
+  }
+}

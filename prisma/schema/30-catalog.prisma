@@ -1,0 +1,185 @@
+// Domaine catalogue (voir docs/database.md §B.3 et docs/architecture.md §0.3-4).
+
+enum ServiceFulfillmentType {
+  QUOTE // sur devis : développement, branding, portfolio…
+  RECURRING // forfait / récurrent : réseaux sociaux, publicité
+  BOOKING // réservation : rendez-vous visa, TCF
+  TRANSACTION // transaction : change, cartes prépayées, Paysera
+}
+
+enum PriceDisplay {
+  HIDDEN
+  FROM
+  RANGE
+  FIXED
+}
+
+enum BillingInterval {
+  MONTH
+  QUARTER
+  YEAR
+}
+
+model ServiceCategory {
+  id       String  @id @default(uuid(7))
+  order    Int     @default(0)
+  icon     String?
+  isActive Boolean @default(true)
+
+  translations ServiceCategoryTranslation[]
+  services     Service[]
+
+  @@map("service_categories")
+}
+
+model ServiceCategoryTranslation {
+  id          String  @id @default(uuid(7))
+  parentId    String
+  locale      String
+  name        String
+  slug        String
+  description String?
+
+  parent ServiceCategory @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@unique([locale, slug])
+  @@map("service_category_translations")
+}
+
+model Service {
+  id                 String                 @id @default(uuid(7))
+  categoryId         String
+  fulfillmentType    ServiceFulfillmentType
+  isActive           Boolean                @default(true)
+  isFeatured         Boolean                @default(false)
+  order              Int                    @default(0)
+  icon               String?
+  imageFileId        String?
+  indicativePrice    BigInt?
+  indicativeCurrency String?
+  priceDisplay       PriceDisplay           @default(HIDDEN)
+  requestFormId      String?
+  /// Réglages de réservation {mode, slotMinutes, capacityPerSlot, minNoticeHours,
+  /// maxAdvanceDays, requiredDocuments, fee} — validés par Zod côté application.
+  bookingConfig      Json?
+  deletedAt          DateTime?
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
+
+  category    ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  requestForm RequestForm?    @relation("DefaultForm", fields: [requestFormId], references: [id], onDelete: SetNull)
+
+  translations      ServiceTranslation[]
+  faqs              ServiceFaq[]
+  plans             ServicePlan[]
+  requestForms      RequestForm[]        @relation("ServiceForms")
+  opportunities     Opportunity[]
+  products          Product[]
+  subscriptions     Subscription[]
+  availabilityRules AvailabilityRule[]
+  reservations      Reservation[]
+  portfolioProjects PortfolioProject[]   @relation("PortfolioServices")
+
+  @@index([categoryId, isActive])
+  @@index([fulfillmentType])
+  @@map("services")
+}
+
+model ServiceTranslation {
+  id                String  @id @default(uuid(7))
+  serviceId         String
+  locale            String
+  name              String
+  slug              String
+  shortDescription  String?
+  /// Blocs de contenu structuré (présentation, avantages, processus, exemples).
+  content           Json?
+  estimatedDuration String?
+  seoTitle          String?
+  seoDescription    String?
+  ogImageFileId     String?
+  noindex           Boolean @default(false)
+  isPublished       Boolean @default(false)
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, locale])
+  @@unique([locale, slug])
+  @@map("service_translations")
+}
+
+model ServiceFaq {
+  id        String  @id @default(uuid(7))
+  serviceId String
+  order     Int     @default(0)
+  isActive  Boolean @default(true)
+
+  service      Service                 @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  translations ServiceFaqTranslation[]
+
+  @@index([serviceId, order])
+  @@map("service_faqs")
+}
+
+model ServiceFaqTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  question String
+  answer   String
+
+  parent ServiceFaq @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("service_faq_translations")
+}
+
+model ServicePlan {
+  id              String          @id @default(uuid(7))
+  serviceId       String
+  billingInterval BillingInterval
+  price           BigInt
+  currency        String
+  isActive        Boolean         @default(true)
+  order           Int             @default(0)
+
+  service       Service                  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  translations  ServicePlanTranslation[]
+  subscriptions Subscription[]
+
+  @@index([serviceId, order])
+  @@map("service_plans")
+}
+
+model ServicePlanTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  name     String
+  /// Contenu détaillé de la formule (liste de ce qui est inclus…).
+  content  Json?
+
+  parent ServicePlan @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("service_plan_translations")
+}
+
+model RequestForm {
+  id         String   @id @default(uuid(7))
+  serviceId  String?
+  categoryId String?
+  version    Int      @default(1)
+  /// Schéma du questionnaire {fields: [{key, type, label:{fr,en,ar}, options, conditions}]}.
+  schema     Json
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  service            Service?      @relation("ServiceForms", fields: [serviceId], references: [id], onDelete: Cascade)
+  defaultForServices Service[]     @relation("DefaultForm")
+  opportunities      Opportunity[]
+
+  @@index([serviceId])
+  @@map("request_forms")
+}

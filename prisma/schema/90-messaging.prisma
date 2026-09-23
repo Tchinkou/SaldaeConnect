@@ -1,0 +1,198 @@
+// Domaine messagerie, notifications et fichiers
+// (voir docs/database.md §B.3 et docs/architecture.md §D.4, §H.4).
+
+enum ConversationType {
+  PROJECT
+  CLIENT
+  RESERVATION
+  TRANSACTION
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+}
+
+enum JobStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
+enum FileVisibility {
+  INTERNAL
+  CLIENT
+  PUBLIC
+}
+
+enum FileCategory {
+  BRIEF
+  LOGO
+  DOCUMENT
+  DELIVERABLE
+  QUOTE_PDF
+  INVOICE_PDF
+  MEDIA
+  ATTACHMENT
+}
+
+enum FileStatus {
+  QUARANTINE
+  ACTIVE
+  REJECTED
+  DELETED
+}
+
+model Conversation {
+  id                 String           @id @default(uuid(7))
+  type               ConversationType
+  projectId          String?
+  clientId           String
+  reservationId      String?
+  transactionOrderId String?
+  subject            String?
+  lastMessageAt      DateTime?
+  createdAt          DateTime         @default(now())
+
+  project          Project?          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client           Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  reservation      Reservation?      @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  transactionOrder TransactionOrder? @relation(fields: [transactionOrderId], references: [id], onDelete: Cascade)
+
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@index([clientId])
+  @@index([projectId])
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  conversationId String
+  userId         String
+  lastReadAt     DateTime?
+  muted          Boolean   @default(false)
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@id([conversationId, userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String    @id @default(uuid(7))
+  conversationId String
+  authorId       String?
+  body           String
+  isInternalNote Boolean   @default(false)
+  editedAt       DateTime?
+  deletedAt      DateTime?
+  createdAt      DateTime  @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  files        File[]
+
+  @@index([conversationId, createdAt])
+  @@map("messages")
+}
+
+model Notification {
+  id        String    @id @default(uuid(7))
+  userId    String
+  type      String
+  /// Paramètres de la notification ; le texte est composé à l'affichage,
+  /// dans la langue de l'utilisateur, à partir de `type` et `params`.
+  params    Json?
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, readAt, createdAt])
+  @@map("notifications")
+}
+
+model NotificationPreference {
+  userId  String
+  type    String
+  channel NotificationChannel
+  enabled Boolean             @default(true)
+
+  @@id([userId, type, channel])
+  @@map("notification_preferences")
+}
+
+/// File d'attente (outbox) des événements métier et tâches différées.
+/// Un événement métier est écrit ici dans la même transaction que les
+/// données qu'il décrit, puis traité juste après la requête ; le cron
+/// rattrape ce qui a échoué (verrouillage FOR UPDATE SKIP LOCKED).
+model Job {
+  id        String    @id @default(uuid(7))
+  type      String
+  payload   Json
+  status    JobStatus @default(PENDING)
+  attempts  Int       @default(0)
+  runAt     DateTime  @default(now())
+  lockedAt  DateTime?
+  lastError String?
+  createdAt DateTime  @default(now())
+
+  @@index([status, runAt])
+  @@map("jobs")
+}
+
+model EmailLog {
+  id                String   @id @default(uuid(7))
+  to                String
+  template          String
+  locale            String
+  providerMessageId String?
+  status            String // "SENT" | "FAILED"
+  error             String?
+  relatedType       String?
+  relatedId         String?
+  createdAt         DateTime @default(now())
+
+  @@index([to, createdAt])
+  @@map("email_logs")
+}
+
+model File {
+  id           String         @id @default(uuid(7))
+  storageKey   String         @unique
+  originalName String
+  safeName     String
+  mimeType     String
+  sizeBytes    BigInt
+  sha256       String
+  uploadedById String?
+  visibility   FileVisibility @default(INTERNAL)
+  category     FileCategory
+  status       FileStatus     @default(QUARANTINE)
+  scanStatus   String?
+  fileGroupId  String?
+  version      Int            @default(1)
+
+  clientId           String?
+  opportunityId      String?
+  projectId          String?
+  taskId             String?
+  messageId          String?
+  reservationId      String?
+  transactionOrderId String?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  client           Client?           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  opportunity      Opportunity?      @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  project          Project?          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  task             Task?             @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  message          Message?          @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  reservation      Reservation?      @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  transactionOrder TransactionOrder? @relation(fields: [transactionOrderId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+  @@index([projectId])
+  @@map("files")
+}

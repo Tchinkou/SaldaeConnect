@@ -1,0 +1,187 @@
+// Domaine transactions (voir docs/database.md §B.3 et docs/architecture.md §D.6).
+// Séparé du système classique de projets/factures : les volumes de change ne
+// doivent pas se mélanger au chiffre d'affaires de prestations (§I.3).
+
+enum ProductKind {
+  CURRENCY
+  PREPAID_CARD
+  PAYSERA
+  OTHER
+}
+
+enum StockMovementType {
+  IN
+  OUT
+  ADJUSTMENT
+}
+
+enum TransactionOrderStatus {
+  REQUESTED
+  PRICE_CONFIRMED
+  AWAITING_PAYMENT
+  PAID
+  COMPLETED
+  CANCELLED
+}
+
+enum TransactionPaymentStatus {
+  RECORDED
+  REVERSED
+}
+
+model Product {
+  id                     String      @id @default(uuid(7))
+  serviceId              String?
+  kind                   ProductKind
+  sku                    String      @unique
+  unit                   String?
+  trackStock             Boolean     @default(false)
+  isActive               Boolean     @default(true)
+  /// Faux par défaut : ce module reste un outil de suivi interne tant que le
+  /// cadre légal n'est pas validé (§K).
+  isPubliclyVisible      Boolean     @default(false)
+  currentPrice           BigInt
+  currentCurrency        String
+  minQuantity            Decimal?    @db.Decimal(12, 2)
+  maxQuantity            Decimal?    @db.Decimal(12, 2)
+  /// Liste des champs à demander au client, configurable sans code.
+  requiredCustomerFields Json?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  service Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  translations   ProductTranslation[]
+  priceChanges   ProductPriceChange[]
+  stockMovements StockMovement[]
+  orderItems     TransactionOrderItem[]
+
+  @@map("products")
+}
+
+model ProductTranslation {
+  id          String  @id @default(uuid(7))
+  parentId    String
+  locale      String
+  name        String
+  description String?
+
+  parent Product @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("product_translations")
+}
+
+model ProductPriceChange {
+  id          String   @id @default(uuid(7))
+  productId   String
+  price       BigInt
+  currency    String
+  effectiveAt DateTime @default(now())
+  setById     String?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, effectiveAt])
+  @@map("product_price_changes")
+}
+
+/// Le stock est la somme des mouvements, jamais un champ modifiable à la main.
+model StockMovement {
+  id                 String            @id @default(uuid(7))
+  productId          String
+  type               StockMovementType
+  quantity           Decimal           @db.Decimal(12, 2)
+  unitCost           BigInt?
+  transactionOrderId String?
+  reference          String?
+  note               String?
+  createdById        String?
+  createdAt          DateTime          @default(now())
+
+  product          Product           @relation(fields: [productId], references: [id], onDelete: Restrict)
+  transactionOrder TransactionOrder? @relation(fields: [transactionOrderId], references: [id], onDelete: SetNull)
+
+  @@index([productId, createdAt])
+  @@map("stock_movements")
+}
+
+model TransactionOrder {
+  id           String                 @id @default(uuid(7))
+  number       String                 @unique
+  clientId     String?
+  leadId       String?
+  /// Instantané des coordonnées au moment de la commande.
+  contact      Json
+  status       TransactionOrderStatus @default(REQUESTED)
+  total        BigInt                 @default(0)
+  currency     String
+  assignedToId String?
+  /// Données d'identification chiffrées individuellement (voir server/core/crypto).
+  identityData Json?
+  notes        String?
+  completedAt  DateTime?
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  client Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  lead   Lead?   @relation(fields: [leadId], references: [id], onDelete: SetNull)
+
+  items          TransactionOrderItem[]
+  payments       TransactionPayment[]
+  statusChanges  TransactionStatusChange[]
+  stockMovements StockMovement[]
+  conversations  Conversation[]
+  files          File[]
+
+  @@index([status])
+  @@index([clientId])
+  @@map("transaction_orders")
+}
+
+model TransactionOrderItem {
+  id        String  @id @default(uuid(7))
+  orderId   String
+  productId String
+  quantity  Decimal @db.Decimal(12, 2)
+  unitPrice BigInt
+  total     BigInt
+
+  order   TransactionOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product          @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@map("transaction_order_items")
+}
+
+model TransactionPayment {
+  id           String                   @id @default(uuid(7))
+  orderId      String
+  amount       BigInt
+  currency     String
+  methodId     String?
+  reference    String?
+  paidAt       DateTime                 @default(now())
+  recordedById String?
+  status       TransactionPaymentStatus @default(RECORDED)
+
+  order  TransactionOrder @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  method PaymentMethod?   @relation(fields: [methodId], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@map("transaction_payments")
+}
+
+model TransactionStatusChange {
+  id          String                  @id @default(uuid(7))
+  orderId     String
+  fromStatus  TransactionOrderStatus?
+  toStatus    TransactionOrderStatus
+  changedById String?
+  note        String?
+  createdAt   DateTime                @default(now())
+
+  order TransactionOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId, createdAt])
+  @@map("transaction_status_changes")
+}

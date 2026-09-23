@@ -1,0 +1,158 @@
+// Domaine devis (voir docs/database.md §B.3 et docs/architecture.md §F.1-F.3).
+
+enum QuoteStatus {
+  DRAFT
+  SENT
+  VIEWED
+  ACCEPTED
+  REJECTED
+  CHANGES_REQUESTED
+  EXPIRED
+  CANCELLED
+}
+
+enum InstallmentTrigger {
+  ON_ACCEPTANCE
+  ON_MILESTONE
+  ON_DELIVERY
+  ON_DATE
+}
+
+enum QuoteDecisionType {
+  ACCEPTED
+  REJECTED
+  CHANGES_REQUESTED
+}
+
+enum DecisionMethod {
+  CLICK
+  ESIGN
+}
+
+model Quote {
+  id                  String      @id @default(uuid(7))
+  number              String?     @unique
+  clientId            String
+  contactId           String?
+  opportunityId       String?
+  projectId           String? // devis complémentaire sur un projet déjà démarré
+  title               String
+  locale              String      @default("fr")
+  currency            String
+  status              QuoteStatus @default(DRAFT)
+  validUntil          DateTime?
+  introduction        String?
+  terms               String?
+  internalNotes       String?
+  globalDiscountType  String? // "PERCENT" | "AMOUNT"
+  globalDiscountValue BigInt?
+  depositPercent      Int?
+  depositAmount       BigInt?
+  subtotal            BigInt      @default(0)
+  discountTotal       BigInt      @default(0)
+  taxTotal            BigInt      @default(0)
+  total               BigInt      @default(0)
+  currentVersion      Int         @default(0)
+  sentAt              DateTime?
+  firstViewedAt       DateTime?
+  decidedAt           DateTime?
+  createdById         String?
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  client      Client       @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  opportunity Opportunity? @relation(fields: [opportunityId], references: [id], onDelete: SetNull)
+  project     Project?     @relation("QuotesOnProject", fields: [projectId], references: [id], onDelete: SetNull)
+
+  items           QuoteItem[]
+  installments    QuoteInstallment[]
+  versions        QuoteVersion[]
+  decisions       QuoteDecision[]
+  activities      Activity[]
+  projectsCreated Project[]          @relation("ProjectFromQuote")
+  invoices        Invoice[]
+  subscriptions   Subscription[]
+
+  @@index([clientId, status])
+  @@index([status, validUntil])
+  @@map("quotes")
+}
+
+model QuoteItem {
+  id              String   @id @default(uuid(7))
+  quoteId         String
+  position        Int      @default(0)
+  serviceId       String?
+  title           String
+  description     String?
+  quantity        Decimal  @default(1) @db.Decimal(12, 2)
+  unit            String?
+  unitPrice       BigInt
+  discountPercent Decimal  @default(0) @db.Decimal(5, 2)
+  taxRateId       String?
+  taxRatePercent  Decimal? @db.Decimal(5, 2)
+  lineTotal       BigInt
+
+  quote   Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  taxRate TaxRate? @relation(fields: [taxRateId], references: [id], onDelete: SetNull)
+
+  @@index([quoteId, position])
+  @@map("quote_items")
+}
+
+model QuoteInstallment {
+  id           String             @id @default(uuid(7))
+  quoteId      String
+  label        String
+  percent      Decimal?           @db.Decimal(5, 2)
+  amount       BigInt?
+  trigger      InstallmentTrigger
+  milestoneKey String?
+  dueDate      DateTime?
+  position     Int                @default(0)
+
+  quote Quote @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@index([quoteId, position])
+  @@map("quote_installments")
+}
+
+model QuoteVersion {
+  id          String   @id @default(uuid(7))
+  quoteId     String
+  version     Int
+  /// Copie figée du devis et de ses lignes au moment de l'envoi.
+  snapshot    Json
+  pdfFileId   String?
+  contentHash String
+  sentAt      DateTime @default(now())
+  sentById    String?
+
+  quote     Quote           @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  decisions QuoteDecision[]
+
+  @@unique([quoteId, version])
+  @@map("quote_versions")
+}
+
+model QuoteDecision {
+  id             String            @id @default(uuid(7))
+  quoteId        String
+  quoteVersionId String
+  decision       QuoteDecisionType
+  comment        String?
+  userId         String?
+  signerName     String?
+  signerEmail    String?
+  ipAddress      String?
+  userAgent      String?
+  decidedAt      DateTime          @default(now())
+  method         DecisionMethod    @default(CLICK)
+  evidence       Json?
+
+  quote        Quote        @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  quoteVersion QuoteVersion @relation(fields: [quoteVersionId], references: [id], onDelete: Cascade)
+
+  @@index([quoteId, decidedAt])
+  @@map("quote_decisions")
+}

@@ -1,0 +1,341 @@
+// Domaine CRM (voir docs/database.md §B.3 et docs/architecture.md §E).
+
+enum LeadStatus {
+  OPEN
+  CONVERTED
+  DISQUALIFIED
+}
+
+enum StageKind {
+  OPEN
+  WON
+  LOST
+}
+
+enum ActivityType {
+  NOTE
+  CALL
+  EMAIL
+  MEETING
+  WHATSAPP
+  STAGE_CHANGE
+  SYSTEM
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ClientKind {
+  INDIVIDUAL
+  COMPANY
+}
+
+enum ClientStatus {
+  PROSPECT
+  ACTIVE
+  INACTIVE
+}
+
+model LeadSource {
+  id       String  @id @default(uuid(7))
+  key      String  @unique // "website", "whatsapp", "facebook", "phone", "referral"…
+  isActive Boolean @default(true)
+
+  translations  LeadSourceTranslation[]
+  leads         Lead[]
+  opportunities Opportunity[]
+
+  @@map("lead_sources")
+}
+
+model LeadSourceTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  name     String
+
+  parent LeadSource @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("lead_source_translations")
+}
+
+model Lead {
+  id                 String     @id @default(uuid(7))
+  firstName          String
+  lastName           String
+  email              String?
+  phone              String?
+  companyName        String?
+  country            String?
+  city               String?
+  locale             String     @default("fr")
+  sourceId           String?
+  ownerId            String?
+  status             LeadStatus @default(OPEN)
+  convertedClientId  String?
+  privacyAcceptedAt  DateTime?
+  marketingConsentAt DateTime?
+  utm                Json?
+  deletedAt          DateTime?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  source          LeadSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  convertedClient Client?     @relation("ConvertedFromLead", fields: [convertedClientId], references: [id], onDelete: SetNull)
+
+  opportunities     Opportunity[]
+  activities        Activity[]
+  reservations      Reservation[]
+  transactionOrders TransactionOrder[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([status, ownerId])
+  @@map("leads")
+}
+
+model Client {
+  id               String       @id @default(uuid(7))
+  code             String       @unique
+  kind             ClientKind   @default(INDIVIDUAL)
+  displayName      String
+  legalName        String?
+  email            String?
+  phone            String?
+  address          String?
+  country          String?
+  city             String?
+  /// Liste libre {label, value} — identifiants légaux à définir avec le comptable (§K).
+  legalIdentifiers Json?
+  status           ClientStatus @default(PROSPECT)
+  preferredLocale  String       @default("fr")
+  ownerId          String?
+  deletedAt        DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  contacts          ClientContact[]
+  leadsConverted    Lead[]             @relation("ConvertedFromLead")
+  opportunities     Opportunity[]
+  invitations       Invitation[]
+  activities        Activity[]
+  tasks             Task[]
+  quotes            Quote[]
+  projects          Project[]
+  invoices          Invoice[]
+  payments          Payment[]
+  subscriptions     Subscription[]
+  reservations      Reservation[]
+  transactionOrders TransactionOrder[]
+  testimonials      Testimonial[]
+  portfolioProjects PortfolioProject[]
+  files             File[]
+  conversations     Conversation[]
+
+  @@index([status])
+  @@map("clients")
+}
+
+model ClientContact {
+  id        String  @id @default(uuid(7))
+  clientId  String
+  firstName String
+  lastName  String
+  email     String?
+  phone     String?
+  jobTitle  String?
+  isPrimary Boolean @default(false)
+  userId    String? @unique
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([clientId])
+  @@map("client_contacts")
+}
+
+model PipelineStage {
+  id       String    @id @default(uuid(7))
+  key      String    @unique
+  order    Int
+  kind     StageKind @default(OPEN)
+  color    String?
+  isSystem Boolean   @default(false)
+
+  translations  PipelineStageTranslation[]
+  opportunities Opportunity[]
+  fromChanges   OpportunityStageChange[]   @relation("FromStage")
+  toChanges     OpportunityStageChange[]   @relation("ToStage")
+
+  @@map("pipeline_stages")
+}
+
+model PipelineStageTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  name     String
+
+  parent PipelineStage @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("pipeline_stage_translations")
+}
+
+model LostReason {
+  id String @id @default(uuid(7))
+
+  translations  LostReasonTranslation[]
+  opportunities Opportunity[]
+
+  @@map("lost_reasons")
+}
+
+model LostReasonTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  label    String
+
+  parent LostReason @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("lost_reason_translations")
+}
+
+model Opportunity {
+  id              String    @id @default(uuid(7))
+  number          String    @unique // "SC-2026-00001"
+  title           String
+  leadId          String?
+  clientId        String?
+  serviceId       String
+  stageId         String
+  ownerId         String?
+  budgetMin       BigInt?
+  budgetMax       BigInt?
+  budgetCurrency  String?
+  desiredDeadline DateTime?
+  formVersionId   String?
+  answers         Json?
+  message         String?
+  locale          String    @default("fr")
+  sourceId        String?
+  estimatedValue  BigInt?
+  lostReasonId    String?
+  position        Int       @default(0)
+  closedAt        DateTime?
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  lead        Lead?         @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  client      Client?       @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  service     Service       @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  stage       PipelineStage @relation(fields: [stageId], references: [id], onDelete: Restrict)
+  source      LeadSource?   @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  lostReason  LostReason?   @relation(fields: [lostReasonId], references: [id], onDelete: SetNull)
+  formVersion RequestForm?  @relation(fields: [formVersionId], references: [id], onDelete: SetNull)
+
+  stageChanges OpportunityStageChange[]
+  activities   Activity[]
+  tasks        Task[]
+  quotes       Quote[]
+  projects     Project[]
+  files        File[]
+
+  @@index([stageId, position])
+  @@index([ownerId])
+  @@index([clientId])
+  @@index([leadId])
+  @@map("opportunities")
+}
+
+model OpportunityStageChange {
+  id            String   @id @default(uuid(7))
+  opportunityId String
+  fromStageId   String?
+  toStageId     String
+  changedById   String?
+  reason        String?
+  createdAt     DateTime @default(now())
+
+  opportunity Opportunity    @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  fromStage   PipelineStage? @relation("FromStage", fields: [fromStageId], references: [id], onDelete: SetNull)
+  toStage     PipelineStage  @relation("ToStage", fields: [toStageId], references: [id], onDelete: Restrict)
+
+  @@index([opportunityId, createdAt])
+  @@map("opportunity_stage_changes")
+}
+
+model Activity {
+  id            String       @id @default(uuid(7))
+  type          ActivityType
+  subject       String?
+  body          String?
+  occurredAt    DateTime     @default(now())
+  actorId       String?
+  leadId        String?
+  clientId      String?
+  opportunityId String?
+  projectId     String?
+  quoteId       String?
+  invoiceId     String?
+  createdAt     DateTime     @default(now())
+
+  lead        Lead?        @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  client      Client?      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  opportunity Opportunity? @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  quote       Quote?       @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  invoice     Invoice?     @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([leadId, occurredAt])
+  @@index([clientId, occurredAt])
+  @@index([opportunityId, occurredAt])
+  @@index([projectId, occurredAt])
+  @@map("activities")
+}
+
+model Task {
+  id              String       @id @default(uuid(7))
+  title           String
+  description     String?
+  status          TaskStatus   @default(TODO)
+  priority        TaskPriority @default(MEDIUM)
+  dueAt           DateTime?
+  assigneeId      String?
+  createdById     String?
+  opportunityId   String?
+  clientId        String?
+  projectId       String?
+  milestoneId     String?
+  visibleToClient Boolean      @default(false)
+  position        Int          @default(0)
+  completedAt     DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  opportunity Opportunity? @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  client      Client?      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestone   Milestone?   @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
+  comments    Comment[]
+  files       File[]
+
+  @@index([assigneeId, status, dueAt])
+  @@index([projectId])
+  @@map("tasks")
+}

@@ -1,0 +1,255 @@
+// Domaine CMS, SEO et paramètres globaux
+// (voir docs/database.md §B.3 et docs/architecture.md §0.3-18, §13, §30-33).
+
+enum BlogStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+/// Tout ce qui est susceptible de changer sans toucher au code (§49) :
+/// marque, couleurs, coordonnées, textes de la page d'accueil, SEO global…
+/// `value` est un JSON validé par un schéma Zod propre à chaque clé ; les
+/// textes y prennent la forme {fr, en, ar}.
+model Setting {
+  key         String   @id // "brand", "theme", "contact", "social", "homepage",
+  // "navigation", "footer", "seo", "legal", "invoicing",
+  // "modules", "security"…
+  value       Json
+  updatedById String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model KeyFigure {
+  id       String  @id @default(uuid(7))
+  value    String
+  suffix   String?
+  order    Int     @default(0)
+  isActive Boolean @default(true)
+
+  translations KeyFigureTranslation[]
+
+  @@map("key_figures")
+}
+
+model KeyFigureTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  label    String
+
+  parent KeyFigure @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("key_figure_translations")
+}
+
+model Page {
+  id       String  @id @default(uuid(7))
+  key      String  @unique // "about", "legal-notice", "privacy", "terms", "cookies", ou une page libre
+  isSystem Boolean @default(false)
+
+  translations PageTranslation[]
+
+  @@map("pages")
+}
+
+model PageTranslation {
+  id               String  @id @default(uuid(7))
+  parentId         String
+  locale           String
+  title            String
+  slug             String
+  /// Blocs de contenu structuré.
+  blocks           Json?
+  seoTitle         String?
+  seoDescription   String?
+  isPublished      Boolean @default(false)
+  /// Vrai pour les pages légales tant qu'elles n'ont pas été validées
+  /// juridiquement (§54) — affiche un bandeau d'avertissement dans l'admin.
+  needsLegalReview Boolean @default(false)
+
+  parent Page @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@unique([locale, slug])
+  @@map("page_translations")
+}
+
+model Testimonial {
+  id                   String    @id @default(uuid(7))
+  authorName           String
+  company              String?
+  jobTitle             String?
+  content              String
+  originalLocale       String    @default("fr")
+  rating               Int?
+  photoFileId          String?
+  publicationConsent   Boolean   @default(false)
+  publicationConsentAt DateTime?
+  googleReviewUrl      String?
+  clientId             String?
+  isActive             Boolean   @default(false)
+  order                Int       @default(0)
+  createdAt            DateTime  @default(now())
+
+  client Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  @@map("testimonials")
+}
+
+model Sector {
+  id String @id @default(uuid(7))
+
+  translations      SectorTranslation[]
+  portfolioProjects PortfolioProject[]
+
+  @@map("sectors")
+}
+
+model SectorTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  name     String
+
+  parent Sector @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("sector_translations")
+}
+
+model Technology {
+  id   String @id @default(uuid(7))
+  name String @unique
+
+  portfolioProjects PortfolioProject[]
+
+  @@map("technologies")
+}
+
+model PortfolioProject {
+  id          String    @id @default(uuid(7))
+  clientName  String? // affichable ou anonymisé
+  clientId    String?
+  sectorId    String?
+  date        DateTime?
+  url         String?
+  coverFileId String?
+  isFeatured  Boolean   @default(false)
+  isPublished Boolean   @default(false)
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  client Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  sector Sector? @relation(fields: [sectorId], references: [id], onDelete: SetNull)
+
+  translations PortfolioProjectTranslation[]
+  services     Service[]                     @relation("PortfolioServices")
+  technologies Technology[]
+
+  @@map("portfolio_projects")
+}
+
+model PortfolioProjectTranslation {
+  id             String  @id @default(uuid(7))
+  parentId       String
+  locale         String
+  title          String
+  slug           String
+  summary        String?
+  problem        String?
+  solution       String?
+  execution      String?
+  result         String?
+  seoTitle       String?
+  seoDescription String?
+
+  parent PortfolioProject @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@unique([locale, slug])
+  @@map("portfolio_project_translations")
+}
+
+model BlogCategory {
+  id String @id @default(uuid(7))
+
+  translations BlogCategoryTranslation[]
+  posts        BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogCategoryTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  name     String
+  slug     String
+
+  parent BlogCategory @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@unique([locale, slug])
+  @@map("blog_category_translations")
+}
+
+model BlogTag {
+  id   String @id @default(uuid(7))
+  name String @unique
+
+  posts BlogPost[]
+
+  @@map("blog_tags")
+}
+
+model BlogPost {
+  id          String     @id @default(uuid(7))
+  authorId    String?
+  categoryId  String?
+  status      BlogStatus @default(DRAFT)
+  publishedAt DateTime?
+  coverFileId String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  category BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  translations BlogPostTranslation[]
+  tags         BlogTag[]
+
+  @@index([status, publishedAt])
+  @@map("blog_posts")
+}
+
+model BlogPostTranslation {
+  id             String  @id @default(uuid(7))
+  parentId       String
+  locale         String
+  title          String
+  slug           String
+  excerpt        String?
+  content        Json?
+  seoTitle       String?
+  seoDescription String?
+
+  parent BlogPost @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@unique([locale, slug])
+  @@map("blog_post_translations")
+}
+
+model Redirect {
+  id         String @id @default(uuid(7))
+  fromPath   String @unique
+  toPath     String
+  statusCode Int    @default(301)
+  hits       Int    @default(0)
+
+  @@map("redirects")
+}

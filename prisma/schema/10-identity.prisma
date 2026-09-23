@@ -1,0 +1,183 @@
+// Domaine identité et accès (voir docs/database.md §B.3).
+//
+// Les modèles User, Session, Account, Verification et TwoFactor sont générés
+// par Better Auth (`npm run auth:generate`) à partir de
+// src/server/core/auth/auth.ts — ne pas modifier leurs champs à la main,
+// sauf pour leur ajouter des relations vers nos propres modèles (RBAC,
+// invitations) comme ci-dessous. Toute évolution passe par auth.ts puis une
+// régénération.
+
+model User {
+  id               String   @id @default(uuid(7))
+  name             String
+  email            String
+  emailVerified    Boolean  @default(false)
+  image            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  twoFactorEnabled Boolean? @default(false)
+
+  /// "STAFF" | "CLIENT" — voir UserType ci-dessous pour les valeurs attendues côté application.
+  userType    String    @default("CLIENT")
+  locale      String    @default("fr")
+  timezone    String    @default("Africa/Algiers")
+  phone       String?
+  /// "INVITED" | "ACTIVE" | "SUSPENDED"
+  status      String    @default("ACTIVE")
+  lastLoginAt DateTime?
+  deletedAt   DateTime?
+
+  sessions   Session[]
+  accounts   Account[]
+  twofactors TwoFactor[]
+
+  roles           UserRole[]
+  clientContact   ClientContact?
+  sentInvitations Invitation[]   @relation("InvitedBy")
+  auditLogs       AuditLog[]     @relation("AuditActor")
+
+  @@unique([email])
+  @@index([userType, status])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(uuid(7))
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(uuid(7))
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(uuid(7))
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model TwoFactor {
+  id                      String    @id @default(uuid(7))
+  secret                  String
+  backupCodes             String
+  userId                  String
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verified                Boolean?  @default(true)
+  failedVerificationCount Int?      @default(0)
+  lockedUntil             DateTime?
+
+  @@index([secret])
+  @@index([userId])
+  @@map("twoFactor")
+}
+
+// ---------------------------------------------------------------------------
+// RBAC : rôles, permissions, périmètres (voir docs/architecture.md §H.3)
+// ---------------------------------------------------------------------------
+
+/// Périmètre d'application d'une permission pour un rôle donné.
+enum PermissionScope {
+  ALL // toutes les données
+  ASSIGNED // données liées à l'utilisateur (projets membre, clients de ces projets…)
+  OWN // données du client auquel l'utilisateur est rattaché
+}
+
+model Role {
+  id          String   @id @default(uuid(7))
+  key         String   @unique // "admin", "staff", "client", ou une clé personnalisée
+  name        String
+  description String?
+  isSystem    Boolean  @default(false) // les rôles système ne sont pas supprimables
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  permissions RolePermission[]
+  users       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String  @id @default(uuid(7))
+  key         String  @unique // "quote.send", "invoice.issue"…
+  description String?
+
+  roles RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  scope        PermissionScope @default(OWN)
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  userId String
+  roleId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model Invitation {
+  id          String    @id @default(uuid(7))
+  email       String
+  roleId      String?
+  clientId    String?
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  invitedById String?
+  createdAt   DateTime  @default(now())
+
+  invitedBy User?   @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: SetNull)
+  client    Client? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([expiresAt])
+  @@map("invitations")
+}

@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: saldaeconnect
+          POSTGRES_PASSWORD: saldaeconnect_ci
+          POSTGRES_DB: saldaeconnect
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U saldaeconnect"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      APP_ENV: development
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      DATABASE_URL: postgresql://saldaeconnect:saldaeconnect_ci@localhost:5432/saldaeconnect?schema=public
+      SHADOW_DATABASE_URL: postgresql://saldaeconnect:saldaeconnect_ci@localhost:5432/saldaeconnect_shadow?schema=public
+      AUTH_SECRET: ci-only-secret-not-for-production-use-0000
+      DATA_ENCRYPTION_KEY: 0000000000000000000000000000000000
+      EMAIL_PROVIDER: console
+      EMAIL_FROM: "SaldaeConnect <no-reply@saldaeconnect.example>"
+      STORAGE_PROVIDER: local
+      STORAGE_LOCAL_DIR: ./.storage
+      PDF_RENDERER: chromium
+      CRON_SECRET: ci-only-cron-secret-0000000000000
+      RATE_LIMIT_STORE: postgres
+      LOG_LEVEL: warn
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Prisma generate
+        run: npm run db:generate
+
+      - name: Build
+        run: npm run build
+
+      - name: Create shadow database
+        run: |
+          PGPASSWORD=saldaeconnect_ci psql -h localhost -U saldaeconnect -d saldaeconnect \
+            -c "CREATE DATABASE saldaeconnect_shadow;"
+
+      - name: Apply migrations (smoke test)
+        run: npm run db:migrate:deploy
+
+      - name: Seed database (smoke test)
+        run: npm run db:seed

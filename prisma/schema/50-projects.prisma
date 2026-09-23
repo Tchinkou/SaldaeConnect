@@ -1,0 +1,122 @@
+// Domaine projets (voir docs/database.md §B.3 et docs/architecture.md §F.4).
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  WAITING_CLIENT
+  REVIEW
+  COMPLETED
+  ARCHIVED
+}
+
+enum ProjectMemberRole {
+  MANAGER
+  MEMBER
+  VIEWER
+}
+
+enum ProgressMode {
+  TASKS
+  MILESTONES
+  MANUAL
+}
+
+model Project {
+  id             String        @id @default(uuid(7))
+  number         String        @unique
+  clientId       String
+  quoteId        String?
+  opportunityId  String?
+  subscriptionId String?
+  name           String
+  description    String?
+  status         ProjectStatus @default(PLANNING)
+  startDate      DateTime?
+  dueDate        DateTime?
+  completedAt    DateTime?
+  budget         BigInt?
+  currency       String?
+  progressMode   ProgressMode  @default(TASKS)
+  progressManual Int? // 0-100, utilisé seulement si progressMode = MANUAL
+  managerId      String?
+  deletedAt      DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  quote        Quote?        @relation("ProjectFromQuote", fields: [quoteId], references: [id], onDelete: SetNull)
+  opportunity  Opportunity?  @relation(fields: [opportunityId], references: [id], onDelete: SetNull)
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+
+  members             ProjectMember[]
+  milestones          Milestone[]
+  tasks               Task[]
+  complementaryQuotes Quote[]               @relation("QuotesOnProject")
+  statusChanges       ProjectStatusChange[]
+  activities          Activity[]
+  invoices            Invoice[]
+  conversations       Conversation[]
+  files               File[]
+
+  @@index([clientId, status])
+  @@index([managerId])
+  @@map("projects")
+}
+
+model ProjectMember {
+  projectId String
+  userId    String
+  role      ProjectMemberRole @default(MEMBER)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, userId])
+  @@map("project_members")
+}
+
+model Milestone {
+  id          String     @id @default(uuid(7))
+  projectId   String
+  title       String
+  description String?
+  dueDate     DateTime?
+  status      TaskStatus @default(TODO)
+  weight      Int        @default(1)
+  position    Int        @default(0)
+  completedAt DateTime?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks   Task[]
+
+  @@index([projectId, position])
+  @@map("milestones")
+}
+
+model Comment {
+  id              String   @id @default(uuid(7))
+  taskId          String
+  authorId        String?
+  body            String
+  visibleToClient Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId, createdAt])
+  @@map("comments")
+}
+
+model ProjectStatusChange {
+  id          String         @id @default(uuid(7))
+  projectId   String
+  fromStatus  ProjectStatus?
+  toStatus    ProjectStatus
+  changedById String?
+  note        String?
+  createdAt   DateTime       @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt])
+  @@map("project_status_changes")
+}

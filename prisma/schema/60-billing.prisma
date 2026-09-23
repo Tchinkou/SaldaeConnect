@@ -1,0 +1,234 @@
+// Domaine facturation et récurrence (voir docs/database.md §B.3 et docs/architecture.md §F.5-F.7).
+
+enum InvoiceType {
+  STANDARD
+  DEPOSIT
+  CREDIT_NOTE
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PARTIALLY_PAID
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PaymentStatus {
+  RECORDED
+  REVERSED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  ENDED
+}
+
+enum NumberSequenceKey {
+  REQUEST
+  QUOTE
+  INVOICE
+  CREDIT_NOTE
+  PROJECT
+  RESERVATION
+  TRANSACTION
+}
+
+enum SequenceResetPolicy {
+  YEARLY
+  NEVER
+}
+
+/// Aucun taux n'est pré-rempli : à saisir après validation du comptable (§K).
+model TaxRate {
+  id             String  @id @default(uuid(7))
+  name           String
+  ratePercent    Decimal @db.Decimal(5, 2)
+  legalMentionFr String?
+  legalMentionEn String?
+  legalMentionAr String?
+  isDefault      Boolean @default(false)
+  isActive       Boolean @default(true)
+
+  quoteItems   QuoteItem[]
+  invoiceItems InvoiceItem[]
+
+  @@map("tax_rates")
+}
+
+/// Numérotation atomique des documents — incrémentée dans la transaction qui émet le document.
+model NumberSequence {
+  key         NumberSequenceKey   @id
+  pattern     String              @default("{PREFIX}-{YYYY}-{SEQ:4}")
+  prefix      String
+  resetPolicy SequenceResetPolicy @default(YEARLY)
+  year        Int?
+  nextValue   Int                 @default(1)
+
+  @@map("number_sequences")
+}
+
+model Invoice {
+  id                String        @id @default(uuid(7))
+  number            String?       @unique
+  type              InvoiceType   @default(STANDARD)
+  clientId          String
+  projectId         String?
+  quoteId           String?
+  subscriptionId    String?
+  originalInvoiceId String? // référence de la facture d'origine pour un avoir
+  currency          String
+  status            InvoiceStatus @default(DRAFT)
+  issueDate         DateTime?
+  dueDate           DateTime?
+  subtotal          BigInt        @default(0)
+  discountTotal     BigInt        @default(0)
+  taxTotal          BigInt        @default(0)
+  total             BigInt        @default(0)
+  amountPaid        BigInt        @default(0)
+  balanceDue        BigInt        @default(0)
+  /// Identités légales de l'agence et du client figées à l'émission.
+  billingSnapshot   Json?
+  terms             String?
+  notes             String?
+  pdfFileId         String?
+  contentHash       String?
+  issuedById        String?
+  cancelledAt       DateTime?
+  cancelReason      String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  client          Client        @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  project         Project?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  quote           Quote?        @relation(fields: [quoteId], references: [id], onDelete: SetNull)
+  subscription    Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  originalInvoice Invoice?      @relation("CreditNoteOf", fields: [originalInvoiceId], references: [id], onDelete: SetNull)
+  creditNotes     Invoice[]     @relation("CreditNoteOf")
+
+  items        InvoiceItem[]
+  payments     Payment[]
+  activities   Activity[]
+  reservations Reservation[]
+
+  @@index([clientId, status])
+  @@index([status, dueDate])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id              String   @id @default(uuid(7))
+  invoiceId       String
+  position        Int      @default(0)
+  serviceId       String?
+  title           String
+  description     String?
+  quantity        Decimal  @default(1) @db.Decimal(12, 2)
+  unit            String?
+  unitPrice       BigInt
+  discountPercent Decimal  @default(0) @db.Decimal(5, 2)
+  taxRateId       String?
+  taxRatePercent  Decimal? @db.Decimal(5, 2)
+  lineTotal       BigInt
+
+  invoice Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  taxRate TaxRate? @relation(fields: [taxRateId], references: [id], onDelete: SetNull)
+
+  @@index([invoiceId, position])
+  @@map("invoice_items")
+}
+
+model PaymentMethod {
+  id       String  @id @default(uuid(7))
+  key      String  @unique // "bank_transfer", "cash", "card", "check"…
+  isActive Boolean @default(true)
+
+  translations        PaymentMethodTranslation[]
+  payments            Payment[]
+  transactionPayments TransactionPayment[]
+
+  @@map("payment_methods")
+}
+
+model PaymentMethodTranslation {
+  id       String @id @default(uuid(7))
+  parentId String
+  locale   String
+  name     String
+
+  parent PaymentMethod @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, locale])
+  @@map("payment_method_translations")
+}
+
+model Payment {
+  id             String        @id @default(uuid(7))
+  invoiceId      String
+  clientId       String
+  amount         BigInt
+  currency       String
+  paidAt         DateTime      @default(now())
+  methodId       String?
+  reference      String?
+  note           String?
+  recordedById   String?
+  status         PaymentStatus @default(RECORDED)
+  reversedById   String?
+  reversalReason String?
+  createdAt      DateTime      @default(now())
+
+  invoice Invoice        @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
+  client  Client         @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  method  PaymentMethod? @relation(fields: [methodId], references: [id], onDelete: SetNull)
+
+  @@index([invoiceId])
+  @@index([clientId, paidAt])
+  @@map("payments")
+}
+
+model Subscription {
+  id              String             @id @default(uuid(7))
+  clientId        String
+  serviceId       String
+  planId          String?
+  title           String
+  currency        String
+  interval        BillingInterval
+  intervalCount   Int                @default(1)
+  startDate       DateTime
+  endDate         DateTime?
+  nextInvoiceDate DateTime
+  status          SubscriptionStatus @default(ACTIVE)
+  autoIssue       Boolean            @default(false) // toujours brouillon par défaut, un admin émet
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  client  Client       @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  service Service      @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  plan    ServicePlan? @relation(fields: [planId], references: [id], onDelete: SetNull)
+
+  items    SubscriptionItem[]
+  invoices Invoice[]
+  quotes   Quote[]
+  projects Project[]
+
+  @@index([clientId, status])
+  @@index([status, nextInvoiceDate])
+  @@map("subscriptions")
+}
+
+model SubscriptionItem {
+  id             String  @id @default(uuid(7))
+  subscriptionId String
+  title          String
+  quantity       Decimal @default(1) @db.Decimal(12, 2)
+  unitPrice      BigInt
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@map("subscription_items")
+}
