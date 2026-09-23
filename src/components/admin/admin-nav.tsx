@@ -18,6 +18,7 @@ export function AdminNav({
     clients: boolean;
     quotes: boolean;
     projects: boolean;
+    invoices: boolean;
   };
 }) {
   const t = useTranslations("admin.nav");
@@ -30,6 +31,7 @@ export function AdminNav({
     { href: "/admin/clients", label: t("clients"), show: permissions.clients },
     { href: "/admin/quotes", label: t("quotes"), show: permissions.quotes },
     { href: "/admin/projects", label: t("projects"), show: permissions.projects },
+    { href: "/admin/invoices", label: t("invoices"), show: permissions.invoices },
     { href: "/admin/team", label: t("team"), show: permissions.team },
     { href: "/admin/catalogue", label: t("catalog"), show: permissions.catalog },
     { href: "/admin/content", label: t("content"), show: permissions.content },

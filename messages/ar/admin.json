@@ -12,7 +12,8 @@
     "signOut": "تسجيل الخروج",
     "viewSite": "عرض الموقع",
     "quotes": "عروض الأسعار",
-    "projects": "المشاريع"
+    "projects": "المشاريع",
+    "invoices": "الفواتير"
   },
   "dashboard": {
     "title": "لوحة التحكم",
@@ -519,7 +520,7 @@
         "description": "الوصف",
         "unit": "الوحدة",
         "noTax": "بدون ضريبة",
-        "noTaxRatesHint": "لم يتم إعداد أي نسبة ضريبة بعد (سيتم ذلك في المرحلة 7).",
+        "noTaxRatesHint": "لا يوجد معدل ضريبة نشط — قم بإعداد واحد في الإعدادات.",
         "saveEdit": "حفظ السطر",
         "addItem": "إضافة سطر",
         "cancel": "إلغاء"
@@ -659,6 +660,97 @@
         "internalNote": "ملاحظة داخلية",
         "bodyPlaceholder": "اكتب رسالة…",
         "add": "إرسال"
+      }
+    }
+  },
+  "invoices": {
+    "title": "الفواتير",
+    "subtitle": "الفواتير والدفعات المقدمة والإشعارات الدائنة.",
+    "new": "فاتورة جديدة",
+    "number": "الرقم",
+    "client": "العميل",
+    "type": "النوع",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "balanceDue": "الرصيد المستحق",
+    "createdAt": "تاريخ الإنشاء",
+    "empty": "لا توجد فاتورة بعد.",
+    "draftLabel": "مسودة",
+    "statusValue": {
+      "DRAFT": "مسودة",
+      "SENT": "صادرة",
+      "PARTIALLY_PAID": "مدفوعة جزئيًا",
+      "PAID": "مدفوعة",
+      "OVERDUE": "متأخرة",
+      "CANCELLED": "ملغاة"
+    },
+    "typeValue": {
+      "STANDARD": "فاتورة",
+      "DEPOSIT": "فاتورة دفعة مقدمة",
+      "CREDIT_NOTE": "إشعار دائن"
+    },
+    "create": {
+      "title": "فاتورة جديدة",
+      "subtitle": "اختر العميل ونوع الفاتورة.",
+      "client": "العميل",
+      "type": "النوع",
+      "submit": "إنشاء المسودة",
+      "noClients": "لا يوجد عميل. أنشئ واحدًا من إدارة العملاء."
+    },
+    "detail": {
+      "draftLabel": "مسودة",
+      "backToInvoices": "العودة إلى الفواتير",
+      "lockedNotice": "تم إصدار هذه الفاتورة — لم يعد بالإمكان تعديلها. يتم تصحيح الخطأ عبر إشعار دائن.",
+      "header": "الترويسة",
+      "items": "البنود",
+      "totals": "الإجماليات",
+      "subtotal": "المجموع الفرعي",
+      "discountTotal": "الخصم",
+      "taxTotal": "الضريبة",
+      "total": "الإجمالي",
+      "amountPaid": "المُحصَّل",
+      "balanceDue": "الرصيد المستحق",
+      "dueDate": "تاريخ الاستحقاق",
+      "terms": "الشروط",
+      "notes": "ملاحظات",
+      "save": "حفظ",
+      "delete": "حذف",
+      "downloadPdf": "تنزيل PDF",
+      "deleteConfirm": "حذف هذه المسودة؟",
+      "deleteConfirmYes": "نعم، احذف",
+      "cancel": "إلغاء",
+      "statusValue": {
+        "DRAFT": "مسودة",
+        "SENT": "صادرة",
+        "PARTIALLY_PAID": "مدفوعة جزئيًا",
+        "PAID": "مدفوعة",
+        "OVERDUE": "متأخرة",
+        "CANCELLED": "ملغاة"
+      },
+      "typeValue": {
+        "STANDARD": "فاتورة",
+        "DEPOSIT": "فاتورة دفعة مقدمة",
+        "CREDIT_NOTE": "إشعار دائن"
+      },
+      "item": {
+        "titleColumn": "البند",
+        "quantity": "الكمية",
+        "unitPrice": "سعر الوحدة",
+        "discount": "الخصم",
+        "tax": "الضريبة",
+        "lineTotal": "إجمالي السطر",
+        "edit": "تعديل",
+        "remove": "حذف",
+        "empty": "لا يوجد بند بعد.",
+        "service": "الخدمة (اختياري)",
+        "noService": "بدون خدمة (إدخال حر)",
+        "description": "الوصف",
+        "unit": "الوحدة",
+        "noTax": "بدون ضريبة",
+        "noTaxRatesHint": "لا يوجد معدل ضريبة نشط — قم بإعداد واحد في الإعدادات.",
+        "saveEdit": "حفظ السطر",
+        "addItem": "إضافة سطر",
+        "cancel": "إلغاء"
       }
     }
   }

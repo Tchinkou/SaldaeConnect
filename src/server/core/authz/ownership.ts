@@ -44,6 +44,21 @@ export function assertQuoteOwnerInScope(currentUser: CurrentUser, permission: Pe
   throw new ForbiddenError();
 }
 
+/** `Invoice` suit la même règle que `Quote` (pas d'`ownerId` propre, périmètre du `Client` rattaché). */
+export function invoiceWhereClause(currentUser: CurrentUser, permission: PermissionKey): { client?: { ownerId: string } } {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return {};
+  return { client: { ownerId: currentUser.user.id } };
+}
+
+/** Lève une erreur si le périmètre `ASSIGNED` ne couvre pas le propriétaire du client rattaché à la facture. */
+export function assertInvoiceOwnerInScope(currentUser: CurrentUser, permission: PermissionKey, clientOwnerId: string | null): void {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return;
+  if (clientOwnerId === currentUser.user.id) return;
+  throw new ForbiddenError();
+}
+
 /**
  * `Project` n'a pas d'`ownerId` mais un `managerId` (§F.4) : le responsable
  * de la livraison, distinct du `Client.ownerId` (qui a mené la phase

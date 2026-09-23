@@ -12,7 +12,8 @@
     "signOut": "Se déconnecter",
     "viewSite": "Voir le site",
     "quotes": "Devis",
-    "projects": "Projets"
+    "projects": "Projets",
+    "invoices": "Factures"
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -519,7 +520,7 @@
         "description": "Description",
         "unit": "Unité",
         "noTax": "Aucune taxe",
-        "noTaxRatesHint": "Aucun taux de taxe n'est encore configuré (à paramétrer en Phase 7).",
+        "noTaxRatesHint": "Aucun taux de taxe actif — configurez-en un dans Paramètres.",
         "saveEdit": "Enregistrer la ligne",
         "addItem": "Ajouter une ligne",
         "cancel": "Annuler"
@@ -659,6 +660,97 @@
         "internalNote": "Note interne",
         "bodyPlaceholder": "Écrire un message…",
         "add": "Envoyer"
+      }
+    }
+  },
+  "invoices": {
+    "title": "Factures",
+    "subtitle": "Factures, acomptes et avoirs.",
+    "new": "Nouvelle facture",
+    "number": "Numéro",
+    "client": "Client",
+    "type": "Type",
+    "status": "Statut",
+    "total": "Total",
+    "balanceDue": "Solde dû",
+    "createdAt": "Créée le",
+    "empty": "Aucune facture.",
+    "draftLabel": "Brouillon",
+    "statusValue": {
+      "DRAFT": "Brouillon",
+      "SENT": "Émise",
+      "PARTIALLY_PAID": "Partiellement payée",
+      "PAID": "Payée",
+      "OVERDUE": "En retard",
+      "CANCELLED": "Annulée"
+    },
+    "typeValue": {
+      "STANDARD": "Facture",
+      "DEPOSIT": "Facture d'acompte",
+      "CREDIT_NOTE": "Avoir"
+    },
+    "create": {
+      "title": "Nouvelle facture",
+      "subtitle": "Choisissez le client et le type de facture.",
+      "client": "Client",
+      "type": "Type",
+      "submit": "Créer le brouillon",
+      "noClients": "Aucun client. Créez-en un depuis le CRM."
+    },
+    "detail": {
+      "draftLabel": "Brouillon",
+      "backToInvoices": "Retour aux factures",
+      "lockedNotice": "Cette facture a été émise — elle n'est plus modifiable. Une erreur se corrige par un avoir.",
+      "header": "En-tête",
+      "items": "Lignes",
+      "totals": "Totaux",
+      "subtotal": "Sous-total",
+      "discountTotal": "Remise",
+      "taxTotal": "Taxes",
+      "total": "Total TTC",
+      "amountPaid": "Encaissé",
+      "balanceDue": "Solde dû",
+      "dueDate": "Échéance",
+      "terms": "Conditions",
+      "notes": "Notes",
+      "save": "Enregistrer",
+      "delete": "Supprimer",
+      "downloadPdf": "Télécharger le PDF",
+      "deleteConfirm": "Supprimer ce brouillon ?",
+      "deleteConfirmYes": "Oui, supprimer",
+      "cancel": "Annuler",
+      "statusValue": {
+        "DRAFT": "Brouillon",
+        "SENT": "Émise",
+        "PARTIALLY_PAID": "Partiellement payée",
+        "PAID": "Payée",
+        "OVERDUE": "En retard",
+        "CANCELLED": "Annulée"
+      },
+      "typeValue": {
+        "STANDARD": "Facture",
+        "DEPOSIT": "Facture d'acompte",
+        "CREDIT_NOTE": "Avoir"
+      },
+      "item": {
+        "titleColumn": "Désignation",
+        "quantity": "Quantité",
+        "unitPrice": "Prix unitaire",
+        "discount": "Remise",
+        "tax": "Taxe",
+        "lineTotal": "Total ligne",
+        "edit": "Modifier",
+        "remove": "Supprimer",
+        "empty": "Aucune ligne.",
+        "service": "Service (optionnel)",
+        "noService": "Aucun service (saisie libre)",
+        "description": "Description",
+        "unit": "Unité",
+        "noTax": "Aucune taxe",
+        "noTaxRatesHint": "Aucun taux de taxe actif — configurez-en un dans Paramètres.",
+        "saveEdit": "Enregistrer la ligne",
+        "addItem": "Ajouter une ligne",
+        "cancel": "Annuler"
       }
     }
   }

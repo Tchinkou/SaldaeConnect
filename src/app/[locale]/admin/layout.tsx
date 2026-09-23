@@ -50,6 +50,7 @@ export default async function AdminLayout({
     clients: hasPermission(currentUser, "client.read"),
     quotes: hasPermission(currentUser, "quote.read"),
     projects: hasPermission(currentUser, "project.read"),
+    invoices: hasPermission(currentUser, "invoice.read"),
   };
 
   return (

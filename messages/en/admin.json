@@ -12,7 +12,8 @@
     "signOut": "Sign out",
     "viewSite": "View site",
     "quotes": "Quotes",
-    "projects": "Projects"
+    "projects": "Projects",
+    "invoices": "Invoices"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -519,7 +520,7 @@
         "description": "Description",
         "unit": "Unit",
         "noTax": "No tax",
-        "noTaxRatesHint": "No tax rate is configured yet (to be set up in Phase 7).",
+        "noTaxRatesHint": "No active tax rate — set one up in Settings.",
         "saveEdit": "Save line",
         "addItem": "Add a line",
         "cancel": "Cancel"
@@ -659,6 +660,97 @@
         "internalNote": "Internal note",
         "bodyPlaceholder": "Write a message…",
         "add": "Send"
+      }
+    }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "subtitle": "Invoices, deposits and credit notes.",
+    "new": "New invoice",
+    "number": "Number",
+    "client": "Client",
+    "type": "Type",
+    "status": "Status",
+    "total": "Total",
+    "balanceDue": "Balance due",
+    "createdAt": "Created on",
+    "empty": "No invoice yet.",
+    "draftLabel": "Draft",
+    "statusValue": {
+      "DRAFT": "Draft",
+      "SENT": "Issued",
+      "PARTIALLY_PAID": "Partially paid",
+      "PAID": "Paid",
+      "OVERDUE": "Overdue",
+      "CANCELLED": "Cancelled"
+    },
+    "typeValue": {
+      "STANDARD": "Invoice",
+      "DEPOSIT": "Deposit invoice",
+      "CREDIT_NOTE": "Credit note"
+    },
+    "create": {
+      "title": "New invoice",
+      "subtitle": "Choose the client and the invoice type.",
+      "client": "Client",
+      "type": "Type",
+      "submit": "Create draft",
+      "noClients": "No client. Create one from the CRM."
+    },
+    "detail": {
+      "draftLabel": "Draft",
+      "backToInvoices": "Back to invoices",
+      "lockedNotice": "This invoice has been issued — it can no longer be edited. Correct an error with a credit note.",
+      "header": "Header",
+      "items": "Lines",
+      "totals": "Totals",
+      "subtotal": "Subtotal",
+      "discountTotal": "Discount",
+      "taxTotal": "Tax",
+      "total": "Total",
+      "amountPaid": "Collected",
+      "balanceDue": "Balance due",
+      "dueDate": "Due date",
+      "terms": "Terms",
+      "notes": "Notes",
+      "save": "Save",
+      "delete": "Delete",
+      "downloadPdf": "Download PDF",
+      "deleteConfirm": "Delete this draft?",
+      "deleteConfirmYes": "Yes, delete",
+      "cancel": "Cancel",
+      "statusValue": {
+        "DRAFT": "Draft",
+        "SENT": "Issued",
+        "PARTIALLY_PAID": "Partially paid",
+        "PAID": "Paid",
+        "OVERDUE": "Overdue",
+        "CANCELLED": "Cancelled"
+      },
+      "typeValue": {
+        "STANDARD": "Invoice",
+        "DEPOSIT": "Deposit invoice",
+        "CREDIT_NOTE": "Credit note"
+      },
+      "item": {
+        "titleColumn": "Item",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price",
+        "discount": "Discount",
+        "tax": "Tax",
+        "lineTotal": "Line total",
+        "edit": "Edit",
+        "remove": "Remove",
+        "empty": "No line yet.",
+        "service": "Service (optional)",
+        "noService": "No service (free entry)",
+        "description": "Description",
+        "unit": "Unit",
+        "noTax": "No tax",
+        "noTaxRatesHint": "No active tax rate — set one up in Settings.",
+        "saveEdit": "Save line",
+        "addItem": "Add a line",
+        "cancel": "Cancel"
       }
     }
   }

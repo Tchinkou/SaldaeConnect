@@ -20,6 +20,7 @@ export async function recordActivity(
     opportunityId?: string;
     projectId?: string;
     quoteId?: string;
+    invoiceId?: string;
   },
 ): Promise<{ id: string }> {
   return client.activity.create({
@@ -33,6 +34,7 @@ export async function recordActivity(
       opportunityId: params.opportunityId,
       projectId: params.projectId,
       quoteId: params.quoteId,
+      invoiceId: params.invoiceId,
     },
     select: { id: true },
   });
