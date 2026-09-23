@@ -19,6 +19,7 @@ import { ProjectMembers } from "@/app/[locale]/admin/projects/[id]/project-membe
 import { ProjectMilestones } from "@/app/[locale]/admin/projects/[id]/project-milestones";
 import { ProjectProgressMode } from "@/app/[locale]/admin/projects/[id]/project-progress-mode";
 import { ProjectFiles } from "@/app/[locale]/admin/projects/[id]/project-files";
+import { ProjectMessages } from "@/app/[locale]/admin/projects/[id]/project-messages";
 
 const STATUS_TONE = {
   PLANNING: "neutral",
@@ -80,6 +81,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const canWrite = hasPermission(currentUser, "project.write");
   const canReadFiles = hasPermission(currentUser, "file.read");
   const canWriteFiles = hasPermission(currentUser, "file.write");
+  const canReadMessages = hasPermission(currentUser, "message.read");
   const progress = computeProjectProgress(project.progressMode, {
     progressManual: project.progressManual,
     tasks: project.tasks,
@@ -195,6 +197,17 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                     uploaderName: file.uploadedById ? (nameById.get(file.uploadedById) ?? null) : null,
                   }))}
                 />
+              </CardContent>
+            </Card>
+          ) : null}
+
+          {canReadMessages ? (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">{t("message.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ProjectMessages projectId={project.id} />
               </CardContent>
             </Card>
           ) : null}

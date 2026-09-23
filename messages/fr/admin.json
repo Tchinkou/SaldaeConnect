@@ -626,6 +626,16 @@
         "uploadedBy": "Envoyé par {name}",
         "remove": "Supprimer",
         "add": "Envoyer"
+      },
+      "message": {
+        "title": "Messages",
+        "loading": "Chargement…",
+        "empty": "Aucun message pour le moment.",
+        "unknownAuthor": "Utilisateur supprimé",
+        "fromClient": "Client",
+        "internalNote": "Note interne",
+        "bodyPlaceholder": "Écrire un message…",
+        "add": "Envoyer"
       }
     }
   }

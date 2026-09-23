@@ -626,6 +626,16 @@
         "uploadedBy": "أُرسل بواسطة {name}",
         "remove": "حذف",
         "add": "إرسال"
+      },
+      "message": {
+        "title": "الرسائل",
+        "loading": "جارٍ التحميل…",
+        "empty": "لا توجد رسائل بعد.",
+        "unknownAuthor": "مستخدم محذوف",
+        "fromClient": "العميل",
+        "internalNote": "ملاحظة داخلية",
+        "bodyPlaceholder": "اكتب رسالة…",
+        "add": "إرسال"
       }
     }
   }

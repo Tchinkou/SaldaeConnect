@@ -626,6 +626,16 @@
         "uploadedBy": "Uploaded by {name}",
         "remove": "Remove",
         "add": "Upload"
+      },
+      "message": {
+        "title": "Messages",
+        "loading": "Loading…",
+        "empty": "No messages yet.",
+        "unknownAuthor": "Deleted user",
+        "fromClient": "Client",
+        "internalNote": "Internal note",
+        "bodyPlaceholder": "Write a message…",
+        "add": "Send"
       }
     }
   }
