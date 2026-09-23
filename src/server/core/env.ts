@@ -43,6 +43,7 @@ const envSchema = z.object({
   TURNSTILE_SECRET_KEY: z.string().optional(),
 
   CLAMAV_HOST: z.string().optional(),
+  CLAMAV_PORT: z.coerce.number().int().positive().default(3310),
 
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
 });

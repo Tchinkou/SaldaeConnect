@@ -37,6 +37,8 @@ export interface StorageProvider {
   writeGenerated(bytes: Uint8Array): Promise<string>;
   /** Relit un fichier à son emplacement définitif (déjà promu ou généré côté serveur). */
   read(storageKey: string): Promise<Buffer>;
+  /** Supprime un fichier à son emplacement définitif (suppression demandée par un utilisateur). */
+  remove(storageKey: string): Promise<void>;
 }
 
 class LocalStorageProvider implements StorageProvider {
@@ -69,6 +71,10 @@ class LocalStorageProvider implements StorageProvider {
 
   async read(storageKey: string): Promise<Buffer> {
     return readFile(path.join(filesDir, safeSegment(storageKey)));
+  }
+
+  async remove(storageKey: string): Promise<void> {
+    await unlink(path.join(filesDir, safeSegment(storageKey))).catch(() => undefined);
   }
 }
 

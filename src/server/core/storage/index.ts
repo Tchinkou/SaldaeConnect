@@ -3,11 +3,39 @@ import { createHash } from "node:crypto";
 import { env } from "@/server/core/env";
 import { ValidationError } from "@/server/core/errors";
 import { getStorageProvider } from "@/server/core/storage/local-provider";
-import { sniffType } from "@/server/core/storage/sniff";
+import { sniffTypeExtended, type SniffedType } from "@/server/core/storage/sniff";
+import { scanBuffer } from "@/server/core/storage/clamav";
 
-/** Limites du formulaire public (§H.4.5) ; l'admin/le portail auront des limites plus larges plus tard. */
+/** Limites du formulaire public (§H.4.5). */
 export const PUBLIC_UPLOAD_MAX_FILES = 5;
 export const PUBLIC_UPLOAD_MAX_BYTES = 10 * 1024 * 1024;
+
+/** Limites de l'espace projet, admin comme portail client (§H.4.5 : 50 Mo). */
+export const PROJECT_UPLOAD_MAX_FILES = 10;
+export const PROJECT_UPLOAD_MAX_BYTES = 50 * 1024 * 1024;
+
+/** Types acceptés pour un envoi de fichier de projet côté admin (bureautique + ZIP, réservés au staff). */
+export const PROJECT_ADMIN_ALLOWED_TYPES: SniffedType[] = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "application/zip",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+];
+
+/** Types acceptés pour un envoi de fichier de projet côté portail client — pas de ZIP nu (§H.4.5 : staff/admin uniquement). */
+export const PROJECT_CLIENT_ALLOWED_TYPES: SniffedType[] = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+];
 
 export interface ValidatedUpload {
   storageKey: string;
@@ -16,40 +44,55 @@ export interface ValidatedUpload {
   mimeType: string;
   sizeBytes: number;
   sha256: string;
+  /** Verdict antivirus : "CLEAN" si ClamAV a scanné et validé, "SKIPPED" si aucun ClamAV n'est configuré (§H.4.2). */
+  scanStatus: "CLEAN" | "SKIPPED";
 }
 
-/**
- * Valide, sniffe et met en quarantaine chaque fichier reçu du formulaire
- * public (§H.4 étapes 1-3) — appelé **avant** la transaction qui crée le
- * Lead/l'Opportunité, puisqu'il s'agit d'E/S disque, pas de base de données.
- * Les fichiers restent en quarantaine tant que la transaction n'a pas
- * confirmé la création de l'Opportunité (voir `promoteUploads`).
- */
-export async function receiveAndValidateUploads(files: File[]): Promise<ValidatedUpload[]> {
-  if (files.length === 0) return [];
-  if (files.length > PUBLIC_UPLOAD_MAX_FILES) {
-    throw new ValidationError(`Maximum ${PUBLIC_UPLOAD_MAX_FILES} fichiers.`);
-  }
+export interface ReceiveUploadsOptions {
+  maxFiles: number;
+  maxBytesPerFile: number;
+  allowedTypes: SniffedType[];
+}
 
-  await assertAvScanAvailable();
+const PUBLIC_UPLOAD_OPTIONS: ReceiveUploadsOptions = {
+  maxFiles: PUBLIC_UPLOAD_MAX_FILES,
+  maxBytesPerFile: PUBLIC_UPLOAD_MAX_BYTES,
+  allowedTypes: ["application/pdf", "image/jpeg", "image/png", "image/webp"],
+};
+
+/**
+ * Valide, scanne, sniffe et met en quarantaine chaque fichier reçu (§H.4
+ * étapes 1-3) — appelé **avant** la transaction qui référence les fichiers en
+ * base, puisqu'il s'agit d'E/S disque, pas de base de données. Les fichiers
+ * restent en quarantaine tant que la transaction n'a pas confirmé la
+ * création de l'enregistrement (voir `promoteUploads`).
+ */
+export async function receiveAndValidateUploads(
+  files: File[],
+  options: ReceiveUploadsOptions = PUBLIC_UPLOAD_OPTIONS,
+): Promise<ValidatedUpload[]> {
+  if (files.length === 0) return [];
+  if (files.length > options.maxFiles) {
+    throw new ValidationError(`Maximum ${options.maxFiles} fichiers.`);
+  }
 
   const provider = getStorageProvider();
   const results: ValidatedUpload[] = [];
 
   for (const file of files) {
-    if (file.size > PUBLIC_UPLOAD_MAX_BYTES) {
+    if (file.size > options.maxBytesPerFile) {
       throw new ValidationError(
-        `Le fichier « ${file.name} » dépasse la taille maximale (${Math.floor(PUBLIC_UPLOAD_MAX_BYTES / 1024 / 1024)} Mo).`,
+        `Le fichier « ${file.name} » dépasse la taille maximale (${Math.floor(options.maxBytesPerFile / 1024 / 1024)} Mo).`,
       );
     }
 
     const bytes = new Uint8Array(await file.arrayBuffer());
-    const realType = sniffType(bytes);
-    if (!realType) {
-      throw new ValidationError(
-        `Le fichier « ${file.name} » n'est pas d'un type accepté (PDF, JPEG, PNG, WebP).`,
-      );
+    const realType = sniffTypeExtended(bytes);
+    if (!realType || !options.allowedTypes.includes(realType)) {
+      throw new ValidationError(`Le fichier « ${file.name} » n'est pas d'un type accepté.`);
     }
+
+    const scanStatus = await scanIfConfigured(bytes, file.name);
 
     const storageKey = await provider.writeQuarantine(bytes);
     results.push({
@@ -59,6 +102,7 @@ export async function receiveAndValidateUploads(files: File[]): Promise<Validate
       mimeType: realType,
       sizeBytes: bytes.byteLength,
       sha256: createHash("sha256").update(bytes).digest("hex"),
+      scanStatus,
     });
   }
 
@@ -103,18 +147,37 @@ export async function readStoredFile(storageKey: string): Promise<Buffer> {
   return getStorageProvider().read(storageKey);
 }
 
+/** Supprime définitivement un fichier déjà promu (suppression demandée par un utilisateur). */
+export async function removeStoredFile(storageKey: string): Promise<void> {
+  return getStorageProvider().remove(storageKey);
+}
+
 /**
- * §H.4 : l'antivirus tourne « s'il est configuré ». Ici, `CLAMAV_HOST` n'a
- * pas encore de client ClamAV implémenté ; plutôt que de marquer les
- * fichiers "propres" sans les avoir réellement scannés, on refuse l'envoi
- * tant que l'intégration n'existe pas — voir le rapport de phase.
+ * §H.4.2 : l'antivirus tourne « s'il est configuré ». Sans `CLAMAV_HOST`,
+ * aucun scan n'est tenté (statut "SKIPPED") — c'est le comportement attendu
+ * en développement/sans infrastructure ClamAV. Configuré, un fichier détecté
+ * infecté ou un clamd injoignable/en erreur refusent l'envoi (fail-closed) :
+ * mieux vaut bloquer un envoi légitime qu'accepter un fichier non vérifié
+ * alors qu'un scanner a été explicitement configuré.
  */
-async function assertAvScanAvailable(): Promise<void> {
-  if (env.CLAMAV_HOST) {
-    throw new Error(
-      "CLAMAV_HOST est configuré mais le client ClamAV n'est pas encore implémenté (server/core/storage).",
+async function scanIfConfigured(bytes: Uint8Array, fileName: string): Promise<"CLEAN" | "SKIPPED"> {
+  if (!env.CLAMAV_HOST) return "SKIPPED";
+
+  let result;
+  try {
+    result = await scanBuffer(bytes, env.CLAMAV_HOST, env.CLAMAV_PORT);
+  } catch (error) {
+    console.error("Échec de l'analyse antivirus", error);
+    throw new ValidationError(`Analyse antivirus indisponible pour « ${fileName} » — envoi refusé par prudence.`);
+  }
+
+  if (!result.clean) {
+    throw new ValidationError(
+      `Le fichier « ${fileName} » a été rejeté par l'antivirus${result.signature ? ` (${result.signature})` : ""}.`,
     );
   }
+
+  return "CLEAN";
 }
 
 function sanitizeFileName(originalName: string): string {

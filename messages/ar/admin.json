@@ -608,6 +608,24 @@
           "MANUAL": "يدوية"
         },
         "save": "حفظ"
+      },
+      "file": {
+        "title": "الملفات",
+        "empty": "لا توجد ملفات بعد.",
+        "category": {
+          "DOCUMENT": "مستند",
+          "DELIVERABLE": "تسليم",
+          "MEDIA": "وسائط",
+          "ATTACHMENT": "مرفق"
+        },
+        "visibility": {
+          "INTERNAL": "داخلي",
+          "CLIENT": "مرئي للعميل"
+        },
+        "visibleToClient": "مرئي للعميل",
+        "uploadedBy": "أُرسل بواسطة {name}",
+        "remove": "حذف",
+        "add": "إرسال"
       }
     }
   }

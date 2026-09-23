@@ -608,6 +608,24 @@
           "MANUAL": "Manual"
         },
         "save": "Save"
+      },
+      "file": {
+        "title": "Files",
+        "empty": "No files yet.",
+        "category": {
+          "DOCUMENT": "Document",
+          "DELIVERABLE": "Deliverable",
+          "MEDIA": "Media",
+          "ATTACHMENT": "Attachment"
+        },
+        "visibility": {
+          "INTERNAL": "Internal",
+          "CLIENT": "Visible to client"
+        },
+        "visibleToClient": "Visible to client",
+        "uploadedBy": "Uploaded by {name}",
+        "remove": "Remove",
+        "add": "Upload"
       }
     }
   }

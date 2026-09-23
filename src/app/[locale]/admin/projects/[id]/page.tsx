@@ -18,6 +18,7 @@ import { ProjectStatusControl } from "@/app/[locale]/admin/projects/[id]/project
 import { ProjectMembers } from "@/app/[locale]/admin/projects/[id]/project-members";
 import { ProjectMilestones } from "@/app/[locale]/admin/projects/[id]/project-milestones";
 import { ProjectProgressMode } from "@/app/[locale]/admin/projects/[id]/project-progress-mode";
+import { ProjectFiles } from "@/app/[locale]/admin/projects/[id]/project-files";
 
 const STATUS_TONE = {
   PLANNING: "neutral",
@@ -49,6 +50,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       tasks: { orderBy: [{ status: "asc" }, { dueAt: "asc" }] },
       statusChanges: { orderBy: { createdAt: "desc" } },
       activities: { orderBy: { occurredAt: "desc" }, take: 30 },
+      files: { where: { status: "ACTIVE" }, orderBy: { createdAt: "desc" } },
     },
   });
 
@@ -72,9 +74,12 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     ...project.members.map((m) => m.userId),
     ...project.tasks.map((task) => task.assigneeId),
     ...project.statusChanges.map((change) => change.changedById),
+    ...project.files.map((file) => file.uploadedById),
   ]);
 
   const canWrite = hasPermission(currentUser, "project.write");
+  const canReadFiles = hasPermission(currentUser, "file.read");
+  const canWriteFiles = hasPermission(currentUser, "file.write");
   const progress = computeProjectProgress(project.progressMode, {
     progressManual: project.progressManual,
     tasks: project.tasks,
@@ -169,6 +174,30 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               />
             </CardContent>
           </Card>
+
+          {canReadFiles ? (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">{t("file.title")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ProjectFiles
+                  projectId={project.id}
+                  canWrite={canWriteFiles}
+                  files={project.files.map((file) => ({
+                    id: file.id,
+                    originalName: file.originalName,
+                    mimeType: file.mimeType,
+                    sizeBytes: file.sizeBytes.toString(),
+                    category: file.category,
+                    visibility: file.visibility,
+                    createdAt: file.createdAt.toISOString(),
+                    uploaderName: file.uploadedById ? (nameById.get(file.uploadedById) ?? null) : null,
+                  }))}
+                />
+              </CardContent>
+            </Card>
+          ) : null}
 
           <Card>
             <CardHeader>

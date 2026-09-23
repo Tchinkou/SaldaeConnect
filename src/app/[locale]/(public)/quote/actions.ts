@@ -150,6 +150,7 @@ export const submitRequestAction = definePublicAction({
               category: "ATTACHMENT",
               status: "QUARANTINE",
               visibility: "INTERNAL",
+              scanStatus: upload.scanStatus,
               opportunityId: opportunity.id,
             })),
           });

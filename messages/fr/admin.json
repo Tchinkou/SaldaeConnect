@@ -608,6 +608,24 @@
           "MANUAL": "Manuelle"
         },
         "save": "Enregistrer"
+      },
+      "file": {
+        "title": "Fichiers",
+        "empty": "Aucun fichier pour le moment.",
+        "category": {
+          "DOCUMENT": "Document",
+          "DELIVERABLE": "Livrable",
+          "MEDIA": "Média",
+          "ATTACHMENT": "Pièce jointe"
+        },
+        "visibility": {
+          "INTERNAL": "Interne",
+          "CLIENT": "Visible par le client"
+        },
+        "visibleToClient": "Visible par le client",
+        "uploadedBy": "Envoyé par {name}",
+        "remove": "Supprimer",
+        "add": "Envoyer"
       }
     }
   }

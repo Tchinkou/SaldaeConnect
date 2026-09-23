@@ -1095,7 +1095,7 @@ Les couleurs de l'admin sont injectées comme variables CSS depuis `Setting.them
 | `CRON_SECRET` | Protection des tâches planifiées |
 | `RATE_LIMIT_STORE`, `REDIS_URL` (facultatif) | Limitation de débit |
 | `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (facultatif) | Captcha |
-| `CLAMAV_HOST` (facultatif) | Antivirus |
+| `CLAMAV_HOST`, `CLAMAV_PORT` (facultatif) | Antivirus |
 | `LOG_LEVEL` | Niveau de journalisation |
 
 Chaque variable sera documentée dans `.env.example` et dans le README ; l'application vérifie leur présence et leur format au démarrage.
