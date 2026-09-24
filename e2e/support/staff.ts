@@ -21,7 +21,11 @@ export async function loginAsStaff(page: Page, path = "/fr/admin"): Promise<void
   await page.fill('input[type="password"]', STAFF_PASSWORD);
   await page.click('button[type="submit"]');
   await page.waitForLoadState("networkidle", { timeout: 15000 });
-  await page.waitForTimeout(500);
+  // Le passage par /admin avant la redirection serveur vers
+  // /two-factor-setup peut apparaître brièvement dans l'URL avant que la
+  // vraie redirection se termine (piège déjà rencontré en Phase 11) — on
+  // laisse un délai franc plutôt que de lire l'URL immédiatement.
+  await page.waitForTimeout(1000);
 
   if (page.url().includes("two-factor-setup")) {
     await page.fill("#tfa-password", STAFF_PASSWORD);
@@ -31,12 +35,18 @@ export async function loginAsStaff(page: Page, path = "/fr/admin"): Promise<void
     await page.fill("#tfa-code", totp(secret));
     await page.click('button[type="submit"]');
     await page.waitForLoadState("networkidle", { timeout: 15000 });
+    // La session ne marque le 2FA vérifié qu'après la réponse de
+    // verify-totp (cookie posé côté client) — une navigation immédiate
+    // vers une page protégée peut encore voir l'ancien état et rebondir
+    // sur /two-factor-setup (déjà observé). On laisse le cookie se poser.
+    await page.waitForTimeout(1000);
   } else if (page.url().includes("/login/two-factor")) {
     const { secret } = await runDbCommand<{ secret: string | null }>({ op: "getStaffTotpSecret", email: STAFF_EMAIL });
     if (!secret) throw new Error("Compte STAFF marqué 2FA actif mais aucun secret TOTP en base.");
     await page.fill("#code", totp(secret));
     await page.click('button[type="submit"]');
     await page.waitForLoadState("networkidle", { timeout: 15000 });
+    await page.waitForTimeout(1000);
   }
 
   if (path !== "/fr/admin") {

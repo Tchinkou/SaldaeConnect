@@ -65,8 +65,18 @@ async function main() {
       break;
     }
     case "cleanupTestClient": {
+      // Ordre imposé par les relations `onDelete: Restrict` vers Client
+      // (Quote, Project, Invoice, Payment, Subscription) — sans quoi la
+      // suppression du client échoue silencieusement et laisse un résidu
+      // (déjà observé : un client orphelin d'une exécution précédente a
+      // faussé une sélection par libellé dans un test).
+      await db.payment.deleteMany({ where: { clientId: command.clientId } });
+      await db.invoice.deleteMany({ where: { clientId: command.clientId } });
+      await db.project.deleteMany({ where: { clientId: command.clientId } });
+      await db.quote.deleteMany({ where: { clientId: command.clientId } });
+      await db.subscription.deleteMany({ where: { clientId: command.clientId } });
       await db.user.delete({ where: { id: command.userId } }).catch(() => {});
-      await db.client.delete({ where: { id: command.clientId } }).catch(() => {});
+      await db.client.delete({ where: { id: command.clientId } });
       result = { ok: true };
       break;
     }
@@ -85,7 +95,9 @@ async function main() {
   }
 
   await db.$disconnect();
-  process.stdout.write(JSON.stringify(result));
+  // Certains modèles (Quote, Invoice…) portent des colonnes BigInt (montants
+  // en centimes) que JSON.stringify ne sait pas sérialiser nativement.
+  process.stdout.write(JSON.stringify(result, (_key, value) => (typeof value === "bigint" ? value.toString() : value)));
 }
 
 main().catch((error) => {

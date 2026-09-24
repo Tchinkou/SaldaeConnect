@@ -240,13 +240,13 @@ export function QuoteWizard({
             <div className="space-y-4">
               <h2 className="text-lg font-semibold text-foreground">{t("contactStep.title")}</h2>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label={t("contactStep.firstName")} value={state.firstName} onChange={(v) => update("firstName", v)} required />
-                <Field label={t("contactStep.lastName")} value={state.lastName} onChange={(v) => update("lastName", v)} required />
-                <Field label={t("contactStep.email")} type="email" dir="ltr" value={state.email} onChange={(v) => update("email", v)} required />
-                <Field label={t("contactStep.phone")} type="tel" dir="ltr" value={state.phone} onChange={(v) => update("phone", v)} />
-                <Field label={t("contactStep.companyName")} value={state.companyName} onChange={(v) => update("companyName", v)} />
-                <Field label={t("contactStep.country")} value={state.country} onChange={(v) => update("country", v)} />
-                <Field label={t("contactStep.city")} value={state.city} onChange={(v) => update("city", v)} />
+                <Field id="quote-firstName" label={t("contactStep.firstName")} value={state.firstName} onChange={(v) => update("firstName", v)} required />
+                <Field id="quote-lastName" label={t("contactStep.lastName")} value={state.lastName} onChange={(v) => update("lastName", v)} required />
+                <Field id="quote-email" label={t("contactStep.email")} type="email" dir="ltr" value={state.email} onChange={(v) => update("email", v)} required />
+                <Field id="quote-phone" label={t("contactStep.phone")} type="tel" dir="ltr" value={state.phone} onChange={(v) => update("phone", v)} />
+                <Field id="quote-companyName" label={t("contactStep.companyName")} value={state.companyName} onChange={(v) => update("companyName", v)} />
+                <Field id="quote-country" label={t("contactStep.country")} value={state.country} onChange={(v) => update("country", v)} />
+                <Field id="quote-city" label={t("contactStep.city")} value={state.city} onChange={(v) => update("city", v)} />
               </div>
             </div>
           ) : null}
@@ -255,8 +255,11 @@ export function QuoteWizard({
             <div className="space-y-4">
               <h2 className="text-lg font-semibold text-foreground">{t("messageStep.title")}</h2>
               <div>
-                <label className="block text-sm font-medium text-foreground">{t("messageStep.message")}</label>
+                <label htmlFor="quote-message" className="block text-sm font-medium text-foreground">
+                  {t("messageStep.message")}
+                </label>
                 <textarea
+                  id="quote-message"
                   rows={5}
                   value={state.message}
                   onChange={(event) => update("message", event.target.value)}
@@ -264,8 +267,11 @@ export function QuoteWizard({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground">{t("messageStep.files")}</label>
+                <label htmlFor="quote-files" className="block text-sm font-medium text-foreground">
+                  {t("messageStep.files")}
+                </label>
                 <input
+                  id="quote-files"
                   type="file"
                   multiple
                   accept="application/pdf,image/jpeg,image/png,image/webp"
@@ -366,6 +372,7 @@ export function QuoteWizard({
 }
 
 function Field({
+  id,
   label,
   value,
   onChange,
@@ -373,6 +380,7 @@ function Field({
   dir,
   required,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -382,8 +390,11 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={id} className="block text-sm font-medium text-foreground">
+        {label}
+      </label>
       <input
+        id={id}
         type={type}
         dir={dir}
         required={required}
