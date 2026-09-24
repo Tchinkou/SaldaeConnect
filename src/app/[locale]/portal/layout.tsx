@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/server/core/authz/session";
 import { prisma } from "@/server/core/db/client";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { PortalSignOutButton } from "@/components/portal/portal-sign-out-button";
+import { PortalNav } from "@/components/portal/portal-nav";
 import { NotificationBell } from "@/components/notifications/notification-bell";
 import { Link } from "@/i18n/navigation";
 
@@ -42,21 +43,30 @@ export default async function PortalLayout({
   const t = await getTranslations("portal.nav");
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between border-b border-border bg-surface px-4 py-3 sm:px-8">
-        <Link href="/portal" className="text-lg font-semibold tracking-tight">
-          <span className="text-brand-600">Saldae</span>
-          <span className="text-foreground">Connect</span>
-        </Link>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-foreground/70">{contact.client.displayName}</span>
-          <NotificationBell />
-          <PortalSignOutButton label={t("signOut")} />
-          <LocaleSwitcher />
+    <div className="flex min-h-screen">
+      <aside className="flex w-64 shrink-0 flex-col justify-between border-e border-border bg-surface p-4">
+        <div className="flex flex-col gap-6">
+          <Link href="/portal" className="px-3 text-lg font-semibold tracking-tight">
+            <span className="text-brand-600">Saldae</span>
+            <span className="text-foreground">Connect</span>
+          </Link>
+          <PortalNav />
         </div>
-      </header>
+        <div className="flex flex-col gap-3 px-3">
+          <div className="flex items-center justify-between">
+            <PortalSignOutButton label={t("signOut")} />
+            <LocaleSwitcher />
+          </div>
+        </div>
+      </aside>
       <div className="flex-1 bg-surface-muted">
-        <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6 sm:p-8">{children}</div>
+        <div className="mx-auto flex max-w-4xl flex-col gap-6 p-6 sm:p-8">
+          <div className="flex items-center justify-end gap-3 text-sm text-foreground/70">
+            <NotificationBell />
+            <span>{contact.client.displayName}</span>
+          </div>
+          {children}
+        </div>
       </div>
     </div>
   );

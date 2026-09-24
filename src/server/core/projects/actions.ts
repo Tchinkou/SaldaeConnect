@@ -5,7 +5,7 @@ import { defineAction } from "@/server/core/action";
 import { prisma } from "@/server/core/db/client";
 import { assertProjectManagerInScope } from "@/server/core/authz/ownership";
 import { recordActivity } from "@/server/core/crm/timeline";
-import { createNotifications, resolveStaffRecipients } from "@/server/core/notify-admins";
+import { createNotifications, resolveStaffRecipients, isEmailNotificationEnabled } from "@/server/core/notify-admins";
 import { advanceOpportunityStage } from "@/server/core/crm/stage";
 import { env } from "@/server/core/env";
 import { sendProjectStatusChangeEmail } from "@/server/core/email/send-project-status-change-email";
@@ -129,7 +129,7 @@ export const updateProjectStatusAction = defineAction({
     });
 
     try {
-      if (outcome.portalContact?.email) {
+      if (outcome.portalContact?.email && (await isEmailNotificationEnabled(outcome.portalContact.userId, "project.status_changed"))) {
         await sendProjectStatusChangeEmail({
           to: outcome.portalContact.email,
           projectName: project.name,

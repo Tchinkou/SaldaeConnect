@@ -78,10 +78,16 @@ export const listProjectMessagesAction = defineAction({
 
 const listPortalProjectMessagesSchema = z.object({ projectId: z.string().min(1) });
 
-/** Vue portail des messages d'un projet : jamais les notes internes, ni leurs pièces jointes (§F.4). */
+/**
+ * Vue portail des messages d'un projet : jamais les notes internes, ni leurs
+ * pièces jointes (§F.4). Le simple fait de consulter la conversation marque
+ * les messages comme lus (`lastReadAt`) — c'est le seul point d'entrée du
+ * portail vers cette conversation, donc le point naturel pour ce marquage ;
+ * la page Messages du portail (§16) l'utilise pour son compteur non-lus.
+ */
 export const listPortalProjectMessagesAction = definePortalAction({
   schema: listPortalProjectMessagesSchema,
-  handler: async (input, { clientId }) => {
+  handler: async (input, { clientId, user }) => {
     const project = await prisma.project.findUnique({ where: { id: input.projectId }, select: { clientId: true } });
     if (!project || project.clientId !== clientId) {
       throw new ValidationError("Projet introuvable.");
@@ -89,6 +95,12 @@ export const listPortalProjectMessagesAction = definePortalAction({
 
     const conversation = await prisma.conversation.findFirst({ where: { projectId: input.projectId, type: "PROJECT" } });
     if (!conversation) return [];
+
+    await prisma.conversationParticipant.upsert({
+      where: { conversationId_userId: { conversationId: conversation.id, userId: user.user.id } },
+      create: { conversationId: conversation.id, userId: user.user.id, lastReadAt: new Date() },
+      update: { lastReadAt: new Date() },
+    });
 
     const messages = await prisma.message.findMany({
       where: { conversationId: conversation.id, deletedAt: null, isInternalNote: false },

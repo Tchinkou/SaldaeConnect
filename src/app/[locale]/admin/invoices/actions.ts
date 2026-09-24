@@ -11,7 +11,7 @@ import { assertInvoiceOwnerInScope } from "@/server/core/authz/ownership";
 import { recomputeInvoiceTotals, assertInvoiceIsDraft } from "@/server/core/invoices/totals";
 import { buildInvoicePdfHtml } from "@/server/core/invoices/pdf-template";
 import { recordActivity } from "@/server/core/crm/timeline";
-import { createNotifications } from "@/server/core/notify-admins";
+import { createNotifications, isEmailNotificationEnabled } from "@/server/core/notify-admins";
 import { nextNumber } from "@/server/core/numbering";
 import { getPdfRenderer } from "@/server/core/pdf";
 import { storeGeneratedFile } from "@/server/core/storage";
@@ -422,8 +422,10 @@ export const issueInvoiceAction = defineAction({
     });
 
     try {
-      const ctaUrl = outcome.acceptUrl ?? `${env.NEXT_PUBLIC_APP_URL}/${clientLocale}/login`;
-      await sendInvoiceAvailableEmail({ to: contactEmail, invoiceNumber: invoice.number, ctaUrl, locale: clientLocale });
+      if (await isEmailNotificationEnabled(contactUserId, "invoice.issued")) {
+        const ctaUrl = outcome.acceptUrl ?? `${env.NEXT_PUBLIC_APP_URL}/${clientLocale}/login`;
+        await sendInvoiceAvailableEmail({ to: contactEmail, invoiceNumber: invoice.number, ctaUrl, locale: clientLocale });
+      }
     } catch (error) {
       console.error("Échec de l'envoi de l'email de disponibilité d'une facture", error);
     }

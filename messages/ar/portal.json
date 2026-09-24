@@ -2,7 +2,13 @@
   "nav": {
     "dashboard": "لوحة التحكم",
     "quotes": "عروض الأسعار",
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "projects": "مشاريعي",
+    "invoices": "فواتيري",
+    "documents": "المستندات",
+    "messages": "الرسائل",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات"
   },
   "dashboard": {
     "title": "مرحبًا بك",
@@ -15,7 +21,16 @@
     "projectsCardLink": "عرض مشاريعي",
     "invoicesCard": "الفواتير",
     "invoicesCardDescription": "اطّلع على فواتيرك وحالة دفعها.",
-    "invoicesCardLink": "عرض فواتيري"
+    "invoicesCardLink": "عرض فواتيري",
+    "documentQuote": "عرض السعر {number}",
+    "documentInvoice": "الفاتورة {number}",
+    "messagesCard": "الرسائل",
+    "messagesCardDescription": "محادثاتك مع فريقنا.",
+    "messagesCardLink": "عرض رسائلي",
+    "documentsCard": "آخر المستندات",
+    "documentsCardEmpty": "لا توجد مستندات بعد.",
+    "documentsCardLink": "عرض جميع مستنداتي",
+    "notificationsCard": "الإشعارات الأخيرة"
   },
   "quotes": {
     "title": "عروض أسعارك",
@@ -187,6 +202,81 @@
       "PAID": "مدفوعة",
       "OVERDUE": "متأخرة",
       "CANCELLED": "ملغاة"
+    }
+  },
+  "documents": {
+    "title": "المستندات",
+    "subtitle": "جميع مستنداتك في مكان واحد: مخرجات المشاريع وعروض الأسعار والفواتير.",
+    "empty": "لا توجد مستندات بعد.",
+    "projectSection": "ملفات المشروع",
+    "quoteSection": "عروض الأسعار",
+    "invoiceSection": "الفواتير",
+    "quoteDocument": "عرض السعر {number}",
+    "invoiceDocument": "الفاتورة {number}",
+    "download": "تحميل"
+  },
+  "messages": {
+    "title": "الرسائل",
+    "subtitle": "محادثاتك مع فريقنا، حسب المشروع.",
+    "empty": "لا توجد محادثات بعد.",
+    "conversation": "محادثة",
+    "noMessage": "لا توجد رسائل بعد.",
+    "unreadCount": "{count, plural, one {# غير مقروءة} other {# غير مقروءة}}"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "subtitle": "بيانات التواصل وأمان تسجيل الدخول.",
+    "form": {
+      "heading": "بيانات التواصل",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "phone": "الهاتف",
+      "jobTitle": "المسمى الوظيفي",
+      "submit": "حفظ",
+      "saved": "تم حفظ بيانات التواصل."
+    },
+    "password": {
+      "heading": "كلمة المرور",
+      "currentPassword": "كلمة المرور الحالية",
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد كلمة المرور الجديدة",
+      "submit": "تغيير كلمة المرور",
+      "success": "تم تغيير كلمة المرور.",
+      "errorMismatch": "كلمتا المرور غير متطابقتين.",
+      "errorGeneric": "تعذر تغيير كلمة المرور. تحقق من كلمة المرور الحالية."
+    }
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "اختر كيف نخطرك.",
+    "notifications": {
+      "heading": "الإشعارات"
+    },
+    "channel": {
+      "inApp": "داخل التطبيق",
+      "email": "عبر البريد الإلكتروني"
+    },
+    "type": {
+      "project": {
+        "status_changed": {
+          "label": "تغيير حالة المشروع",
+          "description": "عند تغيّر حالة أحد مشاريعك."
+        },
+        "message": {
+          "label": "رسالة جديدة",
+          "description": "عندما يرسل لك فريقنا رسالة بخصوص مشروع."
+        }
+      },
+      "invoice": {
+        "issued": {
+          "label": "توفر فاتورة",
+          "description": "عند إصدار فاتورة جديدة."
+        },
+        "payment_recorded": {
+          "label": "تسجيل دفعة",
+          "description": "عند تسجيل دفعة على إحدى فواتيرك."
+        }
+      }
     }
   }
 }

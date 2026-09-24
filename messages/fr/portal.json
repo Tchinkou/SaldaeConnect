@@ -2,7 +2,13 @@
   "nav": {
     "dashboard": "Tableau de bord",
     "quotes": "Devis",
-    "signOut": "Déconnexion"
+    "signOut": "Déconnexion",
+    "projects": "Mes projets",
+    "invoices": "Mes factures",
+    "documents": "Documents",
+    "messages": "Messages",
+    "profile": "Profil",
+    "settings": "Paramètres"
   },
   "dashboard": {
     "title": "Bienvenue",
@@ -15,7 +21,16 @@
     "projectsCardLink": "Voir mes projets",
     "invoicesCard": "Factures",
     "invoicesCardDescription": "Consultez vos factures et leur statut de paiement.",
-    "invoicesCardLink": "Voir mes factures"
+    "invoicesCardLink": "Voir mes factures",
+    "documentQuote": "Devis {number}",
+    "documentInvoice": "Facture {number}",
+    "messagesCard": "Messages",
+    "messagesCardDescription": "Vos échanges avec notre équipe.",
+    "messagesCardLink": "Voir mes messages",
+    "documentsCard": "Derniers documents",
+    "documentsCardEmpty": "Aucun document pour le moment.",
+    "documentsCardLink": "Voir tous mes documents",
+    "notificationsCard": "Notifications récentes"
   },
   "quotes": {
     "title": "Vos devis",
@@ -187,6 +202,81 @@
       "PAID": "Payée",
       "OVERDUE": "En retard",
       "CANCELLED": "Annulée"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "Tous vos documents au même endroit : livrables de projet, devis et factures.",
+    "empty": "Aucun document pour le moment.",
+    "projectSection": "Fichiers de projet",
+    "quoteSection": "Devis",
+    "invoiceSection": "Factures",
+    "quoteDocument": "Devis {number}",
+    "invoiceDocument": "Facture {number}",
+    "download": "Télécharger"
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Vos échanges avec notre équipe, par projet.",
+    "empty": "Aucune conversation pour le moment.",
+    "conversation": "Conversation",
+    "noMessage": "Aucun message pour le moment.",
+    "unreadCount": "{count, plural, one {# non lu} other {# non lus}}"
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Vos coordonnées et votre sécurité de connexion.",
+    "form": {
+      "heading": "Coordonnées",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "phone": "Téléphone",
+      "jobTitle": "Fonction",
+      "submit": "Enregistrer",
+      "saved": "Coordonnées enregistrées."
+    },
+    "password": {
+      "heading": "Mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "submit": "Changer le mot de passe",
+      "success": "Mot de passe changé.",
+      "errorMismatch": "Les mots de passe ne correspondent pas.",
+      "errorGeneric": "Impossible de changer le mot de passe. Vérifiez votre mot de passe actuel."
+    }
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Choisissez comment nous vous prévenons.",
+    "notifications": {
+      "heading": "Notifications"
+    },
+    "channel": {
+      "inApp": "Dans l’application",
+      "email": "Par email"
+    },
+    "type": {
+      "project": {
+        "status_changed": {
+          "label": "Changement de statut de projet",
+          "description": "Quand le statut d’un de vos projets change."
+        },
+        "message": {
+          "label": "Nouveau message",
+          "description": "Quand notre équipe vous envoie un message sur un projet."
+        }
+      },
+      "invoice": {
+        "issued": {
+          "label": "Facture disponible",
+          "description": "Quand une nouvelle facture est émise."
+        },
+        "payment_recorded": {
+          "label": "Paiement enregistré",
+          "description": "Quand un paiement est enregistré sur une de vos factures."
+        }
+      }
     }
   }
 }

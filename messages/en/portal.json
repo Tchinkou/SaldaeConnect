@@ -2,7 +2,13 @@
   "nav": {
     "dashboard": "Dashboard",
     "quotes": "Quotes",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "projects": "My projects",
+    "invoices": "My invoices",
+    "documents": "Documents",
+    "messages": "Messages",
+    "profile": "Profile",
+    "settings": "Settings"
   },
   "dashboard": {
     "title": "Welcome",
@@ -15,7 +21,16 @@
     "projectsCardLink": "View my projects",
     "invoicesCard": "Invoices",
     "invoicesCardDescription": "View your invoices and their payment status.",
-    "invoicesCardLink": "View my invoices"
+    "invoicesCardLink": "View my invoices",
+    "documentQuote": "Quote {number}",
+    "documentInvoice": "Invoice {number}",
+    "messagesCard": "Messages",
+    "messagesCardDescription": "Your conversations with our team.",
+    "messagesCardLink": "View my messages",
+    "documentsCard": "Latest documents",
+    "documentsCardEmpty": "No documents yet.",
+    "documentsCardLink": "View all my documents",
+    "notificationsCard": "Recent notifications"
   },
   "quotes": {
     "title": "Your quotes",
@@ -187,6 +202,81 @@
       "PAID": "Paid",
       "OVERDUE": "Overdue",
       "CANCELLED": "Cancelled"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "All your documents in one place: project deliverables, quotes and invoices.",
+    "empty": "No documents yet.",
+    "projectSection": "Project files",
+    "quoteSection": "Quotes",
+    "invoiceSection": "Invoices",
+    "quoteDocument": "Quote {number}",
+    "invoiceDocument": "Invoice {number}",
+    "download": "Download"
+  },
+  "messages": {
+    "title": "Messages",
+    "subtitle": "Your conversations with our team, by project.",
+    "empty": "No conversation yet.",
+    "conversation": "Conversation",
+    "noMessage": "No message yet.",
+    "unreadCount": "{count, plural, one {# unread} other {# unread}}"
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Your contact details and login security.",
+    "form": {
+      "heading": "Contact details",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "jobTitle": "Job title",
+      "submit": "Save",
+      "saved": "Contact details saved."
+    },
+    "password": {
+      "heading": "Password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm new password",
+      "submit": "Change password",
+      "success": "Password changed.",
+      "errorMismatch": "Passwords do not match.",
+      "errorGeneric": "Could not change your password. Check your current password."
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Choose how we notify you.",
+    "notifications": {
+      "heading": "Notifications"
+    },
+    "channel": {
+      "inApp": "In-app",
+      "email": "By email"
+    },
+    "type": {
+      "project": {
+        "status_changed": {
+          "label": "Project status change",
+          "description": "When the status of one of your projects changes."
+        },
+        "message": {
+          "label": "New message",
+          "description": "When our team sends you a message on a project."
+        }
+      },
+      "invoice": {
+        "issued": {
+          "label": "Invoice available",
+          "description": "When a new invoice is issued."
+        },
+        "payment_recorded": {
+          "label": "Payment recorded",
+          "description": "When a payment is recorded on one of your invoices."
+        }
+      }
     }
   }
 }
