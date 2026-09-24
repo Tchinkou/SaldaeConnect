@@ -32,7 +32,21 @@ export function TransactionOrderStatusControl({ orderId, currentStatus, currentT
 
   if (!editing) {
     return (
-      <button type="button" onClick={() => setEditing(true)} className="text-xs font-medium text-brand-600 hover:underline">
+      <button
+        type="button"
+        onClick={() => {
+          // `status` n'est initialisé qu'au montage : comme ce composant
+          // n'est pas démonté entre deux ouvertures, une réouverture après
+          // un premier changement de statut gardait la valeur précédente
+          // (ex: soumission de PRICE_CONFIRMED une seconde fois, rejetée
+          // par le serveur comme transition non autorisée vers elle-même,
+          // alors que le <select> affichait visuellement la bonne option
+          // par défaut du navigateur faute de correspondance de `value`).
+          setStatus((options[0] as StatusValue) ?? currentStatus);
+          setEditing(true);
+        }}
+        className="text-xs font-medium text-brand-600 hover:underline"
+      >
         {t("changeStatus")}
       </button>
     );

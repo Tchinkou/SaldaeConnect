@@ -21,7 +21,11 @@ test("infra: création puis nettoyage d'un compte client de test", async ({ page
     await page.fill('input[type="password"]', testClient.password);
     await page.click('button[type="submit"]');
     await page.waitForLoadState("networkidle");
-    await expect(page).toHaveURL(/\/portal/);
+    // La redirection post-connexion peut accuser un léger retard par
+    // rapport à networkidle (même piège que documenté dans
+    // public-quote-journey.spec.ts pour la connexion du client de test).
+    await page.waitForTimeout(1000);
+    await expect(page).toHaveURL(/\/portal/, { timeout: 15000 });
   } finally {
     await testClient.cleanup();
   }
