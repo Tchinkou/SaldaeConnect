@@ -29,7 +29,10 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
+      {/* 4 colonnes serrées à `md` (768px) débordaient horizontalement
+          (contact email/téléphone en dir="ltr" non coupable) — bascule à
+          `lg`, avec un palier à 2 colonnes en tablette. */}
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <span className="text-lg font-semibold tracking-tight">
             <span className="text-brand-600">Saldae</span>

@@ -59,11 +59,15 @@ export default async function PortalLayout({
           </div>
         </div>
       </aside>
-      <div className="flex-1 bg-surface-muted">
+      {/* min-w-0 : même correctif que admin/layout.tsx — un enfant flex-1
+          ne rétrécit pas sous la largeur intrinsèque de son contenu par
+          défaut, ce qui élargissait toute la page au lieu de laisser un
+          contenu large défiler dans son propre conteneur. */}
+      <div className="min-w-0 flex-1 bg-surface-muted">
         <div className="mx-auto flex max-w-4xl flex-col gap-6 p-6 sm:p-8">
           <div className="flex items-center justify-end gap-3 text-sm text-foreground/70">
             <NotificationBell />
-            <span>{contact.client.displayName}</span>
+            <span className="min-w-0 truncate">{contact.client.displayName}</span>
           </div>
           {children}
         </div>

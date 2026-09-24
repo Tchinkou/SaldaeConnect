@@ -81,7 +81,12 @@ export default async function AdminLayout({
           </div>
         </div>
       </aside>
-      <div className="flex-1 bg-surface-muted">
+      {/* min-w-0 : un enfant flex-1 ne rétrécit pas sous la largeur
+          intrinsèque de son contenu par défaut — sans ça, un contenu large
+          plus loin dans l'arbre (ex: le Kanban CRM avec overflow-x-auto)
+          élargit toute la mise en page au lieu de défiler dans son propre
+          conteneur (constaté par un contrôle responsive Playwright). */}
+      <div className="min-w-0 flex-1 bg-surface-muted">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 p-6 sm:p-8">
           <div className="flex items-center justify-end gap-3 text-sm text-foreground/70">
             <GlobalSearch />

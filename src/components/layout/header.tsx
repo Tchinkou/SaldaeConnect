@@ -27,7 +27,12 @@ export function Header({
           <span className="sr-only"> — {tApp("name")}</span>
         </Link>
 
-        <nav aria-label={t("menu")} className="hidden items-center gap-6 md:flex">
+        {/* La nav complète + connexion + sélecteur de langue + CTA ne
+            tiennent pas dans max-w-6xl à 768px (constaté par un contrôle
+            responsive Playwright : débordement horizontal sur toutes les
+            pages publiques à cette largeur précise) — bascule à `lg` au
+            lieu de `md`. */}
+        <nav aria-label={t("menu")} className="hidden items-center gap-6 lg:flex">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item}
@@ -39,7 +44,7 @@ export function Header({
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <Link href="/login" className="text-sm font-medium text-ink-500 hover:text-foreground">
             {t("login")}
           </Link>
@@ -50,7 +55,7 @@ export function Header({
         </div>
 
         {/* Menu mobile sans JavaScript (`<details>`) : pas de coût de bundle pour un usage occasionnel. */}
-        <details className="group relative md:hidden">
+        <details className="group relative lg:hidden">
           <summary
             className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-md border border-border text-foreground [&::-webkit-details-marker]:hidden"
             aria-label={t("menu")}

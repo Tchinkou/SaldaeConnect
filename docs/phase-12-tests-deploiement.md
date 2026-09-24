@@ -1,0 +1,113 @@
+# Phase 12 — Tests + déploiement : rapport
+
+Rapport de la dernière phase du plan initial (tests end-to-end réels,
+responsive/RTL, sauvegardes, supervision, checklist de déploiement). Comme
+pour `phase-11-durcissement.md`, chaque section résume ce qui a été
+vérifié en direct (jamais seulement `tsc`/`eslint`/`vitest`), ce qui a été
+corrigé, et ce qui reste un risque accepté ou hors périmètre documenté pour
+suivi.
+
+## 1. Tests E2E des parcours utilisateurs réels
+
+Cinq suites Playwright (`e2e/*.spec.ts`), chacune exécutée contre le
+serveur de dev réel et Postgres réel, avec nettoyage complet des données de
+test (aucun résidu) :
+
+- `public-quote-journey.spec.ts` — formulaire public de demande de devis
+  (création Lead/Opportunity) puis cycle complet devis admin
+  (création → envoi → décision client dans le portail → création du
+  Projet).
+- `crm-staff-journey.spec.ts` — lead → conversion client → devis depuis
+  l'opportunité → envoi → acceptation portail → projet.
+- `invoice-payment-journey.spec.ts` — facture manuelle → émission →
+  paiement partiel (PARTIALLY_PAID) → paiement du solde (PAID, reste dû à
+  zéro).
+- `booking-journey.spec.ts` — réservation publique d'un créneau → confirmation
+  admin.
+- `transaction-order-journey.spec.ts` — commande transactionnelle interne,
+  cycle complet REQUESTED → PRICE_CONFIRMED → AWAITING_PAYMENT → PAID →
+  COMPLETED.
+
+**Bugs applicatifs réels trouvés et corrigés en cours de route** (pas de
+simples artefacts de test) :
+
+- `transaction-order-status-control.tsx` : le composant de changement de
+  statut d'une commande n'étant pas démonté entre deux ouvertures du
+  panneau, l'état React local du statut sélectionné restait bloqué sur la
+  valeur du changement précédent — un second changement de statut pouvait
+  être soumis avec l'ancienne valeur, rejeté par le serveur comme
+  « transition non autorisée vers elle-même » alors que l'utilisateur avait
+  bien sélectionné une nouvelle valeur à l'écran. Corrigé en réinitialisant
+  l'état local à l'ouverture du panneau.
+- `cleanupTestClient` (utilitaire de test `db-cli.ts`) avalait silencieusement
+  l'échec de suppression d'un client quand une facture/projet/devis
+  bloquait la suppression (`onDelete: Restrict`), laissant des clients de
+  test orphelins en base. Corrigé pour supprimer explicitement les entités
+  dépendantes dans le bon ordre avant le client.
+
+## 2. Responsive (9 largeurs d'écran) et RTL
+
+Méthodologie : scripts Playwright autonomes (non committés, comme les
+scripts d'audit de la phase 11), un par périmètre (`site public`, `admin`,
+`portail client`), testant chaque combinaison locale (fr/ar) × largeur
+(320, 360, 375, 390, 414, 768, 1024, 1280, 1920 px — les 9 largeurs prévues
+au plan) × pages clés, en vérifiant : absence de débordement horizontal de
+page (`document.documentElement.scrollWidth` vs `clientWidth`) et `dir="rtl"`
+correct en arabe.
+
+**Site public** (accueil, services, devis, portfolio, contact — 90
+combinaisons testées) : **0 anomalie** après correction de deux bugs réels :
+
+- `header.tsx` : la navigation desktop complète (logo + 4 liens + connexion
+  + sélecteur de langue + CTA) ne tenait pas dans `max-w-6xl` à 768px
+  (bascule `md:flex` → `lg:flex`, et repli mobile `md:hidden` → `lg:hidden`
+  en conséquence).
+- `footer.tsx` : 4 colonnes serrées à `md` (768px) débordaient
+  horizontalement (bascule `md:grid-cols-4` → `sm:grid-cols-2 lg:grid-cols-4`).
+
+**Admin** (dashboard, Kanban CRM, liste devis — 54 combinaisons testées) :
+**0 anomalie** après correction d'un bug réel affectant *toutes* les
+largeurs testées, y compris desktop :
+
+- `admin/layout.tsx` : le conteneur de contenu (`flex-1`) n'avait pas
+  `min-w-0`. Par défaut, un enfant flex ne rétrécit pas sous la largeur
+  intrinsèque de son contenu (`min-width: auto`) — le Kanban CRM, qui gère
+  pourtant correctement son propre défilement horizontal interne
+  (`overflow-x-auto`), élargissait toute la mise en page au lieu d'être
+  contenu dans son propre conteneur. Corrigé en ajoutant `min-w-0`.
+
+**Portail client** (dashboard, devis, documents — 54 combinaisons
+testées) : le même correctif `min-w-0` a été appliqué à
+`portal/layout.tsx` (conteneur de contenu), ce qui a réduit les anomalies
+de 30 à 15 — mais **15 anomalies subsistent**, toutes sur le tableau de
+bord portail, aux largeurs ≤ 414px (téléphones), en fr comme en ar.
+
+**Cause racine identifiée** (débordement résiduel du portail) : à ces
+largeurs, la barre latérale fixe de 256px (`w-64`, non réductible, sans
+équivalent « menu mobile » contrairement au site public) ne laisse qu'environ
+70 à 120px de largeur de contenu utile. À cette largeur, même un mot unique
+insécable dans un titre (ex. « Bienvenue », ou « Derniers documents ») ne
+peut pas tenir et force un débordement — ce n'est pas un bug CSS isolé
+corrigeable par `min-w-0`/`truncate` (déjà tentés, sans effet suffisant),
+mais une limite architecturale de la coquille (`admin/layout.tsx` et
+`portal/layout.tsx` partagent la même structure à barre latérale fixe).
+L'admin n'a pas montré cette anomalie uniquement parce que les pages
+échantillonnées (dashboard, Kanban, liste devis) n'ont pas de titre
+« mot unique » aussi contraint — la même limite structurelle s'y applique.
+
+**Décision** : risque accepté, documenté pour suivi plutôt que corrigé
+dans l'urgence. Justification : (1) l'admin et le portail sont des outils
+de gestion (staff back-office, client suivant un dossier), plus
+généralement consultés sur tablette/desktop que sur téléphone en mode très
+étroit (320-414px) que le site public grand public ; (2) le site public,
+qui doit réellement supporter le mobile, est à 0 anomalie ; (3) une
+vraie correction (barre latérale rétractable en menu mobile, sur le modèle
+du `<details>` du header public) est un ajout d'UI, pas un correctif
+ponctuel, et risquerait d'introduire de nouveaux bugs si précipité en fin
+de phase. **Recommandation pour une itération future** : si l'usage mobile
+étroit du portail/admin se confirme en production, ajouter un repli « menu
+hamburger » sous un seuil (ex. `lg`) sur `admin/layout.tsx` et
+`portal/layout.tsx`, symétrique à celui déjà en place sur `header.tsx`.
+
+RTL (arabe) : `dir="rtl"` vérifié correct sur les 3 périmètres, à toutes
+les largeurs, sans exception.
