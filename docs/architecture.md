@@ -900,6 +900,54 @@ Affichage dans l'admin : « Admin Chakib · a modifié le devis DEV-2026-0012 ·
 - Durées de conservation configurables par type de donnée.
 - Le cadre applicable (par exemple la loi algérienne 18-07 sur la protection des données personnelles si l'agence est en Algérie, le RGPD pour les clients dans l'UE) est **à valider juridiquement** ; l'architecture ne prétend à aucune conformité.
 
+### H.8 Supervision (recommandation)
+
+Comme pour l'hébergement (§A.7), aucun outil de supervision précis n'est
+imposé par le code — la recommandation ci-dessous s'appuie sur ce qui est
+déjà en place et reste valable quel que soit le profil d'hébergement choisi.
+
+- **Disponibilité** : `GET /api/health` (ajouté en phase 12) vérifie la
+  seule dépendance dont la panne rend l'application inutilisable — la base
+  de données (`SELECT 1`) — et répond `200 {"status":"ok"}` ou
+  `503 {"status":"error"}`. Sans authentification (un service de
+  supervision externe ne porte pas de session), sans préfixe de langue
+  (comme les autres routes API). À brancher sur un service de ping externe
+  (ex. UptimeRobot, Better Uptime, Healthchecks.io) qui alerte après 2-3
+  échecs consécutifs, pas au premier (éviter les faux positifs sur un
+  redémarrage bref).
+- **Erreurs applicatives** : aucun service de suivi d'erreurs (Sentry ou
+  équivalent) n'est intégré à ce jour — les erreurs serveur remontent
+  aujourd'hui uniquement dans les journaux du processus Node
+  (`console.error`, une dizaine de points d'appel dans `server/core/`).
+  Recommandé avant la mise en production : un SDK d'erreurs compatible
+  Next.js App Router (Sentry a un plan gratuit suffisant pour démarrer ;
+  alternative auto-hébergée : GlitchTip). Point d'intégration naturel :
+  `src/app/global-error.tsx` (à créer) côté client, et un wrapper autour du
+  handler de route dans `src/app/api/cron/[job]/route.ts` et des `server
+  actions` côté serveur — pas fait en phase 12 pour ne pas ajouter une
+  dépendance et une clé d'API tierce non demandées à ce stade.
+- **Tâches planifiées (cron)** : les trois jobs de
+  `src/app/api/cron/[job]/route.ts` (expiration devis, factures en retard,
+  rappels de réservation) n'ont aujourd'hui aucune détection d'absence
+  d'exécution — si le déclencheur cron de l'hébergeur (Vercel Cron, Railway
+  Cron, timer système sur VPS) s'arrête silencieusement, rien ne le signale.
+  Recommandé : un ping « dead man's switch » (ex. Healthchecks.io, gratuit
+  pour ce volume) appelé à la fin de chaque exécution réussie de chaque job
+  ; le service alerte si le ping attendu n'arrive pas dans la fenêtre
+  prévue. Nécessite une URL de ping par job, donc une décision
+  d'hébergement au préalable — non ajouté en phase 12 pour cette raison.
+- **Journaux applicatifs** : en hébergement managé (Vercel), les journaux
+  de fonctions sont déjà collectés et consultables sans configuration
+  supplémentaire. En VPS (Docker Compose), prévoir une rotation de journaux
+  (`docker compose logs` seul ne suffit pas en production — perte au
+  redémarrage du conteneur) ; une pile légère type Promtail + Loki ou,
+  plus simple pour démarrer, `journald` avec rétention configurée convient
+  pour ce volume.
+- **Alerte, au minimum** : `/api/health` en échec répété, un job cron
+  silencieux au-delà de sa fenêtre attendue, et le seuil d'erreurs 5xx que
+  le SDK d'erreurs choisi permet de configurer. Le reste (latence, usage
+  CPU/mémoire/disque du VPS) dépend de l'hébergement retenu.
+
 ---
 
 ## I. Architecture du dashboard

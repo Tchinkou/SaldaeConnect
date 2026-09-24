@@ -152,6 +152,29 @@ Postgres ne dépend d'aucun hébergeur — cohérent avec le choix d'architectur
 Base de test et tous les fichiers temporaires supprimés après vérification
 (aucun résidu).
 
+## 4. Supervision : recommandation documentée
+
+Contrairement aux sections précédentes, cette tâche est explicitement une
+recommandation à documenter (§H.8 de `architecture.md`), pas une
+intégration d'outil tiers — comme pour l'hébergement (§A.7), le choix d'un
+service de supervision précis dépend de la plateforme retenue, qui n'est
+pas encore choisie.
+
+Ce qui a été fait concrètement (pas seulement écrit) :
+
+- Ajout de `GET /api/health`, un point de contrôle réel vérifiant la
+  connexion à la base de données (`SELECT 1`), sans dépendance
+  d'hébergement. Vérifié en direct contre le serveur de dev réel :
+  `200 {"status":"ok"}`.
+
+Ce qui reste une recommandation documentée, non implémentée cette phase
+(justification dans §H.8) : suivi d'erreurs applicatives (Sentry ou
+équivalent), détection d'absence d'exécution des jobs cron (dead man's
+switch), stratégie de journaux applicatifs selon l'hébergement, seuils
+d'alerte minimaux. Chacun nécessite soit une clé d'API/service tiers non
+demandé à ce stade, soit une décision d'hébergement préalable — les deux
+hors périmètre d'une tâche de recommandation.
+
 **Hors périmètre de ce test** (nécessite une infrastructure de production
 non encore choisie, cf. `architecture.md` §A.7) : sauvegarde automatique du
 fournisseur avec restauration à un instant donné (point-in-time recovery,

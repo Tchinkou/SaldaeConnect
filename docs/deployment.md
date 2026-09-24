@@ -89,5 +89,14 @@ applicative via Prisma → nettoyage) ; détails et méthodologie dans
   managé (ex. Neon), réplication du stockage de fichiers vers un second
   emplacement.
 
-Ce document sera complété phase par phase (supervision, checklist de mise
-en production) plutôt que rempli par anticipation.
+## Supervision
+
+`GET /api/health` vérifie la connexion à la base de données et répond
+`200`/`503` ; à brancher sur un service de ping externe (UptimeRobot,
+Better Uptime, Healthchecks.io...). Le reste (suivi d'erreurs, détection
+d'absence d'exécution des jobs cron, stratégie de journaux) est une
+recommandation documentée dans `architecture.md` §H.8, à mettre en œuvre
+une fois l'hébergement choisi.
+
+Ce document sera complété phase par phase (checklist de mise en
+production) plutôt que rempli par anticipation.
