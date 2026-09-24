@@ -2,8 +2,8 @@
 
 Les options d'hébergement envisagées sont comparées dans
 [`architecture.md` §A.7](./architecture.md#a7-cibles-dhébergement). Ce
-document couvre la mise en route pratique — en développement aujourd'hui,
-en production au fur et à mesure des phases suivantes.
+document couvre la mise en route pratique — le développement local et,
+plus bas, la checklist de mise en production complétée en phase 12.
 
 ## Développement local
 
@@ -33,7 +33,7 @@ openssl rand -base64 32   # AUTH_SECRET
 openssl rand -hex 16      # DATA_ENCRYPTION_KEY, CRON_SECRET
 ```
 
-## Production (à faire en phase 12)
+## Production
 
 L'application est conçue pour ne dépendre d'aucun hébergeur précis (voir
 les interfaces `EmailProvider`, `StorageProvider`, `PdfRenderer`,
@@ -45,18 +45,65 @@ documentés dans `architecture.md` :
 - **VPS** : Docker Compose (application, PostgreSQL, MinIO, Caddy pour le
   TLS, cron système) — pour maîtriser les coûts et les données.
 
-Avant la première mise en production :
+### Checklist de mise en production
 
-1. `npm run db:migrate:deploy` (jamais `db push` en production).
-2. `npm run create-admin -- --email=... --name="..."` pour créer le premier
-   administrateur, puis activer sa double authentification à la première
-   connexion.
-3. Configurer un domaine d'envoi d'emails (SPF/DKIM/DMARC) avant d'activer
-   `EMAIL_PROVIDER=resend` ou `postmark`.
-4. Vérifier que `APP_ENV=production` (bloque `seed:dev` et le seed de
-   données fictives).
-5. Mettre en place les sauvegardes (§H.6 de `architecture.md`) : export
-   `pg_dump` quotidien chiffré, test de restauration mensuel.
+Toutes les phases du plan (1 à 12) sont fonctionnellement complètes et
+vérifiées en direct (voir les rapports `docs/phase-*.md`). Ce qui suit est
+ce qui reste **spécifique à un déploiement réel** — ne peut pas être fait
+ni vérifié depuis cet environnement de développement.
+
+**Infrastructure et variables d'environnement** (voir `.env.example` pour
+la liste complète et le détail de chaque variable) :
+
+- [ ] Choisir le profil d'hébergement (§A.7 `architecture.md`) et
+      provisionner PostgreSQL, le stockage de fichiers, l'envoi d'emails.
+- [ ] `APP_ENV="production"` (bloque `seed:dev` et les données fictives).
+- [ ] `AUTH_SECRET` et `DATA_ENCRYPTION_KEY` générés pour la production
+      (`openssl rand -base64 32` / `openssl rand -hex 16`) — **jamais**
+      les valeurs de développement, et à ne jamais perdre :
+      `DATA_ENCRYPTION_KEY` chiffre les données d'identité client du
+      module transactionnel (§D.6) ; sa perte les rend irrécupérables.
+- [ ] `DATABASE_URL` de production, puis `npm run db:migrate:deploy`
+      (jamais `npm run db:migrate` ni `prisma db push` en production).
+- [ ] `STORAGE_PROVIDER="s3"` + identifiants du bucket choisi (jamais
+      `local` en production — non durable entre déploiements).
+- [ ] `EMAIL_PROVIDER="resend"` ou `"postmark"` + domaine d'envoi avec
+      SPF/DKIM/DMARC configurés (sans quoi les emails de notification et
+      les invitations au portail client arrivent en spam ou sont rejetés).
+- [ ] `CRON_SECRET` généré, et le déclencheur cron de l'hébergeur pointé
+      vers `POST /api/cron/[job]` pour les 3 jobs (`quotes-expire`,
+      `invoices-overdue`, `reservations-remind`).
+- [ ] `LOG_LEVEL="info"` ou `"warn"` (pas `"debug"`, trop verbeux en
+      production).
+
+**Première mise en route** :
+
+- [ ] `npm run create-admin -- --email=... --name="..."` pour le premier
+      administrateur, puis activer sa double authentification (2FA
+      obligatoire, §H.2) à la première connexion — sans quoi il ne pourra
+      pas accéder à l'admin (bloqué par `admin/layout.tsx`).
+- [ ] Vérifier `GET /api/health` répond `200` depuis l'extérieur, puis le
+      brancher sur un service de ping externe (§H.8 `architecture.md`).
+- [ ] Mettre en place les sauvegardes automatiques (voir section
+      « Sauvegardes » ci-dessous) et exécuter un premier test de
+      restauration réel avant d'y faire confiance.
+
+**Points en attente de décision, identifiés lors des phases précédentes**
+(voir `docs/phase-11-durcissement.md` pour le détail de chacun — aucun
+n'est bloquant pour un premier déploiement, mais à traiter avant une
+utilisation à grande échelle) :
+
+- [ ] Resserrer `img-src` dans la CSP (`next.config.ts`) au domaine de
+      stockage définitif, une fois choisi (actuellement `https:` en
+      attente de ce choix).
+- [ ] Contenu juridique définitif (mentions légales, CGV, politique de
+      confidentialité) et validation du cadre applicable aux services de
+      change/transactionnels (§D.6, §H.7) — **juridique, hors périmètre
+      technique**.
+- [ ] Ré-exécuter `npm audit` juste avant la mise en production (3
+      vulnérabilités actuellement, toutes dans des outils de
+      développement jamais exécutés en production, mais à reconfirmer sur
+      les versions alors installées).
 
 ## Sauvegardes
 
@@ -98,5 +145,7 @@ d'absence d'exécution des jobs cron, stratégie de journaux) est une
 recommandation documentée dans `architecture.md` §H.8, à mettre en œuvre
 une fois l'hébergement choisi.
 
-Ce document sera complété phase par phase (checklist de mise en
-production) plutôt que rempli par anticipation.
+La checklist de mise en production ci-dessus est ce qui reste à faire au
+moment du choix d'hébergement réel — le reste du plan (1 à 12) est
+fonctionnellement complet et vérifié en direct, voir les rapports
+`docs/phase-*.md`.
