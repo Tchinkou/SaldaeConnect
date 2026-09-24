@@ -16,7 +16,8 @@
     "db:studio": "prisma studio",
     "db:reset-dev": "tsx prisma/seed/lib/reset-dev-data.ts",
     "auth:generate": "echo 'Retirez temporairement les imports \"server-only\" de src/server/core/** (voir docs/architecture.md §A.5), puis lancez : npx @better-auth/cli generate --output prisma/schema/10-identity.prisma'",
-    "create-admin": "tsx scripts/create-admin.ts"
+    "create-admin": "tsx scripts/create-admin.ts",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -41,6 +42,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.43",
     "@types/pg": "^8.23.1",
