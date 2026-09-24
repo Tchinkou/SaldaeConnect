@@ -57,7 +57,7 @@ export default async function TransactionOrderDetailPage({ params }: { params: P
             </CardHeader>
             <CardContent className="p-0">
               <table className="w-full text-sm">
-                <thead className="border-b border-border text-left text-xs font-medium text-foreground/50">
+                <thead className="border-b border-border text-left text-xs font-medium text-foreground/70">
                   <tr>
                     <th className="px-4 py-3">{t("product")}</th>
                     <th className="px-4 py-3">{t("quantity")}</th>
@@ -128,7 +128,7 @@ export default async function TransactionOrderDetailPage({ params }: { params: P
                   <p dir="ltr">{identityData.documentNumber}</p>
                 </>
               ) : (
-                <p className="text-foreground/50">{t("noIdentity")}</p>
+                <p className="text-foreground/70">{t("noIdentity")}</p>
               )}
               {order.notes ? <p className="mt-2 whitespace-pre-wrap text-foreground/70">{order.notes}</p> : null}
             </CardContent>
@@ -143,7 +143,7 @@ export default async function TransactionOrderDetailPage({ params }: { params: P
                 {order.statusChanges.map((change) => (
                   <li key={change.id} className="flex flex-col">
                     <span className="font-medium text-foreground">{t(`statusValue.${change.toStatus}`)}</span>
-                    <span className="text-xs text-foreground/50">{format.dateTime(change.createdAt, { dateStyle: "medium", timeStyle: "short" })}</span>
+                    <span className="text-xs text-foreground/70">{format.dateTime(change.createdAt, { dateStyle: "medium", timeStyle: "short" })}</span>
                     {change.note ? <span className="text-xs text-foreground/70">{change.note}</span> : null}
                   </li>
                 ))}

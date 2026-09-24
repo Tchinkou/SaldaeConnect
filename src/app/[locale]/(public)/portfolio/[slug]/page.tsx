@@ -73,7 +73,7 @@ export default async function PortfolioDetailPage({
             <p className="mt-2 text-sm text-ink-500">{translation.parent.sector.translations[0].name}</p>
           ) : null}
           {translation.parent.date ? (
-            <p className="mt-1 text-xs text-foreground/50">{format.dateTime(translation.parent.date, { dateStyle: "long" })}</p>
+            <p className="mt-1 text-xs text-foreground/70">{format.dateTime(translation.parent.date, { dateStyle: "long" })}</p>
           ) : null}
           {translation.summary ? <p className="mt-4 text-lg text-ink-500">{translation.summary}</p> : null}
 

@@ -120,7 +120,7 @@ export default async function AdminDashboardPage({ params }: { params: Promise<{
           </CardHeader>
           <CardContent>
             {stages.length === 0 ? (
-              <p className="text-sm text-foreground/50">{t("empty")}</p>
+              <p className="text-sm text-foreground/70">{t("empty")}</p>
             ) : (
               <ul className="flex flex-col gap-2">
                 {stages.map((stage) => (

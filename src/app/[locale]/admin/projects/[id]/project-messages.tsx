@@ -48,7 +48,7 @@ export function ProjectMessages({ projectId }: { projectId: string }) {
   return (
     <div className="flex flex-col gap-3">
       {loading ? (
-        <p className="text-sm text-foreground/50">{t("loading")}</p>
+        <p className="text-sm text-foreground/70">{t("loading")}</p>
       ) : messages && messages.length > 0 ? (
         <ul className="flex flex-col gap-2">
           {messages.map((message) => (
@@ -62,7 +62,7 @@ export function ProjectMessages({ projectId }: { projectId: string }) {
                   {message.fromClient ? <Badge tone="info" className="ms-2">{t("fromClient")}</Badge> : null}
                   {message.isInternalNote ? <Badge tone="warning" className="ms-2">{t("internalNote")}</Badge> : null}
                 </span>
-                <span className="text-xs text-foreground/50">
+                <span className="text-xs text-foreground/70">
                   {format.dateTime(new Date(message.createdAt), { dateStyle: "medium", timeStyle: "short" })}
                 </span>
               </div>
@@ -82,7 +82,7 @@ export function ProjectMessages({ projectId }: { projectId: string }) {
           ))}
         </ul>
       ) : (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       )}
 
       <form

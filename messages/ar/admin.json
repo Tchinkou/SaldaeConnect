@@ -313,7 +313,8 @@
       "noLostReasons": "لا توجد أسباب خسارة معدة.",
       "cancel": "إلغاء",
       "owner": "المسؤول: {name}",
-      "unassigned": "غير مُسند"
+      "unassigned": "غير مُسند",
+      "dragHandle": "إعادة الترتيب (سحب وإفلات)"
     },
     "list": {
       "number": "الرقم",

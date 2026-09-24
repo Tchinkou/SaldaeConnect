@@ -65,11 +65,12 @@ export function KeyFigureForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-        <Field label={t("keyFigures.value")} value={value} onChange={setValue} dir="ltr" />
-        <Field label={t("keyFigures.suffix")} value={suffix} onChange={setSuffix} dir="ltr" />
+        <Field id="key-figure-value" label={t("keyFigures.value")} value={value} onChange={setValue} dir="ltr" />
+        <Field id="key-figure-suffix" label={t("keyFigures.suffix")} value={suffix} onChange={setSuffix} dir="ltr" />
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("order")}</label>
+          <label htmlFor="key-figure-order" className="text-sm font-medium text-foreground">{t("order")}</label>
           <input
+            id="key-figure-order"
             type="number"
             min={0}
             value={order}
@@ -94,6 +95,7 @@ export function KeyFigureForm({
         <fieldset key={locale} className="flex flex-col gap-3 rounded-md border border-border p-4">
           <legend className="px-1 text-sm font-semibold text-foreground">{locale.toUpperCase()}</legend>
           <Field
+            id={`key-figure-label-${locale}`}
             label={t("keyFigures.label")}
             value={translations[locale].label}
             onChange={(v) => updateLocale(locale, v)}
@@ -121,11 +123,13 @@ export function KeyFigureForm({
 }
 
 function Field({
+  id,
   label,
   value,
   onChange,
   dir,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -133,8 +137,9 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={id} className="text-sm font-medium text-foreground">{label}</label>
       <input
+        id={id}
         type="text"
         dir={dir}
         value={value}

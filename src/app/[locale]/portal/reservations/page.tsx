@@ -45,7 +45,7 @@ export default async function PortalReservationsPage() {
                 <div>
                   <p className="text-xs font-medium text-brand-600">{reservation.number}</p>
                   <p className="text-sm font-semibold text-foreground">{reservation.service.translations[0]?.name}</p>
-                  <p className="text-xs text-foreground/50">
+                  <p className="text-xs text-foreground/70">
                     {reservation.startsAt
                       ? format.dateTime(reservation.startsAt, { dateStyle: "medium", timeStyle: "short" })
                       : reservation.preferredFrom

@@ -93,7 +93,7 @@ export default async function LeadsPage({
                       <Link href={`/admin/leads/${lead.id}`} className="font-medium text-brand-600 hover:underline">
                         {lead.firstName} {lead.lastName}
                       </Link>
-                      {lead.companyName ? <p className="text-xs text-foreground/50">{lead.companyName}</p> : null}
+                      {lead.companyName ? <p className="text-xs text-foreground/70">{lead.companyName}</p> : null}
                     </td>
                     <td className="px-3 py-2 text-foreground/70">{lead.source?.translations[0]?.name ?? "—"}</td>
                     <td className="px-3 py-2">
@@ -105,7 +105,7 @@ export default async function LeadsPage({
                 ))}
                 {leads.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/50">
+                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/70">
                       {t("empty")}
                     </td>
                   </tr>

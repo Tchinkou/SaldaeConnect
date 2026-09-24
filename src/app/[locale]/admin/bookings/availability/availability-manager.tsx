@@ -101,16 +101,19 @@ export function AvailabilityManager({
   }
 
   if (services.length === 0) {
-    return <p className="text-sm text-foreground/50">{t("noBookingServices")}</p>;
+    return <p className="text-sm text-foreground/70">{t("noBookingServices")}</p>;
   }
 
   return (
     <div className="flex flex-col gap-8">
       <section className="flex flex-col gap-3">
-        <h3 className="text-sm font-semibold text-foreground">{t("rulesTitle")}</h3>
+        <h3 id="availability-rules-title" className="text-sm font-semibold text-foreground">
+          {t("rulesTitle")}
+        </h3>
         <select
           value={serviceId}
           onChange={(event) => setServiceId(event.target.value)}
+          aria-labelledby="availability-rules-title"
           className="h-10 w-64 rounded-md border border-border bg-surface px-3 text-sm"
         >
           {services.map((service) => (
@@ -121,7 +124,7 @@ export function AvailabilityManager({
         </select>
 
         {loadingRules ? (
-          <p className="text-sm text-foreground/50">{t("loading")}</p>
+          <p className="text-sm text-foreground/70">{t("loading")}</p>
         ) : (
           <ul className="flex flex-col gap-1.5">
             {rules.map((rule) => (
@@ -134,14 +137,15 @@ export function AvailabilityManager({
                 </button>
               </li>
             ))}
-            {rules.length === 0 ? <p className="text-sm text-foreground/50">{t("noRules")}</p> : null}
+            {rules.length === 0 ? <li className="text-sm text-foreground/70">{t("noRules")}</li> : null}
           </ul>
         )}
 
         <div className="flex flex-wrap items-end gap-2 rounded-md border border-border p-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("weekdayLabel")}</label>
+            <label htmlFor="new-rule-weekday" className="text-xs font-medium text-foreground/70">{t("weekdayLabel")}</label>
             <select
+              id="new-rule-weekday"
               value={newRule.weekday}
               onChange={(event) => setNewRule((previous) => ({ ...previous, weekday: Number(event.target.value) }))}
               className="h-9 rounded-md border border-border bg-surface px-2 text-sm"
@@ -154,8 +158,9 @@ export function AvailabilityManager({
             </select>
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("startTime")}</label>
+            <label htmlFor="new-rule-start-time" className="text-xs font-medium text-foreground/70">{t("startTime")}</label>
             <input
+              id="new-rule-start-time"
               type="time"
               value={newRule.startTime}
               onChange={(event) => setNewRule((previous) => ({ ...previous, startTime: event.target.value }))}
@@ -164,8 +169,9 @@ export function AvailabilityManager({
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("endTime")}</label>
+            <label htmlFor="new-rule-end-time" className="text-xs font-medium text-foreground/70">{t("endTime")}</label>
             <input
+              id="new-rule-end-time"
               type="time"
               value={newRule.endTime}
               onChange={(event) => setNewRule((previous) => ({ ...previous, endTime: event.target.value }))}
@@ -195,13 +201,14 @@ export function AvailabilityManager({
               </button>
             </li>
           ))}
-          {exceptions.length === 0 ? <p className="text-sm text-foreground/50">{t("noExceptions")}</p> : null}
+          {exceptions.length === 0 ? <li className="text-sm text-foreground/70">{t("noExceptions")}</li> : null}
         </ul>
 
         <div className="flex flex-wrap items-end gap-2 rounded-md border border-border p-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("date")}</label>
+            <label htmlFor="new-exception-date" className="text-xs font-medium text-foreground/70">{t("date")}</label>
             <input
+              id="new-exception-date"
               type="date"
               value={newException.date}
               onChange={(event) => setNewException((previous) => ({ ...previous, date: event.target.value }))}
@@ -210,8 +217,9 @@ export function AvailabilityManager({
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("type")}</label>
+            <label htmlFor="new-exception-type" className="text-xs font-medium text-foreground/70">{t("type")}</label>
             <select
+              id="new-exception-type"
               value={newException.type}
               onChange={(event) => setNewException((previous) => ({ ...previous, type: event.target.value as "CLOSED" | "EXTRA" }))}
               className="h-9 rounded-md border border-border bg-surface px-2 text-sm"
@@ -221,8 +229,9 @@ export function AvailabilityManager({
             </select>
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("startTime")}</label>
+            <label htmlFor="new-exception-start-time" className="text-xs font-medium text-foreground/70">{t("startTime")}</label>
             <input
+              id="new-exception-start-time"
               type="time"
               value={newException.startTime}
               onChange={(event) => setNewException((previous) => ({ ...previous, startTime: event.target.value }))}
@@ -231,8 +240,9 @@ export function AvailabilityManager({
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("endTime")}</label>
+            <label htmlFor="new-exception-end-time" className="text-xs font-medium text-foreground/70">{t("endTime")}</label>
             <input
+              id="new-exception-end-time"
               type="time"
               value={newException.endTime}
               onChange={(event) => setNewException((previous) => ({ ...previous, endTime: event.target.value }))}
@@ -241,8 +251,9 @@ export function AvailabilityManager({
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("reason")}</label>
+            <label htmlFor="new-exception-reason" className="text-xs font-medium text-foreground/70">{t("reason")}</label>
             <input
+              id="new-exception-reason"
               type="text"
               value={newException.reason}
               onChange={(event) => setNewException((previous) => ({ ...previous, reason: event.target.value }))}

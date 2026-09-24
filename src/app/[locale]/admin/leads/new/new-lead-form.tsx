@@ -61,14 +61,15 @@ export function NewLeadForm({
           }}
         >
           <div className="grid gap-4 sm:grid-cols-2">
-            <TextField label={t("firstName")} value={firstName} onChange={setFirstName} required />
-            <TextField label={t("lastName")} value={lastName} onChange={setLastName} required />
-            <TextField label={t("email")} type="email" dir="ltr" value={email} onChange={setEmail} />
-            <TextField label={t("phone")} type="tel" dir="ltr" value={phone} onChange={setPhone} />
-            <TextField label={t("companyName")} value={companyName} onChange={setCompanyName} />
+            <TextField id="new-lead-first-name" label={t("firstName")} value={firstName} onChange={setFirstName} required />
+            <TextField id="new-lead-last-name" label={t("lastName")} value={lastName} onChange={setLastName} required />
+            <TextField id="new-lead-email" label={t("email")} type="email" dir="ltr" value={email} onChange={setEmail} />
+            <TextField id="new-lead-phone" label={t("phone")} type="tel" dir="ltr" value={phone} onChange={setPhone} />
+            <TextField id="new-lead-company-name" label={t("companyName")} value={companyName} onChange={setCompanyName} />
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("source")}</label>
+              <label htmlFor="new-lead-source" className="text-sm font-medium text-foreground">{t("source")}</label>
               <select
+                id="new-lead-source"
                 value={sourceId}
                 onChange={(event) => setSourceId(event.target.value)}
                 required
@@ -84,8 +85,9 @@ export function NewLeadForm({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-foreground">{t("service")}</label>
+            <label htmlFor="new-lead-service" className="text-sm font-medium text-foreground">{t("service")}</label>
             <select
+              id="new-lead-service"
               value={serviceId}
               onChange={(event) => setServiceId(event.target.value)}
               className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
@@ -97,12 +99,13 @@ export function NewLeadForm({
                 </option>
               ))}
             </select>
-            <p className="text-xs text-foreground/50">{t("serviceHint")}</p>
+            <p className="text-xs text-foreground/70">{t("serviceHint")}</p>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-foreground">{t("note")}</label>
+            <label htmlFor="new-lead-note" className="text-sm font-medium text-foreground">{t("note")}</label>
             <textarea
+              id="new-lead-note"
               value={note}
               onChange={(event) => setNote(event.target.value)}
               rows={3}
@@ -124,6 +127,7 @@ export function NewLeadForm({
 }
 
 function TextField({
+  id,
   label,
   value,
   onChange,
@@ -131,6 +135,7 @@ function TextField({
   dir,
   required,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -140,8 +145,9 @@ function TextField({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={id} className="text-sm font-medium text-foreground">{label}</label>
       <input
+        id={id}
         type={type}
         dir={dir}
         required={required}

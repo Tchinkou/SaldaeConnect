@@ -64,8 +64,9 @@ export function ReservationStatusControl({
       {isExternalAppointment && status === "CONFIRMED" ? (
         <>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-foreground/70">{t("externalAppointmentAt")}</label>
+            <label htmlFor="external-appointment-at" className="text-xs font-medium text-foreground/70">{t("externalAppointmentAt")}</label>
             <input
+              id="external-appointment-at"
               type="datetime-local"
               dir="ltr"
               value={externalAppointmentAt}

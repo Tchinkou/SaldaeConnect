@@ -90,9 +90,9 @@ export function GlobalSearch() {
           className="w-full border-b border-border bg-transparent px-4 py-3 text-sm outline-none"
         />
         <div className="max-h-96 overflow-y-auto p-2">
-          {isLoading ? <p className="px-2 py-2 text-sm text-foreground/50">{t("loading")}</p> : null}
+          {isLoading ? <p className="px-2 py-2 text-sm text-foreground/70">{t("loading")}</p> : null}
           {!isLoading && query.trim().length >= 2 && visibleResults.length === 0 ? (
-            <p className="px-2 py-2 text-sm text-foreground/50">{t("empty")}</p>
+            <p className="px-2 py-2 text-sm text-foreground/70">{t("empty")}</p>
           ) : null}
           {Object.entries(grouped).map(([category, items]) => (
             <div key={category} className="mb-2">
@@ -105,7 +105,7 @@ export function GlobalSearch() {
                   className="flex w-full flex-col items-start rounded-md px-2 py-2 text-start text-sm hover:bg-surface-subtle"
                 >
                   <span className="text-foreground">{item.label}</span>
-                  {item.sublabel ? <span className="text-xs text-foreground/50">{item.sublabel}</span> : null}
+                  {item.sublabel ? <span className="text-xs text-foreground/70">{item.sublabel}</span> : null}
                 </button>
               ))}
             </div>

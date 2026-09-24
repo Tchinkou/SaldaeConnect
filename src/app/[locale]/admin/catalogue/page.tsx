@@ -33,7 +33,7 @@ export default async function CataloguePage() {
       <div>
         <h1 className="text-xl font-semibold text-foreground">{t("title")}</h1>
         <p className="mt-1 text-sm text-foreground/70">{t("subtitle")}</p>
-        <p className="mt-1 text-xs text-foreground/50">
+        <p className="mt-1 text-xs text-foreground/70">
           {t("categoriesCount", { count: categories.length, serviceCount })}
         </p>
       </div>

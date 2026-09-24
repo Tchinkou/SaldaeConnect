@@ -90,7 +90,7 @@ export default async function PortalProjectDetailPage({ params }: { params: Prom
         </CardHeader>
         <CardContent>
           {project.milestones.length === 0 ? (
-            <p className="text-sm text-foreground/50">{t("noMilestones")}</p>
+            <p className="text-sm text-foreground/70">{t("noMilestones")}</p>
           ) : (
             <ul className="flex flex-col divide-y divide-border">
               {project.milestones.map((milestone) => (
@@ -110,7 +110,7 @@ export default async function PortalProjectDetailPage({ params }: { params: Prom
         </CardHeader>
         <CardContent>
           {project.tasks.length === 0 ? (
-            <p className="text-sm text-foreground/50">{t("noTasks")}</p>
+            <p className="text-sm text-foreground/70">{t("noTasks")}</p>
           ) : (
             <ul className="flex flex-col divide-y divide-border">
               {project.tasks.map((task) => (

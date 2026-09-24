@@ -22,7 +22,7 @@ export function BarChart({ points }: { points: { label: string; value: number }[
           );
         })}
       </svg>
-      <div className="mt-1 flex text-xs text-foreground/50">
+      <div className="mt-1 flex text-xs text-foreground/70">
         {points.map((point) => (
           <span key={point.label} className="flex-1 text-center">
             {point.label}

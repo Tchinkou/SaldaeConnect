@@ -70,8 +70,9 @@ export function InvoiceHeaderForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("dueDate")}</label>
+        <label htmlFor="invoice-due-date" className="text-sm font-medium text-foreground">{t("dueDate")}</label>
         <input
+          id="invoice-due-date"
           type="date"
           value={form.dueDate}
           onChange={(event) => setForm({ ...form, dueDate: event.target.value })}
@@ -79,8 +80,9 @@ export function InvoiceHeaderForm({
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("terms")}</label>
+        <label htmlFor="invoice-terms" className="text-sm font-medium text-foreground">{t("terms")}</label>
         <textarea
+          id="invoice-terms"
           value={form.terms}
           onChange={(event) => setForm({ ...form, terms: event.target.value })}
           rows={3}
@@ -88,8 +90,9 @@ export function InvoiceHeaderForm({
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("notes")}</label>
+        <label htmlFor="invoice-notes" className="text-sm font-medium text-foreground">{t("notes")}</label>
         <textarea
+          id="invoice-notes"
           value={form.notes}
           onChange={(event) => setForm({ ...form, notes: event.target.value })}
           rows={3}

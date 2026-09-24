@@ -64,8 +64,8 @@ export function NewTransactionOrderForm({
         ) : (
           <form className="flex flex-col gap-4" onSubmit={submit}>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("client")}</label>
-              <select value={clientId} onChange={(event) => setClientId(event.target.value)} required className="h-10 rounded-md border border-border bg-surface px-3 text-sm">
+              <label htmlFor="new-transaction-client" className="text-sm font-medium text-foreground">{t("client")}</label>
+              <select id="new-transaction-client" value={clientId} onChange={(event) => setClientId(event.target.value)} required className="h-10 rounded-md border border-border bg-surface px-3 text-sm">
                 {clients.map((client) => (
                   <option key={client.id} value={client.id}>
                     {client.displayName} ({client.code})
@@ -75,10 +75,11 @@ export function NewTransactionOrderForm({
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-foreground">{t("items")}</label>
+              <label htmlFor="new-transaction-item-product" className="text-sm font-medium text-foreground">{t("items")}</label>
               {items.map((item, index) => (
                 <div key={index} className="flex flex-wrap items-center gap-2">
                   <select
+                    id={index === 0 ? "new-transaction-item-product" : undefined}
                     value={item.productId}
                     onChange={(event) => updateItem(index, { productId: event.target.value })}
                     className="h-10 flex-1 rounded-md border border-border bg-surface px-3 text-sm"

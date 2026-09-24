@@ -50,7 +50,7 @@ export function NotificationPreferences({ rows }: { rows: PreferenceRow[] }) {
           <div key={row.type} className="flex flex-wrap items-center justify-between gap-3 py-3">
             <div>
               <p className="text-sm font-medium text-foreground">{t(`type.${row.type}.label`)}</p>
-              <p className="text-xs text-foreground/50">{t(`type.${row.type}.description`)}</p>
+              <p className="text-xs text-foreground/70">{t(`type.${row.type}.description`)}</p>
             </div>
             <div className="flex items-center gap-4">
               {row.channels.map(({ channel, enabled }) => {

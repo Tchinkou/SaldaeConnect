@@ -84,7 +84,7 @@ export default async function PortalMessagesPage() {
                       )}
                     </div>
                     {lastMessage ? (
-                      <span className="shrink-0 text-xs text-foreground/50">
+                      <span className="shrink-0 text-xs text-foreground/70">
                         {format.dateTime(lastMessage.createdAt, { dateStyle: "medium" })}
                       </span>
                     ) : null}

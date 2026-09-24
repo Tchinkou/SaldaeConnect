@@ -54,7 +54,7 @@ export function TransactionPaymentsPanel({ orderId, canRecord, payments }: { ord
               <span dir="ltr" className="font-medium text-foreground">
                 {payment.amount} {payment.currency}
               </span>
-              {payment.reference ? <span className="ms-2 text-xs text-foreground/50">{payment.reference}</span> : null}
+              {payment.reference ? <span className="ms-2 text-xs text-foreground/70">{payment.reference}</span> : null}
               {payment.status === "REVERSED" ? (
                 <Badge tone="neutral" className="ms-2">
                   {t("reversed")}
@@ -68,7 +68,7 @@ export function TransactionPaymentsPanel({ orderId, canRecord, payments }: { ord
             ) : null}
           </li>
         ))}
-        {payments.length === 0 ? <p className="py-2 text-sm text-foreground/50">{t("noPayments")}</p> : null}
+        {payments.length === 0 ? <p className="py-2 text-sm text-foreground/70">{t("noPayments")}</p> : null}
       </ul>
 
       {canRecord ? (

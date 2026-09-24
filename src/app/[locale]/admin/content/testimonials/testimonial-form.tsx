@@ -59,8 +59,9 @@ export function TestimonialForm({
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("testimonials.authorName")}</label>
+          <label htmlFor="testimonial-author-name" className="text-sm font-medium text-foreground">{t("testimonials.authorName")}</label>
           <input
+            id="testimonial-author-name"
             type="text"
             value={state.authorName}
             onChange={(event) => setState((s) => ({ ...s, authorName: event.target.value }))}
@@ -68,8 +69,9 @@ export function TestimonialForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("testimonials.company")}</label>
+          <label htmlFor="testimonial-company" className="text-sm font-medium text-foreground">{t("testimonials.company")}</label>
           <input
+            id="testimonial-company"
             type="text"
             value={state.company}
             onChange={(event) => setState((s) => ({ ...s, company: event.target.value }))}
@@ -77,8 +79,9 @@ export function TestimonialForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("testimonials.jobTitle")}</label>
+          <label htmlFor="testimonial-job-title" className="text-sm font-medium text-foreground">{t("testimonials.jobTitle")}</label>
           <input
+            id="testimonial-job-title"
             type="text"
             value={state.jobTitle}
             onChange={(event) => setState((s) => ({ ...s, jobTitle: event.target.value }))}
@@ -86,8 +89,9 @@ export function TestimonialForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("order")}</label>
+          <label htmlFor="testimonial-order" className="text-sm font-medium text-foreground">{t("order")}</label>
           <input
+            id="testimonial-order"
             type="number"
             min={0}
             dir="ltr"
@@ -99,8 +103,9 @@ export function TestimonialForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("testimonials.content")}</label>
+        <label htmlFor="testimonial-content" className="text-sm font-medium text-foreground">{t("testimonials.content")}</label>
         <textarea
+          id="testimonial-content"
           rows={4}
           value={state.content}
           onChange={(event) => setState((s) => ({ ...s, content: event.target.value }))}

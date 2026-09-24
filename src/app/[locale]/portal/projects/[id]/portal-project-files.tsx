@@ -31,7 +31,7 @@ export function PortalProjectFiles({ projectId, files }: { projectId: string; fi
   return (
     <div className="flex flex-col gap-3">
       {files.length === 0 ? (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       ) : (
         <ul className="flex flex-col divide-y divide-border">
           {files.map((file) => (
@@ -39,7 +39,7 @@ export function PortalProjectFiles({ projectId, files }: { projectId: string; fi
               <a href={`/api/files/${file.id}`} className="font-medium text-brand-600 hover:underline">
                 {file.originalName}
               </a>
-              <div className="flex items-center gap-2 text-xs text-foreground/50">
+              <div className="flex items-center gap-2 text-xs text-foreground/70">
                 <span>{formatBytes(file.sizeBytes)}</span>
                 <span>{format.dateTime(new Date(file.createdAt), { dateStyle: "medium" })}</span>
               </div>

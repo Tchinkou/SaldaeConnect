@@ -31,7 +31,7 @@ export function ProjectMembers({
   return (
     <div className="flex flex-col gap-3">
       {members.length === 0 ? (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       ) : (
         <ul className="flex flex-col divide-y divide-border">
           {members.map((member) => (

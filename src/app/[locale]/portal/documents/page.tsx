@@ -158,7 +158,7 @@ function DocumentRow({
         <Link href={doc.href} className="truncate text-sm font-medium text-foreground hover:text-brand-600">
           {doc.title}
         </Link>
-        <div className="flex items-center gap-2 text-xs text-foreground/50">
+        <div className="flex items-center gap-2 text-xs text-foreground/70">
           {doc.subtitle ? <span>{doc.subtitle}</span> : null}
           <span>{formatBytes(doc.sizeBytes)}</span>
           <span>{format.dateTime(doc.createdAt, { dateStyle: "medium" })}</span>

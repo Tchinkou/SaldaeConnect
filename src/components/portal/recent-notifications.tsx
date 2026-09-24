@@ -41,7 +41,7 @@ export function RecentNotifications() {
   if (items === null) return null;
 
   if (items.length === 0) {
-    return <p className="text-sm text-foreground/50">{t("empty")}</p>;
+    return <p className="text-sm text-foreground/70">{t("empty")}</p>;
   }
 
   return (
@@ -57,7 +57,7 @@ export function RecentNotifications() {
             }}
           >
             <span className="text-sm text-foreground">{textFor(item)}</span>
-            <span className="text-xs text-foreground/50">
+            <span className="text-xs text-foreground/70">
               {format.dateTime(new Date(item.createdAt), { dateStyle: "medium", timeStyle: "short" })}
             </span>
           </button>

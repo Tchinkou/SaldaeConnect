@@ -50,8 +50,8 @@ export function TransactionOrderStatusControl({ orderId, currentStatus, currentT
 
       {status === "PRICE_CONFIRMED" ? (
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-medium text-foreground/70">{t("confirmedTotal")}</label>
-          <input type="number" dir="ltr" value={total} onChange={(event) => setTotal(event.target.value)} className="h-9 rounded-md border border-border bg-surface px-2 text-sm" />
+          <label htmlFor="transaction-confirmed-total" className="text-xs font-medium text-foreground/70">{t("confirmedTotal")}</label>
+          <input id="transaction-confirmed-total" type="number" dir="ltr" value={total} onChange={(event) => setTotal(event.target.value)} className="h-9 rounded-md border border-border bg-surface px-2 text-sm" />
         </div>
       ) : null}
 

@@ -44,8 +44,9 @@ export function NewInvoiceForm({ clients }: { clients: Array<{ id: string; displ
             }}
           >
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("client")}</label>
+              <label htmlFor="new-invoice-client" className="text-sm font-medium text-foreground">{t("client")}</label>
               <select
+                id="new-invoice-client"
                 value={clientId}
                 onChange={(event) => setClientId(event.target.value)}
                 required
@@ -60,8 +61,9 @@ export function NewInvoiceForm({ clients }: { clients: Array<{ id: string; displ
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("type")}</label>
+              <label htmlFor="new-invoice-type" className="text-sm font-medium text-foreground">{t("type")}</label>
               <select
+                id="new-invoice-type"
                 value={type}
                 onChange={(event) => setType(event.target.value as "STANDARD" | "DEPOSIT")}
                 className="h-10 rounded-md border border-border bg-surface px-3 text-sm"

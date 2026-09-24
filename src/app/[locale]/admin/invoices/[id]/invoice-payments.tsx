@@ -86,7 +86,7 @@ export function InvoicePayments({
   return (
     <div className="flex flex-col gap-4">
       {payments.length === 0 ? (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       ) : (
         <div className="flex flex-col divide-y divide-border">
           {payments.map((payment) => (
@@ -103,12 +103,14 @@ export function InvoicePayments({
                 {payment.status === "REVERSED" ? <span className="text-danger-600">· {t("reversed")}</span> : null}
               </div>
               {payment.status === "REVERSED" && payment.reversalReason ? (
-                <p className="text-xs text-foreground/50">{t("reversalReasonLabel")}: {payment.reversalReason}</p>
+                <p className="text-xs text-foreground/70">{t("reversalReasonLabel")}: {payment.reversalReason}</p>
               ) : null}
               {canReverse && payment.status === "RECORDED" ? (
                 reversingId === payment.id ? (
                   <div className="mt-1 flex items-center gap-2">
                     <input
+                      id={`payment-reversal-reason-${payment.id}`}
+                      aria-label={t("reversalReasonPlaceholder")}
                       value={reversalReason}
                       onChange={(event) => setReversalReason(event.target.value)}
                       placeholder={t("reversalReasonPlaceholder")}
@@ -152,8 +154,9 @@ export function InvoicePayments({
           >
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("amount")}</label>
+                <label htmlFor="invoice-payment-amount" className="text-xs font-medium text-foreground/70">{t("amount")}</label>
                 <input
+                  id="invoice-payment-amount"
                   type="number"
                   dir="ltr"
                   min={0.01}
@@ -165,8 +168,9 @@ export function InvoicePayments({
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("paidAt")}</label>
+                <label htmlFor="invoice-payment-paid-at" className="text-xs font-medium text-foreground/70">{t("paidAt")}</label>
                 <input
+                  id="invoice-payment-paid-at"
                   type="date"
                   required
                   value={form.paidAt}
@@ -177,8 +181,9 @@ export function InvoicePayments({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("method")}</label>
+              <label htmlFor="invoice-payment-method" className="text-xs font-medium text-foreground/70">{t("method")}</label>
               <select
+                id="invoice-payment-method"
                 value={form.methodId}
                 onChange={(event) => setForm((f) => ({ ...f, methodId: event.target.value }))}
                 className="h-9 rounded-md border border-border bg-surface px-2 text-sm"
@@ -193,8 +198,9 @@ export function InvoicePayments({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("reference")}</label>
+              <label htmlFor="invoice-payment-reference" className="text-xs font-medium text-foreground/70">{t("reference")}</label>
               <input
+                id="invoice-payment-reference"
                 value={form.reference}
                 onChange={(event) => setForm((f) => ({ ...f, reference: event.target.value }))}
                 className="h-9 rounded-md border border-border bg-surface px-2 text-sm"
@@ -202,8 +208,9 @@ export function InvoicePayments({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("note")}</label>
+              <label htmlFor="invoice-payment-note" className="text-xs font-medium text-foreground/70">{t("note")}</label>
               <textarea
+                id="invoice-payment-note"
                 value={form.note}
                 onChange={(event) => setForm((f) => ({ ...f, note: event.target.value }))}
                 rows={2}

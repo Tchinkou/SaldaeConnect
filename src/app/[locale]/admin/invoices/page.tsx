@@ -98,7 +98,7 @@ export default async function InvoicesPage({
                 ))}
                 {invoices.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-3 py-6 text-center text-foreground/50">
+                    <td colSpan={7} className="px-3 py-6 text-center text-foreground/70">
                       {t("empty")}
                     </td>
                   </tr>

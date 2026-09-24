@@ -42,8 +42,9 @@ export function NewQuoteForm({ clients }: { clients: Array<{ id: string; display
             }}
           >
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("client")}</label>
+              <label htmlFor="new-quote-client" className="text-sm font-medium text-foreground">{t("client")}</label>
               <select
+                id="new-quote-client"
                 value={clientId}
                 onChange={(event) => setClientId(event.target.value)}
                 required

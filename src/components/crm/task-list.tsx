@@ -28,7 +28,7 @@ export function TaskList({ tasks }: { tasks: TaskRow[] }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   if (tasks.length === 0) {
-    return <p className="text-sm text-foreground/50">{t("empty")}</p>;
+    return <p className="text-sm text-foreground/70">{t("empty")}</p>;
   }
 
   const now = new Date();
@@ -58,7 +58,7 @@ export function TaskList({ tasks }: { tasks: TaskRow[] }) {
                   {task.title}
                 </p>
                 {task.description ? <p className="text-xs text-foreground/60">{task.description}</p> : null}
-                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-foreground/50">
+                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-foreground/70">
                   <Badge tone={PRIORITY_TONE[task.priority]}>{t(`priority.${task.priority}`)}</Badge>
                   {task.dueAt ? (
                     <span className={overdue ? "font-medium text-danger-600" : undefined}>

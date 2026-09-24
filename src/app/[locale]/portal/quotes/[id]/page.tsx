@@ -111,7 +111,7 @@ export default async function PortalQuoteDetailPage({ params }: { params: Promis
               {quote.validUntil ? <InfoRow label={t("validUntil")} value={quote.validUntil.toLocaleDateString(locale)} /> : null}
               {quote.introduction ? (
                 <div className="flex flex-col gap-1">
-                  <span className="text-foreground/50">{t("introduction")}</span>
+                  <span className="text-foreground/70">{t("introduction")}</span>
                   <p className="whitespace-pre-wrap text-foreground/80">{quote.introduction}</p>
                 </div>
               ) : null}
@@ -133,7 +133,7 @@ export default async function PortalQuoteDetailPage({ params }: { params: Promis
             <CardContent className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-border text-left text-foreground/50">
+                  <tr className="border-b border-border text-left text-foreground/70">
                     <th className="pb-2 font-medium">{t("itemTitle")}</th>
                     <th className="pb-2 font-medium">{t("itemQuantity")}</th>
                     <th className="pb-2 font-medium">{t("itemUnitPrice")}</th>
@@ -205,7 +205,7 @@ export default async function PortalQuoteDetailPage({ params }: { params: Promis
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground/70">{label}</span>
       <span className="font-medium text-foreground">{value}</span>
     </div>
   );

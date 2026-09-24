@@ -50,7 +50,7 @@ export default async function TeamPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-start text-sm">
               <thead>
-                <tr className="border-b border-border text-start text-xs uppercase text-foreground/50">
+                <tr className="border-b border-border text-start text-xs uppercase text-foreground/70">
                   <th className="px-2 py-2 text-start font-medium">{t("columns.name")}</th>
                   <th className="px-2 py-2 text-start font-medium">{t("columns.email")}</th>
                   <th className="px-2 py-2 text-start font-medium">{t("columns.role")}</th>

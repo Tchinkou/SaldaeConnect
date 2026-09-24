@@ -69,7 +69,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-medium text-foreground/50" dir="ltr">{client.code}</p>
+          <p className="text-xs font-medium text-foreground/70" dir="ltr">{client.code}</p>
           <h1 className="text-xl font-semibold text-foreground">{client.displayName}</h1>
           <div className="mt-1">{canWrite ? <ClientStatusSelect id={client.id} status={client.status} /> : <Badge>{t(`statusValue.${client.status}`)}</Badge>}</div>
         </div>
@@ -122,7 +122,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             </CardHeader>
             <CardContent>
               {client.opportunities.length === 0 ? (
-                <p className="text-sm text-foreground/50">{t("noOpportunities")}</p>
+                <p className="text-sm text-foreground/70">{t("noOpportunities")}</p>
               ) : (
                 <ul className="flex flex-col divide-y divide-border">
                   {client.opportunities.map((opportunity) => (
@@ -146,7 +146,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             </CardHeader>
             <CardContent className="flex flex-col gap-3">
               {client.quotes.length === 0 ? (
-                <p className="text-sm text-foreground/50">{t("noQuotes")}</p>
+                <p className="text-sm text-foreground/70">{t("noQuotes")}</p>
               ) : (
                 <ul className="flex flex-col divide-y divide-border">
                   {client.quotes.map((quote) => (
@@ -240,7 +240,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
 function Field({ label, value, dir }: { label: string; value: string; dir?: "ltr" }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground/70">{label}</span>
       <span className="font-medium text-foreground" dir={dir}>
         {value}
       </span>

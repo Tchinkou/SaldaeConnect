@@ -83,7 +83,7 @@ export default async function ClientsPage({
                 ))}
                 {clients.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/50">
+                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/70">
                       {t("empty")}
                     </td>
                   </tr>

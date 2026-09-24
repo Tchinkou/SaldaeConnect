@@ -40,7 +40,7 @@ export function CrmListView({ stages, opportunities }: { stages: BoardStage[]; o
           })}
           {opportunities.length === 0 ? (
             <tr>
-              <td colSpan={6} className="px-3 py-6 text-center text-sm text-foreground/50">
+              <td colSpan={6} className="px-3 py-6 text-center text-sm text-foreground/70">
                 <EmptyLabel />
               </td>
             </tr>

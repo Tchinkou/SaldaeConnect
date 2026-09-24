@@ -142,13 +142,13 @@ export default async function PortalDashboardPage() {
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {recentDocuments.length === 0 ? (
-            <p className="text-sm text-foreground/50">{t("documentsCardEmpty")}</p>
+            <p className="text-sm text-foreground/70">{t("documentsCardEmpty")}</p>
           ) : (
             <ul className="flex flex-col divide-y divide-border">
               {recentDocuments.map((doc) => (
                 <li key={doc.id} className="flex items-center justify-between gap-3 py-2 text-sm">
                   <span className="truncate text-foreground">{doc.title}</span>
-                  <span className="shrink-0 text-xs text-foreground/50">
+                  <span className="shrink-0 text-xs text-foreground/70">
                     {format.dateTime(doc.createdAt, { dateStyle: "medium" })}
                   </span>
                 </li>

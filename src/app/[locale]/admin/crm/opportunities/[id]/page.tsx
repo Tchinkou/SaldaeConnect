@@ -117,17 +117,17 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
               <Field label={t("source")} value={opportunity.source?.translations[0]?.name ?? t("notSpecified")} />
               {opportunity.message ? (
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-foreground/50">{t("message")}</p>
+                  <p className="text-xs font-medium uppercase tracking-wide text-foreground/70">{t("message")}</p>
                   <p className="mt-1 whitespace-pre-wrap text-foreground/80">{opportunity.message}</p>
                 </div>
               ) : null}
               {answers && Object.keys(answers).length > 0 ? (
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-foreground/50">{t("answers")}</p>
+                  <p className="text-xs font-medium uppercase tracking-wide text-foreground/70">{t("answers")}</p>
                   <dl className="mt-1 grid grid-cols-2 gap-2">
                     {Object.entries(answers).map(([key, value]) => (
                       <div key={key}>
-                        <dt className="text-xs text-foreground/50">{key}</dt>
+                        <dt className="text-xs text-foreground/70">{key}</dt>
                         <dd className="text-foreground/80">{String(value)}</dd>
                       </div>
                     ))}
@@ -143,7 +143,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
             </CardHeader>
             <CardContent className="flex flex-col gap-3">
               {opportunity.quotes.length === 0 ? (
-                <p className="text-sm text-foreground/50">{t("noQuotes")}</p>
+                <p className="text-sm text-foreground/70">{t("noQuotes")}</p>
               ) : (
                 <ul className="flex flex-col divide-y divide-border">
                   {opportunity.quotes.map((quote) => (
@@ -194,7 +194,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
             </CardHeader>
             <CardContent>
               {opportunity.stageChanges.length === 0 ? (
-                <p className="text-sm text-foreground/50">{t("noStageChanges")}</p>
+                <p className="text-sm text-foreground/70">{t("noStageChanges")}</p>
               ) : (
                 <ul className="flex flex-col gap-2 text-sm">
                   {opportunity.stageChanges.map((change) => (
@@ -203,7 +203,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
                         {change.fromStage?.translations[0]?.name ?? t("initialStage")} →{" "}
                         {change.toStage.translations[0]?.name ?? change.toStage.key}
                       </span>
-                      <span className="text-xs text-foreground/50">
+                      <span className="text-xs text-foreground/70">
                         {change.changedById ? nameById.get(change.changedById) : t("automatic")} ·{" "}
                         {change.createdAt.toLocaleDateString(locale)}
                       </span>
@@ -230,7 +230,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
                   {opportunity.lead.firstName} {opportunity.lead.lastName}
                 </Link>
               ) : (
-                <span className="text-foreground/50">{t("notSpecified")}</span>
+                <span className="text-foreground/70">{t("notSpecified")}</span>
               )}
               {(opportunity.client?.email ?? opportunity.lead?.email) ? (
                 <span className="text-foreground/70" dir="ltr">
@@ -293,7 +293,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground/70">{label}</span>
       <span className="font-medium text-foreground">{value}</span>
     </div>
   );

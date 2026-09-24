@@ -313,7 +313,8 @@
       "noLostReasons": "No lost reasons configured.",
       "cancel": "Cancel",
       "owner": "Owner: {name}",
-      "unassigned": "Unassigned"
+      "unassigned": "Unassigned",
+      "dragHandle": "Reorder (drag and drop)"
     },
     "list": {
       "number": "Number",

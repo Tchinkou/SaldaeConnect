@@ -99,7 +99,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
             </CardHeader>
             <CardContent>
               {lead.opportunities.length === 0 ? (
-                <p className="text-sm text-foreground/50">{t("noOpportunities")}</p>
+                <p className="text-sm text-foreground/70">{t("noOpportunities")}</p>
               ) : (
                 <ul className="flex flex-col divide-y divide-border">
                   {lead.opportunities.map((opportunity) => (
@@ -159,7 +159,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
 function Field({ label, value, dir }: { label: string; value: string; dir?: "ltr" }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground/70">{label}</span>
       <span className="font-medium text-foreground" dir={dir}>
         {value}
       </span>

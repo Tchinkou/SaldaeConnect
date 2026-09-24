@@ -122,7 +122,7 @@ export function InvoiceItemsEditor({
   return (
     <div className="flex flex-col gap-4">
       {items.length === 0 ? (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -142,7 +142,7 @@ export function InvoiceItemsEditor({
                 <tr key={item.id}>
                   <td className="px-2 py-2">
                     <p className="font-medium text-foreground">{item.title}</p>
-                    {item.description ? <p className="text-xs text-foreground/50">{item.description}</p> : null}
+                    {item.description ? <p className="text-xs text-foreground/70">{item.description}</p> : null}
                   </td>
                   <td className="px-2 py-2 text-end text-foreground/70" dir="ltr">
                     {item.quantity}
@@ -195,8 +195,9 @@ export function InvoiceItemsEditor({
           >
             {services.length > 0 ? (
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("service")}</label>
+                <label htmlFor="invoice-item-service" className="text-xs font-medium text-foreground/70">{t("service")}</label>
                 <select
+                  id="invoice-item-service"
                   value={form.serviceId}
                   onChange={(event) => {
                     const service = services.find((s) => s.id === event.target.value);
@@ -223,8 +224,9 @@ export function InvoiceItemsEditor({
             ) : null}
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("titleColumn")}</label>
+              <label htmlFor="invoice-item-title" className="text-xs font-medium text-foreground/70">{t("titleColumn")}</label>
               <input
+                id="invoice-item-title"
                 required
                 value={form.title}
                 onChange={(event) => setForm((f) => ({ ...f, title: event.target.value }))}
@@ -233,8 +235,9 @@ export function InvoiceItemsEditor({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("description")}</label>
+              <label htmlFor="invoice-item-description" className="text-xs font-medium text-foreground/70">{t("description")}</label>
               <textarea
+                id="invoice-item-description"
                 value={form.description}
                 onChange={(event) => setForm((f) => ({ ...f, description: event.target.value }))}
                 rows={2}
@@ -243,17 +246,19 @@ export function InvoiceItemsEditor({
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <NumberField label={t("quantity")} value={form.quantity} onChange={(v) => setForm((f) => ({ ...f, quantity: v }))} min={0.01} step="0.01" />
+              <NumberField id="invoice-item-quantity" label={t("quantity")} value={form.quantity} onChange={(v) => setForm((f) => ({ ...f, quantity: v }))} min={0.01} step="0.01" />
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("unit")}</label>
+                <label htmlFor="invoice-item-unit" className="text-xs font-medium text-foreground/70">{t("unit")}</label>
                 <input
+                  id="invoice-item-unit"
                   value={form.unit}
                   onChange={(event) => setForm((f) => ({ ...f, unit: event.target.value }))}
                   className="h-9 rounded-md border border-border bg-surface px-2 text-sm"
                 />
               </div>
-              <NumberField label={t("unitPrice")} value={form.unitPrice} onChange={(v) => setForm((f) => ({ ...f, unitPrice: v }))} min={0} step="0.01" />
+              <NumberField id="invoice-item-unit-price" label={t("unitPrice")} value={form.unitPrice} onChange={(v) => setForm((f) => ({ ...f, unitPrice: v }))} min={0} step="0.01" />
               <NumberField
+                id="invoice-item-discount"
                 label={t("discount")}
                 value={form.discountPercent}
                 onChange={(v) => setForm((f) => ({ ...f, discountPercent: v }))}
@@ -264,8 +269,9 @@ export function InvoiceItemsEditor({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("tax")}</label>
+              <label htmlFor="invoice-item-tax" className="text-xs font-medium text-foreground/70">{t("tax")}</label>
               <select
+                id="invoice-item-tax"
                 value={form.taxRateId}
                 onChange={(event) => setForm((f) => ({ ...f, taxRateId: event.target.value }))}
                 className="h-9 w-48 rounded-md border border-border bg-surface px-2 text-sm"
@@ -277,7 +283,7 @@ export function InvoiceItemsEditor({
                   </option>
                 ))}
               </select>
-              {taxRates.length === 0 ? <p className="text-xs text-foreground/50">{t("noTaxRatesHint")}</p> : null}
+              {taxRates.length === 0 ? <p className="text-xs text-foreground/70">{t("noTaxRatesHint")}</p> : null}
             </div>
 
             {error ? <p className="text-sm text-danger-600">{error}</p> : null}
@@ -304,6 +310,7 @@ export function InvoiceItemsEditor({
 }
 
 function NumberField({
+  id,
   label,
   value,
   onChange,
@@ -311,6 +318,7 @@ function NumberField({
   max,
   step,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -320,8 +328,9 @@ function NumberField({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-medium text-foreground/70">{label}</label>
+      <label htmlFor={id} className="text-xs font-medium text-foreground/70">{label}</label>
       <input
+        id={id}
         type="number"
         dir="ltr"
         min={min}

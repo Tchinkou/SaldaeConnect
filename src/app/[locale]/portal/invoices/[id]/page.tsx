@@ -86,7 +86,7 @@ export default async function PortalInvoiceDetailPage({ params }: { params: Prom
             <CardContent className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-border text-left text-foreground/50">
+                  <tr className="border-b border-border text-left text-foreground/70">
                     <th className="pb-2 font-medium">{t("itemTitle")}</th>
                     <th className="pb-2 font-medium">{t("itemQuantity")}</th>
                     <th className="pb-2 font-medium">{t("itemUnitPrice")}</th>
@@ -156,7 +156,7 @@ export default async function PortalInvoiceDetailPage({ params }: { params: Prom
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground/70">{label}</span>
       <span className="font-medium text-foreground">{value}</span>
     </div>
   );

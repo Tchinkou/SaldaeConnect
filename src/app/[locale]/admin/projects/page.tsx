@@ -90,7 +90,7 @@ export default async function ProjectsPage({
                         <Link href={`/admin/projects/${project.id}`} className="font-medium text-brand-600 hover:underline">
                           {project.number}
                         </Link>
-                        <p className="text-xs text-foreground/50">{project.name}</p>
+                        <p className="text-xs text-foreground/70">{project.name}</p>
                       </td>
                       <td className="px-3 py-2 text-foreground/70">{project.client.displayName}</td>
                       <td className="px-3 py-2">
@@ -112,7 +112,7 @@ export default async function ProjectsPage({
                 })}
                 {projects.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/50">
+                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/70">
                       {t("empty")}
                     </td>
                   </tr>

@@ -111,8 +111,9 @@ export function PortfolioForm({
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("portfolio.clientName")}</label>
+          <label htmlFor="portfolio-client-name" className="text-sm font-medium text-foreground">{t("portfolio.clientName")}</label>
           <input
+            id="portfolio-client-name"
             type="text"
             value={clientName}
             onChange={(event) => setClientName(event.target.value)}
@@ -120,8 +121,9 @@ export function PortfolioForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("portfolio.sector")}</label>
+          <label htmlFor="portfolio-sector" className="text-sm font-medium text-foreground">{t("portfolio.sector")}</label>
           <input
+            id="portfolio-sector"
             type="text"
             value={sectorName}
             onChange={(event) => setSectorName(event.target.value)}
@@ -129,8 +131,9 @@ export function PortfolioForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("portfolio.technologies")}</label>
+          <label htmlFor="portfolio-technologies" className="text-sm font-medium text-foreground">{t("portfolio.technologies")}</label>
           <input
+            id="portfolio-technologies"
             type="text"
             dir="ltr"
             value={technologiesText}
@@ -140,8 +143,9 @@ export function PortfolioForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("portfolio.url")}</label>
+          <label htmlFor="portfolio-url" className="text-sm font-medium text-foreground">{t("portfolio.url")}</label>
           <input
+            id="portfolio-url"
             type="text"
             dir="ltr"
             value={url}
@@ -150,8 +154,9 @@ export function PortfolioForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("portfolio.date")}</label>
+          <label htmlFor="portfolio-date" className="text-sm font-medium text-foreground">{t("portfolio.date")}</label>
           <input
+            id="portfolio-date"
             type="date"
             dir="ltr"
             value={date}
@@ -160,8 +165,9 @@ export function PortfolioForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("order")}</label>
+          <label htmlFor="portfolio-order" className="text-sm font-medium text-foreground">{t("order")}</label>
           <input
+            id="portfolio-order"
             type="number"
             min={0}
             dir="ltr"
@@ -199,8 +205,9 @@ export function PortfolioForm({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("portfolio.projectTitle")}</label>
+              <label htmlFor={`portfolio-title-${locale}`} className="text-sm font-medium text-foreground">{t("portfolio.projectTitle")}</label>
               <input
+                id={`portfolio-title-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].title}
@@ -209,8 +216,9 @@ export function PortfolioForm({
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("portfolio.slug")}</label>
+              <label htmlFor={`portfolio-slug-${locale}`} className="text-sm font-medium text-foreground">{t("portfolio.slug")}</label>
               <input
+                id={`portfolio-slug-${locale}`}
                 type="text"
                 dir="ltr"
                 value={translations[locale].slug}
@@ -222,8 +230,9 @@ export function PortfolioForm({
 
           {(["summary", "problem", "solution", "execution", "result"] as const).map((field) => (
             <div key={field} className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t(`portfolio.${field}`)}</label>
+              <label htmlFor={`portfolio-${field}-${locale}`} className="text-sm font-medium text-foreground">{t(`portfolio.${field}`)}</label>
               <textarea
+                id={`portfolio-${field}-${locale}`}
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 rows={2}
                 value={translations[locale][field]}
@@ -235,8 +244,9 @@ export function PortfolioForm({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.seoTitle")}</label>
+              <label htmlFor={`portfolio-seo-title-${locale}`} className="text-sm font-medium text-foreground">{t("pages.seoTitle")}</label>
               <input
+                id={`portfolio-seo-title-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].seoTitle}
@@ -245,8 +255,9 @@ export function PortfolioForm({
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.seoDescription")}</label>
+              <label htmlFor={`portfolio-seo-description-${locale}`} className="text-sm font-medium text-foreground">{t("pages.seoDescription")}</label>
               <input
+                id={`portfolio-seo-description-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].seoDescription}

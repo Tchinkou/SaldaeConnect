@@ -52,7 +52,7 @@ export default async function BlogListPage() {
                     <Link href={`/admin/content/blog/${post.id}`} className="text-sm font-medium text-brand-600 hover:underline">
                       {post.translations[0]?.title ?? post.id}
                     </Link>
-                    <div className="mt-1 flex items-center gap-2 text-xs text-foreground/50">
+                    <div className="mt-1 flex items-center gap-2 text-xs text-foreground/70">
                       {post.category?.translations[0]?.name ? <span>{post.category.translations[0].name}</span> : null}
                       {post.publishedAt ? <span>{format.dateTime(post.publishedAt, { dateStyle: "medium" })}</span> : null}
                     </div>

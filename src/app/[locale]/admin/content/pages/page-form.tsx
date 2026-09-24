@@ -80,8 +80,9 @@ export function PageForm({
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       {!id ? (
         <div className="flex flex-col gap-1.5 sm:w-64">
-          <label className="text-sm font-medium text-foreground">{t("pages.key")}</label>
+          <label htmlFor="page-key" className="text-sm font-medium text-foreground">{t("pages.key")}</label>
           <input
+            id="page-key"
             type="text"
             dir="ltr"
             value={key}
@@ -89,10 +90,10 @@ export function PageForm({
             placeholder={t("pages.keyPlaceholder")}
             className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
           />
-          <p className="text-xs text-foreground/50">{t("pages.keyHint")}</p>
+          <p className="text-xs text-foreground/70">{t("pages.keyHint")}</p>
         </div>
       ) : isSystem ? (
-        <p className="text-xs text-foreground/50" dir="ltr">
+        <p className="text-xs text-foreground/70" dir="ltr">
           {key}
         </p>
       ) : null}
@@ -103,8 +104,9 @@ export function PageForm({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.pageTitle")}</label>
+              <label htmlFor={`page-title-${locale}`} className="text-sm font-medium text-foreground">{t("pages.pageTitle")}</label>
               <input
+                id={`page-title-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].title}
@@ -113,8 +115,9 @@ export function PageForm({
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.slug")}</label>
+              <label htmlFor={`page-slug-${locale}`} className="text-sm font-medium text-foreground">{t("pages.slug")}</label>
               <input
+                id={`page-slug-${locale}`}
                 type="text"
                 dir="ltr"
                 value={translations[locale].slug}
@@ -125,10 +128,11 @@ export function PageForm({
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">{t("pages.content")}</label>
+            <label htmlFor={`page-content-${locale}`} className="text-sm font-medium text-foreground">{t("pages.content")}</label>
             {translations[locale].blocks.map((block, index) => (
               <div key={index} className="flex items-start gap-2">
                 <select
+                  id={index === 0 ? `page-content-${locale}` : undefined}
                   value={block.type}
                   onChange={(event) => updateBlock(locale, index, { type: event.target.value as Block["type"] })}
                   className="h-10 rounded-md border border-border bg-surface px-2 text-sm"
@@ -160,8 +164,9 @@ export function PageForm({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.seoTitle")}</label>
+              <label htmlFor={`page-seo-title-${locale}`} className="text-sm font-medium text-foreground">{t("pages.seoTitle")}</label>
               <input
+                id={`page-seo-title-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].seoTitle}
@@ -170,8 +175,9 @@ export function PageForm({
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.seoDescription")}</label>
+              <label htmlFor={`page-seo-description-${locale}`} className="text-sm font-medium text-foreground">{t("pages.seoDescription")}</label>
               <input
+                id={`page-seo-description-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].seoDescription}

@@ -92,8 +92,9 @@ export function BlogPostForm({
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("blog.category")}</label>
+          <label htmlFor="blog-category" className="text-sm font-medium text-foreground">{t("blog.category")}</label>
           <input
+            id="blog-category"
             type="text"
             value={categoryName}
             onChange={(event) => setCategoryName(event.target.value)}
@@ -101,8 +102,9 @@ export function BlogPostForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("blog.tags")}</label>
+          <label htmlFor="blog-tags" className="text-sm font-medium text-foreground">{t("blog.tags")}</label>
           <input
+            id="blog-tags"
             type="text"
             value={tagsText}
             onChange={(event) => setTagsText(event.target.value)}
@@ -111,8 +113,9 @@ export function BlogPostForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("blog.status")}</label>
+          <label htmlFor="blog-status" className="text-sm font-medium text-foreground">{t("blog.status")}</label>
           <select
+            id="blog-status"
             value={status}
             onChange={(event) => setStatus(event.target.value as Status)}
             className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
@@ -127,8 +130,9 @@ export function BlogPostForm({
 
       {status === "SCHEDULED" ? (
         <div className="flex flex-col gap-1.5 sm:w-64">
-          <label className="text-sm font-medium text-foreground">{t("blog.publishedAt")}</label>
+          <label htmlFor="blog-published-at" className="text-sm font-medium text-foreground">{t("blog.publishedAt")}</label>
           <input
+            id="blog-published-at"
             type="datetime-local"
             dir="ltr"
             value={publishedAt}
@@ -144,8 +148,9 @@ export function BlogPostForm({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("blog.postTitle")}</label>
+              <label htmlFor={`blog-title-${locale}`} className="text-sm font-medium text-foreground">{t("blog.postTitle")}</label>
               <input
+                id={`blog-title-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].title}
@@ -154,8 +159,9 @@ export function BlogPostForm({
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("blog.slug")}</label>
+              <label htmlFor={`blog-slug-${locale}`} className="text-sm font-medium text-foreground">{t("blog.slug")}</label>
               <input
+                id={`blog-slug-${locale}`}
                 type="text"
                 dir="ltr"
                 value={translations[locale].slug}
@@ -166,8 +172,9 @@ export function BlogPostForm({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-foreground">{t("blog.excerpt")}</label>
+            <label htmlFor={`blog-excerpt-${locale}`} className="text-sm font-medium text-foreground">{t("blog.excerpt")}</label>
             <textarea
+              id={`blog-excerpt-${locale}`}
               dir={locale === "ar" ? "rtl" : "ltr"}
               rows={2}
               value={translations[locale].excerpt}
@@ -177,10 +184,11 @@ export function BlogPostForm({
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">{t("pages.content")}</label>
+            <label htmlFor={`blog-content-${locale}`} className="text-sm font-medium text-foreground">{t("pages.content")}</label>
             {translations[locale].content.map((block, index) => (
               <div key={index} className="flex items-start gap-2">
                 <select
+                  id={index === 0 ? `blog-content-${locale}` : undefined}
                   value={block.type}
                   onChange={(event) => updateBlock(locale, index, { type: event.target.value as Block["type"] })}
                   className="h-10 rounded-md border border-border bg-surface px-2 text-sm"
@@ -212,8 +220,9 @@ export function BlogPostForm({
 
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.seoTitle")}</label>
+              <label htmlFor={`blog-seo-title-${locale}`} className="text-sm font-medium text-foreground">{t("pages.seoTitle")}</label>
               <input
+                id={`blog-seo-title-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].seoTitle}
@@ -222,8 +231,9 @@ export function BlogPostForm({
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-foreground">{t("pages.seoDescription")}</label>
+              <label htmlFor={`blog-seo-description-${locale}`} className="text-sm font-medium text-foreground">{t("pages.seoDescription")}</label>
               <input
+                id={`blog-seo-description-${locale}`}
                 type="text"
                 dir={locale === "ar" ? "rtl" : "ltr"}
                 value={translations[locale].seoDescription}

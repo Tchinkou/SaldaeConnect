@@ -36,7 +36,7 @@ export function AutoDraftDepositToggle({ initialEnabled }: { initialEnabled: boo
         />
         {t("autoDraftDepositInvoice")}
       </label>
-      <p className="text-xs text-foreground/50">{t("autoDraftDepositInvoiceHint")}</p>
+      <p className="text-xs text-foreground/70">{t("autoDraftDepositInvoiceHint")}</p>
       {error ? <p className="text-sm text-danger-600">{error}</p> : null}
     </div>
   );

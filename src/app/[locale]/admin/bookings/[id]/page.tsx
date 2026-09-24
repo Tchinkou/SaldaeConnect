@@ -72,7 +72,7 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
           </CardHeader>
           <CardContent className="flex flex-col gap-4 text-sm">
             <div>
-              <p className="text-xs font-medium text-foreground/50">{t("contact")}</p>
+              <p className="text-xs font-medium text-foreground/70">{t("contact")}</p>
               <p className="text-foreground">
                 {contact.firstName} {contact.lastName} · {contact.email} {contact.phone ? `· ${contact.phone}` : ""}
               </p>
@@ -80,7 +80,7 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
 
             {config?.mode === "AGENCY_SLOT" && reservation.startsAt ? (
               <div>
-                <p className="text-xs font-medium text-foreground/50">{t("slot")}</p>
+                <p className="text-xs font-medium text-foreground/70">{t("slot")}</p>
                 <p className="text-foreground">{format.dateTime(reservation.startsAt, { dateStyle: "full", timeStyle: "short" })}</p>
               </div>
             ) : null}
@@ -88,7 +88,7 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
             {config?.mode === "EXTERNAL_APPOINTMENT" ? (
               <>
                 <div>
-                  <p className="text-xs font-medium text-foreground/50">{t("preferredPeriod")}</p>
+                  <p className="text-xs font-medium text-foreground/70">{t("preferredPeriod")}</p>
                   <p className="text-foreground">
                     {reservation.preferredFrom ? format.dateTime(reservation.preferredFrom, { dateStyle: "medium" }) : "—"} —{" "}
                     {reservation.preferredTo ? format.dateTime(reservation.preferredTo, { dateStyle: "medium" }) : "—"}
@@ -96,13 +96,13 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
                 </div>
                 {reservation.externalAppointmentAt ? (
                   <div>
-                    <p className="text-xs font-medium text-foreground/50">{t("externalAppointmentAt")}</p>
+                    <p className="text-xs font-medium text-foreground/70">{t("externalAppointmentAt")}</p>
                     <p className="text-foreground">{format.dateTime(reservation.externalAppointmentAt, { dateStyle: "full", timeStyle: "short" })}</p>
                   </div>
                 ) : null}
                 {reservation.externalReference ? (
                   <div>
-                    <p className="text-xs font-medium text-foreground/50">{t("externalReference")}</p>
+                    <p className="text-xs font-medium text-foreground/70">{t("externalReference")}</p>
                     <p className="text-foreground">{reservation.externalReference}</p>
                   </div>
                 ) : null}
@@ -111,7 +111,7 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
 
             {answers.documentNumber ? (
               <div>
-                <p className="text-xs font-medium text-foreground/50">{t("documentNumber")}</p>
+                <p className="text-xs font-medium text-foreground/70">{t("documentNumber")}</p>
                 <p className="text-foreground" dir="ltr">
                   {answers.documentNumber}
                 </p>
@@ -120,21 +120,21 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
 
             {answers.notes ? (
               <div>
-                <p className="text-xs font-medium text-foreground/50">{t("notes")}</p>
+                <p className="text-xs font-medium text-foreground/70">{t("notes")}</p>
                 <p className="whitespace-pre-wrap text-foreground">{answers.notes}</p>
               </div>
             ) : null}
 
             {reservation.cancelReason ? (
               <div>
-                <p className="text-xs font-medium text-foreground/50">{t("cancelReason")}</p>
+                <p className="text-xs font-medium text-foreground/70">{t("cancelReason")}</p>
                 <p className="text-foreground">{reservation.cancelReason}</p>
               </div>
             ) : null}
 
             {reservation.files.length > 0 ? (
               <div>
-                <p className="text-xs font-medium text-foreground/50">{t("attachments")}</p>
+                <p className="text-xs font-medium text-foreground/70">{t("attachments")}</p>
                 <ul className="mt-1 flex flex-col gap-1">
                   {reservation.files.map((file) => (
                     <li key={file.id}>
@@ -163,11 +163,11 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
                     {change.fromStatus ? `${t(`statusValue.${change.fromStatus}`)} → ` : ""}
                     {t(`statusValue.${change.toStatus}`)}
                   </p>
-                  <p className="text-xs text-foreground/50">{format.dateTime(change.createdAt, { dateStyle: "medium", timeStyle: "short" })}</p>
+                  <p className="text-xs text-foreground/70">{format.dateTime(change.createdAt, { dateStyle: "medium", timeStyle: "short" })}</p>
                   {change.note ? <p className="mt-1 text-foreground/80">{change.note}</p> : null}
                 </li>
               ))}
-              {reservation.statusChanges.length === 0 ? <p className="text-sm text-foreground/50">{t("noHistory")}</p> : null}
+              {reservation.statusChanges.length === 0 ? <p className="text-sm text-foreground/70">{t("noHistory")}</p> : null}
             </ul>
           </CardContent>
         </Card>

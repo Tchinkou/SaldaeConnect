@@ -239,7 +239,7 @@ export function CrmBoard({
                   {reason.label}
                 </button>
               ))}
-              {lostReasons.length === 0 ? <p className="text-xs text-foreground/50">{t("noLostReasons")}</p> : null}
+              {lostReasons.length === 0 ? <p className="text-xs text-foreground/70">{t("noLostReasons")}</p> : null}
             </div>
             <div className="mt-4 flex justify-end">
               <Button type="button" variant="secondary" onClick={cancelPendingMove}>
@@ -284,13 +284,21 @@ function SortableCard({ opportunity }: { opportunity: BoardOpportunity }) {
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <OpportunityCard opportunity={opportunity} />
+    <div ref={setNodeRef} style={style}>
+      <OpportunityCard opportunity={opportunity} dragHandleProps={{ attributes, listeners }} />
     </div>
   );
 }
 
-function OpportunityCard({ opportunity, dragging }: { opportunity: BoardOpportunity; dragging?: boolean }) {
+function OpportunityCard({
+  opportunity,
+  dragging,
+  dragHandleProps,
+}: {
+  opportunity: BoardOpportunity;
+  dragging?: boolean;
+  dragHandleProps?: { attributes: ReturnType<typeof useSortable>["attributes"]; listeners: ReturnType<typeof useSortable>["listeners"] };
+}) {
   const t = useTranslations("admin.crm.board");
   const budget =
     opportunity.budgetMin || opportunity.budgetMax
@@ -298,23 +306,42 @@ function OpportunityCard({ opportunity, dragging }: { opportunity: BoardOpportun
       : null;
 
   return (
-    <Link
-      href={`/admin/crm/opportunities/${opportunity.id}`}
+    <div
       className={cn(
-        "flex flex-col gap-1 rounded-md border border-border bg-surface p-3 text-start shadow-sm hover:border-brand-300",
+        "relative flex flex-col gap-1 rounded-md border border-border bg-surface p-3 shadow-sm hover:border-brand-300",
         dragging && "rotate-2 shadow-lg",
       )}
     >
-      <span className="text-xs font-medium text-brand-600">{opportunity.number}</span>
-      <span className="text-sm font-medium text-foreground">{opportunity.contactName}</span>
-      {opportunity.companyName ? <span className="text-xs text-foreground/60">{opportunity.companyName}</span> : null}
-      <span className="text-xs text-foreground/70">{opportunity.serviceName}</span>
-      {budget ? <span className="text-xs text-foreground/60" dir="ltr">{budget}</span> : null}
-      {opportunity.ownerName ? (
-        <span className="mt-1 text-xs text-foreground/50">{t("owner", { name: opportunity.ownerName })}</span>
-      ) : (
-        <span className="mt-1 text-xs text-warning-600">{t("unassigned")}</span>
-      )}
-    </Link>
+      {dragHandleProps ? (
+        <button
+          type="button"
+          {...dragHandleProps.attributes}
+          {...dragHandleProps.listeners}
+          aria-label={t("dragHandle")}
+          className="absolute end-2 top-2 flex h-5 w-5 items-center justify-center rounded text-foreground/50 hover:bg-surface-muted hover:text-foreground/70"
+        >
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true">
+            <circle cx="5" cy="3" r="1.3" />
+            <circle cx="11" cy="3" r="1.3" />
+            <circle cx="5" cy="8" r="1.3" />
+            <circle cx="11" cy="8" r="1.3" />
+            <circle cx="5" cy="13" r="1.3" />
+            <circle cx="11" cy="13" r="1.3" />
+          </svg>
+        </button>
+      ) : null}
+      <Link href={`/admin/crm/opportunities/${opportunity.id}`} className="flex flex-col gap-1 text-start">
+        <span className="text-xs font-medium text-brand-600">{opportunity.number}</span>
+        <span className="text-sm font-medium text-foreground">{opportunity.contactName}</span>
+        {opportunity.companyName ? <span className="text-xs text-foreground/60">{opportunity.companyName}</span> : null}
+        <span className="text-xs text-foreground/70">{opportunity.serviceName}</span>
+        {budget ? <span className="text-xs text-foreground/60" dir="ltr">{budget}</span> : null}
+        {opportunity.ownerName ? (
+          <span className="mt-1 text-xs text-foreground/70">{t("owner", { name: opportunity.ownerName })}</span>
+        ) : (
+          <span className="mt-1 text-xs text-warning-600">{t("unassigned")}</span>
+        )}
+      </Link>
+    </div>
   );
 }

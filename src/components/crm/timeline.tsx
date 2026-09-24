@@ -25,7 +25,7 @@ export function Timeline({ activities }: { activities: TimelineActivity[] }) {
   const format = useFormatter();
 
   if (activities.length === 0) {
-    return <p className="text-sm text-foreground/50">{t("empty")}</p>;
+    return <p className="text-sm text-foreground/70">{t("empty")}</p>;
   }
 
   return (
@@ -35,12 +35,12 @@ export function Timeline({ activities }: { activities: TimelineActivity[] }) {
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone={TONE_BY_TYPE[activity.type] ?? "neutral"}>{t(`type.${activity.type}`)}</Badge>
             {activity.subject ? <span className="text-sm font-medium text-foreground">{activity.subject}</span> : null}
-            <span className="ms-auto text-xs text-foreground/50">
+            <span className="ms-auto text-xs text-foreground/70">
               {format.dateTime(new Date(activity.occurredAt), { dateStyle: "medium", timeStyle: "short" })}
             </span>
           </div>
           {activity.body ? <p className="mt-1 whitespace-pre-wrap text-sm text-foreground/80">{activity.body}</p> : null}
-          {activity.actorName ? <p className="mt-1 text-xs text-foreground/50">{t("by", { name: activity.actorName })}</p> : null}
+          {activity.actorName ? <p className="mt-1 text-xs text-foreground/70">{t("by", { name: activity.actorName })}</p> : null}
         </li>
       ))}
     </ol>

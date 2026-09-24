@@ -313,7 +313,8 @@
       "noLostReasons": "Aucun motif de perte configuré.",
       "cancel": "Annuler",
       "owner": "Responsable : {name}",
-      "unassigned": "Non attribué"
+      "unassigned": "Non attribué",
+      "dragHandle": "Réordonner (glisser-déposer)"
     },
     "list": {
       "number": "Numéro",

@@ -40,7 +40,7 @@ export function ProjectFiles({ projectId, files, canWrite }: { projectId: string
   return (
     <div className="flex flex-col gap-3">
       {files.length === 0 ? (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       ) : (
         <ul className="flex flex-col divide-y divide-border">
           {files.map((file) => (
@@ -49,7 +49,7 @@ export function ProjectFiles({ projectId, files, canWrite }: { projectId: string
                 <a href={`/api/files/${file.id}`} className="font-medium text-brand-600 hover:underline">
                   {file.originalName}
                 </a>
-                <div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-foreground/50">
+                <div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-foreground/70">
                   <Badge tone={CATEGORY_TONE[file.category as keyof typeof CATEGORY_TONE] ?? "neutral"}>{t(`category.${file.category}`)}</Badge>
                   {file.visibility === "CLIENT" ? <Badge tone="info">{t("visibleToClient")}</Badge> : null}
                   <span>{formatBytes(file.sizeBytes)}</span>

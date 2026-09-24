@@ -90,7 +90,7 @@ export function TaxRatesForm({ rates }: { rates: TaxRateRow[] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {rates.length === 0 && !creating ? <p className="text-sm text-foreground/50">{t("empty")}</p> : null}
+      {rates.length === 0 && !creating ? <p className="text-sm text-foreground/70">{t("empty")}</p> : null}
 
       <ul className="flex flex-col divide-y divide-border">
         {rates.map((rate) =>

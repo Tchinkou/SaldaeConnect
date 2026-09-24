@@ -103,9 +103,9 @@ export function BookingWidget({ serviceId, config }: { serviceId: string; config
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-foreground">{t("chooseSlot")}</label>
           {slots === null ? (
-            <p className="text-sm text-foreground/50">{t("loadingSlots")}</p>
+            <p className="text-sm text-foreground/70">{t("loadingSlots")}</p>
           ) : slots.length === 0 ? (
-            <p className="text-sm text-foreground/50">{t("noSlots")}</p>
+            <p className="text-sm text-foreground/70">{t("noSlots")}</p>
           ) : (
             <div className="flex flex-wrap gap-2">
               {slots.slice(0, 30).map((slot) => (

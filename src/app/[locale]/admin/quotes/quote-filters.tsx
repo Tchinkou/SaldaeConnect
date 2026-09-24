@@ -22,8 +22,9 @@ export function QuoteFilters({ currentParams }: { currentParams: Record<string, 
   return (
     <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-surface p-3">
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("filters.search")}</label>
+        <label htmlFor="quote-filter-search" className="text-xs font-medium text-foreground/70">{t("filters.search")}</label>
         <input
+          id="quote-filter-search"
           type="search"
           value={q}
           onChange={(event) => setQ(event.target.value)}
@@ -36,8 +37,9 @@ export function QuoteFilters({ currentParams }: { currentParams: Record<string, 
         />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("filters.status")}</label>
+        <label htmlFor="quote-filter-status" className="text-xs font-medium text-foreground/70">{t("filters.status")}</label>
         <select
+          id="quote-filter-status"
           value={currentParams.status ?? ""}
           onChange={(event) => setParam("status", event.target.value)}
           className="h-9 rounded-md border border-border bg-surface px-2 text-xs"

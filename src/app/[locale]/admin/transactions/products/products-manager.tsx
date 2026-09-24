@@ -133,7 +133,7 @@ export function ProductsManager({ products }: { products: ProductRow[] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {products.length === 0 && !creating ? <p className="text-sm text-foreground/50">{t("empty")}</p> : null}
+      {products.length === 0 && !creating ? <p className="text-sm text-foreground/70">{t("empty")}</p> : null}
 
       <ul className="flex flex-col divide-y divide-border">
         {products.map((product) =>
@@ -154,7 +154,7 @@ export function ProductsManager({ products }: { products: ProductRow[] }) {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <span className="font-medium text-foreground">{product.name}</span>
-                  <span className="ms-2 text-xs text-foreground/50" dir="ltr">
+                  <span className="ms-2 text-xs text-foreground/70" dir="ltr">
                     {product.sku}
                   </span>
                   <span className="ms-2 text-foreground/60" dir="ltr">

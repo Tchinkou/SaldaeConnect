@@ -76,14 +76,14 @@ export function QuoteInstallmentsEditor({
   return (
     <div className="flex flex-col gap-4">
       {installments.length === 0 ? (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       ) : (
         <ul className="flex flex-col divide-y divide-border">
           {installments.map((installment) => (
             <li key={installment.id} className="flex items-center justify-between py-2 text-sm">
               <div>
                 <p className="font-medium text-foreground">{installment.label}</p>
-                <p className="text-xs text-foreground/50">
+                <p className="text-xs text-foreground/70">
                   {t(`triggerValue.${installment.trigger}`)}
                   {installment.dueDate ? ` · ${installment.dueDate}` : ""}
                 </p>
@@ -118,8 +118,9 @@ export function QuoteInstallmentsEditor({
             }}
           >
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("label")}</label>
+              <label htmlFor="quote-installment-label" className="text-xs font-medium text-foreground/70">{t("label")}</label>
               <input
+                id="quote-installment-label"
                 required
                 value={form.label}
                 onChange={(event) => setForm((f) => ({ ...f, label: event.target.value }))}
@@ -129,8 +130,9 @@ export function QuoteInstallmentsEditor({
 
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("percent")}</label>
+                <label htmlFor="quote-installment-percent" className="text-xs font-medium text-foreground/70">{t("percent")}</label>
                 <input
+                  id="quote-installment-percent"
                   type="number"
                   dir="ltr"
                   min={0}
@@ -142,8 +144,9 @@ export function QuoteInstallmentsEditor({
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("amount")}</label>
+                <label htmlFor="quote-installment-amount" className="text-xs font-medium text-foreground/70">{t("amount")}</label>
                 <input
+                  id="quote-installment-amount"
                   type="number"
                   dir="ltr"
                   min={0}
@@ -157,8 +160,9 @@ export function QuoteInstallmentsEditor({
 
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("trigger")}</label>
+                <label htmlFor="quote-installment-trigger" className="text-xs font-medium text-foreground/70">{t("trigger")}</label>
                 <select
+                  id="quote-installment-trigger"
                   value={form.trigger}
                   onChange={(event) => setForm((f) => ({ ...f, trigger: event.target.value as (typeof TRIGGERS)[number] }))}
                   className="h-9 rounded-md border border-border bg-surface px-2 text-sm"
@@ -172,8 +176,9 @@ export function QuoteInstallmentsEditor({
               </div>
               {form.trigger === "ON_DATE" ? (
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-foreground/70">{t("dueDate")}</label>
+                  <label htmlFor="quote-installment-due-date" className="text-xs font-medium text-foreground/70">{t("dueDate")}</label>
                   <input
+                    id="quote-installment-due-date"
                     type="date"
                     value={form.dueDate}
                     onChange={(event) => setForm((f) => ({ ...f, dueDate: event.target.value }))}

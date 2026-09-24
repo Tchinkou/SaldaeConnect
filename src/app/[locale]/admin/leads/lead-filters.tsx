@@ -28,8 +28,9 @@ export function LeadFilters({
   return (
     <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-surface p-3">
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("search")}</label>
+        <label htmlFor="lead-filter-search" className="text-xs font-medium text-foreground/70">{t("search")}</label>
         <input
+          id="lead-filter-search"
           type="search"
           value={q}
           onChange={(event) => setQ(event.target.value)}
@@ -42,8 +43,9 @@ export function LeadFilters({
         />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("status")}</label>
+        <label htmlFor="lead-filter-status" className="text-xs font-medium text-foreground/70">{t("status")}</label>
         <select
+          id="lead-filter-status"
           value={currentParams.status ?? ""}
           onChange={(event) => setParam("status", event.target.value)}
           className="h-9 rounded-md border border-border bg-surface px-2 text-xs"
@@ -55,8 +57,9 @@ export function LeadFilters({
         </select>
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("source")}</label>
+        <label htmlFor="lead-filter-source" className="text-xs font-medium text-foreground/70">{t("source")}</label>
         <select
+          id="lead-filter-source"
           value={currentParams.sourceId ?? ""}
           onChange={(event) => setParam("sourceId", event.target.value)}
           className="h-9 rounded-md border border-border bg-surface px-2 text-xs"
@@ -70,8 +73,9 @@ export function LeadFilters({
         </select>
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("owner")}</label>
+        <label htmlFor="lead-filter-owner" className="text-xs font-medium text-foreground/70">{t("owner")}</label>
         <select
+          id="lead-filter-owner"
           value={currentParams.ownerId ?? ""}
           onChange={(event) => setParam("ownerId", event.target.value)}
           className="h-9 rounded-md border border-border bg-surface px-2 text-xs"

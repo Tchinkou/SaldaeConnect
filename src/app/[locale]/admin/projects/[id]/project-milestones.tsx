@@ -32,14 +32,14 @@ export function ProjectMilestones({ projectId, milestones, canWrite }: { project
   return (
     <div className="flex flex-col gap-3">
       {milestones.length === 0 ? (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       ) : (
         <ul className="flex flex-col divide-y divide-border">
           {milestones.map((milestone) => (
             <li key={milestone.id} className="flex items-center justify-between gap-3 py-2 text-sm">
               <div className="flex-1">
                 <p className="font-medium text-foreground">{milestone.title}</p>
-                <div className="mt-0.5 flex items-center gap-2 text-xs text-foreground/50">
+                <div className="mt-0.5 flex items-center gap-2 text-xs text-foreground/70">
                   {milestone.dueDate ? <span>{format.dateTime(new Date(milestone.dueDate), { dateStyle: "medium" })}</span> : null}
                   <span>{t("weightDisplay", { weight: milestone.weight })}</span>
                 </div>
@@ -114,8 +114,9 @@ export function ProjectMilestones({ projectId, milestones, canWrite }: { project
             }}
           >
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-medium text-foreground/70">{t("title")}</label>
+              <label htmlFor="milestone-title" className="text-xs font-medium text-foreground/70">{t("title")}</label>
               <input
+                id="milestone-title"
                 required
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
@@ -124,8 +125,9 @@ export function ProjectMilestones({ projectId, milestones, canWrite }: { project
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("dueDate")}</label>
+                <label htmlFor="milestone-due-date" className="text-xs font-medium text-foreground/70">{t("dueDate")}</label>
                 <input
+                  id="milestone-due-date"
                   type="date"
                   dir="ltr"
                   value={dueDate}
@@ -134,8 +136,9 @@ export function ProjectMilestones({ projectId, milestones, canWrite }: { project
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-medium text-foreground/70">{t("weight")}</label>
+                <label htmlFor="milestone-weight" className="text-xs font-medium text-foreground/70">{t("weight")}</label>
                 <input
+                  id="milestone-weight"
                   type="number"
                   dir="ltr"
                   min={1}

@@ -39,7 +39,7 @@ export function TaskComments({ taskId, isProjectTask }: { taskId: string; isProj
   return (
     <div className="flex flex-col gap-2 border-t border-border pt-2">
       {loading ? (
-        <p className="text-xs text-foreground/50">{t("loading")}</p>
+        <p className="text-xs text-foreground/70">{t("loading")}</p>
       ) : comments && comments.length > 0 ? (
         <ul className="flex flex-col gap-2">
           {comments.map((comment) => (
@@ -48,7 +48,7 @@ export function TaskComments({ taskId, isProjectTask }: { taskId: string; isProj
                 <span className="font-medium text-foreground">{comment.authorName ?? t("unknownAuthor")}</span>
                 <div className="flex items-center gap-2">
                   {isProjectTask && comment.visibleToClient ? <Badge tone="info">{t("visibleToClient")}</Badge> : null}
-                  <span className="text-foreground/50">{format.dateTime(new Date(comment.createdAt), { dateStyle: "medium", timeStyle: "short" })}</span>
+                  <span className="text-foreground/70">{format.dateTime(new Date(comment.createdAt), { dateStyle: "medium", timeStyle: "short" })}</span>
                 </div>
               </div>
               <p className="mt-1 whitespace-pre-wrap text-foreground/80">{comment.body}</p>
@@ -56,7 +56,7 @@ export function TaskComments({ taskId, isProjectTask }: { taskId: string; isProj
           ))}
         </ul>
       ) : (
-        <p className="text-xs text-foreground/50">{t("empty")}</p>
+        <p className="text-xs text-foreground/70">{t("empty")}</p>
       )}
 
       <form

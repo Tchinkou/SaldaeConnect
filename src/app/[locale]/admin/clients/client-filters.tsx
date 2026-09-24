@@ -20,8 +20,9 @@ export function ClientFilters({ currentParams }: { currentParams: Record<string,
   return (
     <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-surface p-3">
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("search")}</label>
+        <label htmlFor="client-filter-search" className="text-xs font-medium text-foreground/70">{t("search")}</label>
         <input
+          id="client-filter-search"
           type="search"
           value={q}
           onChange={(event) => setQ(event.target.value)}
@@ -34,8 +35,9 @@ export function ClientFilters({ currentParams }: { currentParams: Record<string,
         />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("status")}</label>
+        <label htmlFor="client-filter-status" className="text-xs font-medium text-foreground/70">{t("status")}</label>
         <select
+          id="client-filter-status"
           value={currentParams.status ?? ""}
           onChange={(event) => setParam("status", event.target.value)}
           className="h-9 rounded-md border border-border bg-surface px-2 text-xs"

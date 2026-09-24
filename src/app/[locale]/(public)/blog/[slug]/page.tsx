@@ -62,7 +62,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           ) : null}
           <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground">{translation.title}</h1>
           {translation.parent.publishedAt ? (
-            <p className="mt-2 text-sm text-foreground/50">{format.dateTime(translation.parent.publishedAt, { dateStyle: "long" })}</p>
+            <p className="mt-2 text-sm text-foreground/70">{format.dateTime(translation.parent.publishedAt, { dateStyle: "long" })}</p>
           ) : null}
           <PageBlocks blocks={(translation.content as PageBlock[] | null) ?? []} />
           {translation.parent.tags.length > 0 ? (

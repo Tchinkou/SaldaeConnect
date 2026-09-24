@@ -101,7 +101,7 @@ export default async function BlogPage({
                         <CardTitle className="mt-1">{translation.title}</CardTitle>
                         {translation.excerpt ? <p className="mt-2 text-sm text-ink-500">{translation.excerpt}</p> : null}
                         {post.publishedAt ? (
-                          <p className="mt-3 text-xs text-foreground/50">{format.dateTime(post.publishedAt, { dateStyle: "medium" })}</p>
+                          <p className="mt-3 text-xs text-foreground/70">{format.dateTime(post.publishedAt, { dateStyle: "medium" })}</p>
                         ) : null}
                       </CardContent>
                     </Card>

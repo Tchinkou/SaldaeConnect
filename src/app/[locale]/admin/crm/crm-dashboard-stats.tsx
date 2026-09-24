@@ -46,7 +46,7 @@ export async function CrmDashboardStats({ currentUser }: { currentUser: CurrentU
       {stats.map((stat) => (
         <Card key={stat.label}>
           <CardContent className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-foreground/50">{stat.label}</p>
+            <p className="text-xs font-medium uppercase tracking-wide text-foreground/70">{stat.label}</p>
             <p className={`mt-1 text-2xl font-semibold ${stat.warn ? "text-danger-600" : "text-foreground"}`}>{stat.value}</p>
           </CardContent>
         </Card>

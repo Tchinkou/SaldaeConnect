@@ -247,7 +247,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               </CardHeader>
               <CardContent>
                 {project.invoices.length === 0 ? (
-                  <p className="text-sm text-foreground/50">{t("invoice.empty")}</p>
+                  <p className="text-sm text-foreground/70">{t("invoice.empty")}</p>
                 ) : (
                   <div className="flex flex-col divide-y divide-border">
                     {project.invoices.map((invoice) => (
@@ -258,7 +258,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                       >
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-foreground">{invoice.number ?? t("invoice.draftLabel")}</span>
-                          <span className="text-xs text-foreground/50">{t(`invoice.typeValue.${invoice.type}`)}</span>
+                          <span className="text-xs text-foreground/70">{t(`invoice.typeValue.${invoice.type}`)}</span>
                         </div>
                         <div className="flex items-center gap-2" dir="ltr">
                           <span className="text-foreground/70">{formatMoney(invoice.total, invoice.currency, locale)}</span>
@@ -346,7 +346,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             </CardHeader>
             <CardContent>
               {project.statusChanges.length === 0 ? (
-                <p className="text-sm text-foreground/50">{t("noStatusChanges")}</p>
+                <p className="text-sm text-foreground/70">{t("noStatusChanges")}</p>
               ) : (
                 <ul className="flex flex-col gap-2 text-sm">
                   {project.statusChanges.map((change) => (
@@ -356,7 +356,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                           {change.fromStatus ? t(`statusValue.${change.fromStatus}`) : t("initialStatus")} →{" "}
                           {t(`statusValue.${change.toStatus}`)}
                         </span>
-                        <span className="text-xs text-foreground/50">
+                        <span className="text-xs text-foreground/70">
                           {change.changedById ? nameById.get(change.changedById) : t("automatic")} ·{" "}
                           {change.createdAt.toLocaleDateString(locale)}
                         </span>
@@ -377,7 +377,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground/70">{label}</span>
       <span className="font-medium text-foreground">{value}</span>
     </div>
   );

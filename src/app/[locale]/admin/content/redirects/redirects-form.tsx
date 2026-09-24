@@ -58,7 +58,7 @@ export function RedirectsForm({ redirects }: { redirects: RedirectRow[] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {redirects.length === 0 && !creating ? <p className="text-sm text-foreground/50">{t("empty")}</p> : null}
+      {redirects.length === 0 && !creating ? <p className="text-sm text-foreground/70">{t("empty")}</p> : null}
 
       <ul className="flex flex-col divide-y divide-border">
         {redirects.map((entry) => (
@@ -70,7 +70,7 @@ export function RedirectsForm({ redirects }: { redirects: RedirectRow[] }) {
               <Badge tone={entry.statusCode === 301 ? "info" : "neutral"} className="ms-2">
                 {entry.statusCode}
               </Badge>
-              <span className="ms-2 text-xs text-foreground/50">{t("hits", { count: entry.hits })}</span>
+              <span className="ms-2 text-xs text-foreground/70">{t("hits", { count: entry.hits })}</span>
             </div>
             <Button size="sm" variant="ghost" onClick={() => remove(entry.id)} isLoading={submitting}>
               {t("remove")}

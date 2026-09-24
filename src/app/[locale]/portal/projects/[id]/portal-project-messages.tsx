@@ -44,14 +44,14 @@ export function PortalProjectMessages({ projectId }: { projectId: string }) {
   return (
     <div className="flex flex-col gap-3">
       {loading ? (
-        <p className="text-sm text-foreground/50">{t("loading")}</p>
+        <p className="text-sm text-foreground/70">{t("loading")}</p>
       ) : messages && messages.length > 0 ? (
         <ul className="flex flex-col gap-2">
           {messages.map((message) => (
             <li key={message.id} className="rounded-md bg-background p-3 text-sm">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-medium text-foreground">{message.authorName ?? t("unknownAuthor")}</span>
-                <span className="text-xs text-foreground/50">
+                <span className="text-xs text-foreground/70">
                   {format.dateTime(new Date(message.createdAt), { dateStyle: "medium", timeStyle: "short" })}
                 </span>
               </div>
@@ -71,7 +71,7 @@ export function PortalProjectMessages({ projectId }: { projectId: string }) {
           ))}
         </ul>
       ) : (
-        <p className="text-sm text-foreground/50">{t("empty")}</p>
+        <p className="text-sm text-foreground/70">{t("empty")}</p>
       )}
 
       <form

@@ -33,6 +33,7 @@ export function CrmFilters({
   return (
     <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-surface p-3">
       <FilterSelect
+        id="crm-filter-owner"
         label={t("owner")}
         value={currentParams.ownerId ?? ""}
         onChange={(v) => setParam("ownerId", v)}
@@ -40,6 +41,7 @@ export function CrmFilters({
         allLabel={t("all")}
       />
       <FilterSelect
+        id="crm-filter-service"
         label={t("service")}
         value={currentParams.serviceId ?? ""}
         onChange={(v) => setParam("serviceId", v)}
@@ -47,6 +49,7 @@ export function CrmFilters({
         allLabel={t("all")}
       />
       <FilterSelect
+        id="crm-filter-source"
         label={t("source")}
         value={currentParams.sourceId ?? ""}
         onChange={(v) => setParam("sourceId", v)}
@@ -54,17 +57,19 @@ export function CrmFilters({
         allLabel={t("all")}
       />
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("period")}</label>
+        <label htmlFor="crm-filter-date-from" className="text-xs font-medium text-foreground/70">{t("period")}</label>
         <div className="flex items-center gap-1">
           <input
+            id="crm-filter-date-from"
             type="date"
             dir="ltr"
             value={currentParams.dateFrom ?? ""}
             onChange={(event) => setParam("dateFrom", event.target.value)}
             className="h-9 rounded-md border border-border bg-surface px-2 text-xs"
           />
-          <span className="text-xs text-foreground/50">–</span>
+          <span className="text-xs text-foreground/70">–</span>
           <input
+            aria-label={t("period")}
             type="date"
             dir="ltr"
             value={currentParams.dateTo ?? ""}
@@ -74,9 +79,10 @@ export function CrmFilters({
         </div>
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs font-medium text-foreground/70">{t("amount")}</label>
+        <label htmlFor="crm-filter-min-amount" className="text-xs font-medium text-foreground/70">{t("amount")}</label>
         <div className="flex items-center gap-1">
           <input
+            id="crm-filter-min-amount"
             type="number"
             min={0}
             dir="ltr"
@@ -85,8 +91,9 @@ export function CrmFilters({
             onChange={(event) => setParam("minAmount", event.target.value)}
             className="h-9 w-24 rounded-md border border-border bg-surface px-2 text-xs"
           />
-          <span className="text-xs text-foreground/50">–</span>
+          <span className="text-xs text-foreground/70">–</span>
           <input
+            aria-label={t("amount")}
             type="number"
             min={0}
             dir="ltr"
@@ -111,12 +118,14 @@ export function CrmFilters({
 }
 
 function FilterSelect({
+  id,
   label,
   value,
   onChange,
   options,
   allLabel,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -125,8 +134,9 @@ function FilterSelect({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-xs font-medium text-foreground/70">{label}</label>
+      <label htmlFor={id} className="text-xs font-medium text-foreground/70">{label}</label>
       <select
+        id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         className="h-9 rounded-md border border-border bg-surface px-2 text-xs"

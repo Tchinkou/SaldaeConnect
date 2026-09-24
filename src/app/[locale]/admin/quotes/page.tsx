@@ -91,7 +91,7 @@ export default async function QuotesPage({
                       <Link href={`/admin/quotes/${quote.id}`} className="font-medium text-brand-600 hover:underline">
                         {quote.number ?? t("draftLabel")}
                       </Link>
-                      <p className="text-xs text-foreground/50">{quote.title}</p>
+                      <p className="text-xs text-foreground/70">{quote.title}</p>
                     </td>
                     <td className="px-3 py-2 text-foreground/70">{quote.client.displayName}</td>
                     <td className="px-3 py-2">
@@ -105,7 +105,7 @@ export default async function QuotesPage({
                 ))}
                 {quotes.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/50">
+                    <td colSpan={5} className="px-3 py-6 text-center text-foreground/70">
                       {t("empty")}
                     </td>
                   </tr>

@@ -87,8 +87,9 @@ export function QuoteHeaderForm({
       }}
     >
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("titleField")}</label>
+        <label htmlFor="quote-title" className="text-sm font-medium text-foreground">{t("titleField")}</label>
         <input
+          id="quote-title"
           required
           value={state.title}
           onChange={(event) => setState((s) => ({ ...s, title: event.target.value }))}
@@ -98,8 +99,9 @@ export function QuoteHeaderForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("validUntil")}</label>
+          <label htmlFor="quote-valid-until" className="text-sm font-medium text-foreground">{t("validUntil")}</label>
           <input
+            id="quote-valid-until"
             type="date"
             value={state.validUntil}
             onChange={(event) => setState((s) => ({ ...s, validUntil: event.target.value }))}
@@ -107,8 +109,9 @@ export function QuoteHeaderForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("globalDiscountType")}</label>
+          <label htmlFor="quote-global-discount-type" className="text-sm font-medium text-foreground">{t("globalDiscountType")}</label>
           <select
+            id="quote-global-discount-type"
             value={state.globalDiscountType}
             onChange={(event) => setState((s) => ({ ...s, globalDiscountType: event.target.value }))}
             className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
@@ -122,10 +125,11 @@ export function QuoteHeaderForm({
 
       {state.globalDiscountType ? (
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">
+          <label htmlFor="quote-global-discount-value" className="text-sm font-medium text-foreground">
             {state.globalDiscountType === "PERCENT" ? t("globalDiscountValuePercent") : t("globalDiscountValueAmount")}
           </label>
           <input
+            id="quote-global-discount-value"
             type="number"
             min={0}
             step="0.01"
@@ -139,8 +143,9 @@ export function QuoteHeaderForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("depositPercent")}</label>
+          <label htmlFor="quote-deposit-percent" className="text-sm font-medium text-foreground">{t("depositPercent")}</label>
           <input
+            id="quote-deposit-percent"
             type="number"
             min={0}
             max={100}
@@ -152,8 +157,9 @@ export function QuoteHeaderForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground">{t("depositAmount")}</label>
+          <label htmlFor="quote-deposit-amount" className="text-sm font-medium text-foreground">{t("depositAmount")}</label>
           <input
+            id="quote-deposit-amount"
             type="number"
             min={0}
             step="0.01"
@@ -166,8 +172,9 @@ export function QuoteHeaderForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("introduction")}</label>
+        <label htmlFor="quote-introduction" className="text-sm font-medium text-foreground">{t("introduction")}</label>
         <textarea
+          id="quote-introduction"
           value={state.introduction}
           onChange={(event) => setState((s) => ({ ...s, introduction: event.target.value }))}
           rows={3}
@@ -176,8 +183,9 @@ export function QuoteHeaderForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("terms")}</label>
+        <label htmlFor="quote-terms" className="text-sm font-medium text-foreground">{t("terms")}</label>
         <textarea
+          id="quote-terms"
           value={state.terms}
           onChange={(event) => setState((s) => ({ ...s, terms: event.target.value }))}
           rows={3}
@@ -186,14 +194,15 @@ export function QuoteHeaderForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-foreground">{t("internalNotes")}</label>
+        <label htmlFor="quote-internal-notes" className="text-sm font-medium text-foreground">{t("internalNotes")}</label>
         <textarea
+          id="quote-internal-notes"
           value={state.internalNotes}
           onChange={(event) => setState((s) => ({ ...s, internalNotes: event.target.value }))}
           rows={2}
           className="rounded-md border border-border bg-surface px-3 py-2 text-sm"
         />
-        <p className="text-xs text-foreground/50">{t("internalNotesHint")}</p>
+        <p className="text-xs text-foreground/70">{t("internalNotesHint")}</p>
       </div>
 
       {error ? <p className="text-sm text-danger-600">{error}</p> : null}
@@ -210,7 +219,7 @@ export function QuoteHeaderForm({
 function Field({ label, value, multiline }: { label: string; value: string; multiline?: boolean }) {
   return (
     <div className={multiline ? "flex flex-col gap-1" : "flex items-center justify-between gap-4"}>
-      <span className="text-foreground/50">{label}</span>
+      <span className="text-foreground/70">{label}</span>
       <span className={multiline ? "whitespace-pre-wrap text-foreground/80" : "font-medium text-foreground"}>{value}</span>
     </div>
   );

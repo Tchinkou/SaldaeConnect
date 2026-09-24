@@ -68,7 +68,7 @@ export default async function BookingsPage({ searchParams }: { searchParams: Pro
       <Card>
         <CardContent className="p-0">
           <table className="w-full text-sm">
-            <thead className="border-b border-border text-left text-xs font-medium text-foreground/50">
+            <thead className="border-b border-border text-left text-xs font-medium text-foreground/70">
               <tr>
                 <th className="px-4 py-3">{t("number")}</th>
                 <th className="px-4 py-3">{t("service")}</th>
@@ -90,7 +90,7 @@ export default async function BookingsPage({ searchParams }: { searchParams: Pro
                     <td className="px-4 py-3">{reservation.service.translations[0]?.name ?? reservation.service.id}</td>
                     <td className="px-4 py-3">
                       {contact.firstName} {contact.lastName}
-                      <div className="text-xs text-foreground/50">{contact.email}</div>
+                      <div className="text-xs text-foreground/70">{contact.email}</div>
                     </td>
                     <td className="px-4 py-3">
                       {reservation.startsAt
@@ -107,7 +107,7 @@ export default async function BookingsPage({ searchParams }: { searchParams: Pro
               })}
               {reservations.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-sm text-foreground/50">
+                  <td colSpan={5} className="px-4 py-8 text-center text-sm text-foreground/70">
                     {t("empty")}
                   </td>
                 </tr>

@@ -107,7 +107,7 @@ export function NotificationBell() {
           </div>
           <ul className="max-h-96 overflow-y-auto">
             {items.length === 0 ? (
-              <li className="p-3 text-sm text-foreground/50">{t("empty")}</li>
+              <li className="p-3 text-sm text-foreground/70">{t("empty")}</li>
             ) : (
               items.map((item) => (
                 <li key={item.id} className={`border-b border-border last:border-0 ${item.readAt ? "" : "bg-brand-50"}`}>
@@ -122,7 +122,7 @@ export function NotificationBell() {
                     }}
                   >
                     <span className="text-sm text-foreground">{textFor(item)}</span>
-                    <span className="text-xs text-foreground/50">
+                    <span className="text-xs text-foreground/70">
                       {format.dateTime(new Date(item.createdAt), { dateStyle: "medium", timeStyle: "short" })}
                     </span>
                   </button>

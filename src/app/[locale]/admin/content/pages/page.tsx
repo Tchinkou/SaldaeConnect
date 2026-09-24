@@ -43,7 +43,7 @@ export default async function PagesListPage() {
                     <Link href={`/admin/content/pages/${page.id}`} className="text-sm font-medium text-brand-600 hover:underline">
                       {page.translations[0]?.title ?? page.key}
                     </Link>
-                    <p className="mt-1 text-xs text-foreground/50" dir="ltr">
+                    <p className="mt-1 text-xs text-foreground/70" dir="ltr">
                       {page.key}
                     </p>
                     <div className="mt-1 flex gap-2">
