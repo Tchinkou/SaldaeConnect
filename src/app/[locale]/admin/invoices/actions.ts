@@ -343,7 +343,7 @@ export const issueInvoiceAction = defineAction({
           sha256: stored.sha256,
           uploadedById: user.user.id,
           visibility: "CLIENT",
-          category: "QUOTE_PDF",
+          category: "INVOICE_PDF",
           status: "ACTIVE",
           clientId: invoice.clientId,
         },

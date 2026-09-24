@@ -7,14 +7,15 @@ import { ForbiddenError } from "@/server/core/errors";
 
 /**
  * Téléchargement de fichiers servis en dehors des routes localisées (§H.4) —
- * pas de préfixe de langue ici, les routes API n'en ont jamais. Deux usages
- * autorisés pour l'instant : le PDF d'un devis (§J) et les fichiers de projet
- * (§F.4, staff via `project.read`/`file.read`, ou le contact client du
- * projet — uniquement si `visibility` = CLIENT, jamais un fichier interne).
- * Toute autre `FileCategory`/rattachement est refusé — les autres usages
- * (réservations, transactions…) n'ont pas encore de règle d'autorisation
- * définie et seront ajoutés phase par phase plutôt que d'ouvrir un accès
- * générique non vérifié.
+ * pas de préfixe de langue ici, les routes API n'en ont jamais. Usages
+ * autorisés pour l'instant : le PDF d'un devis (`QuoteVersion.pdfFileId`),
+ * celui d'une facture/avoir (`Invoice.pdfFileId`, §F.5) et les fichiers de
+ * projet (§F.4, staff via `project.read`/`file.read`, ou le contact client
+ * du projet — uniquement si `visibility` = CLIENT, jamais un fichier
+ * interne). Toute autre `FileCategory`/rattachement est refusé — les autres
+ * usages (réservations, transactions…) n'ont pas encore de règle
+ * d'autorisation définie et seront ajoutés phase par phase plutôt que
+ * d'ouvrir un accès générique non vérifié.
  */
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -30,58 +31,55 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   }
 
   if (file.category === "QUOTE_PDF") {
-    // Catégorie partagée entre le PDF d'un devis (`QuoteVersion.pdfFileId`)
-    // et celui d'une facture ou d'un avoir (`Invoice.pdfFileId`, §F.5) —
-    // aucune nouvelle catégorie n'a été ajoutée pour ce dernier, donc les
-    // deux origines possibles sont vérifiées ici.
     const version = await prisma.quoteVersion.findFirst({
       where: { pdfFileId: file.id },
       include: { quote: { include: { client: true } } },
     });
+    if (!version) {
+      return new NextResponse(null, { status: 404 });
+    }
 
-    if (version) {
-      if (currentUser.user.userType === "STAFF") {
-        if (!hasPermission(currentUser, "quote.read")) {
-          return new NextResponse(null, { status: 403 });
-        }
-        try {
-          assertQuoteOwnerInScope(currentUser, "quote.read", version.quote.client.ownerId);
-        } catch (error) {
-          if (error instanceof ForbiddenError) return new NextResponse(null, { status: 403 });
-          throw error;
-        }
-      } else if (currentUser.user.userType === "CLIENT") {
-        const contact = await prisma.clientContact.findUnique({ where: { userId: currentUser.user.id } });
-        if (!contact || contact.clientId !== version.quote.clientId) {
-          return new NextResponse(null, { status: 403 });
-        }
-      } else {
+    if (currentUser.user.userType === "STAFF") {
+      if (!hasPermission(currentUser, "quote.read")) {
+        return new NextResponse(null, { status: 403 });
+      }
+      try {
+        assertQuoteOwnerInScope(currentUser, "quote.read", version.quote.client.ownerId);
+      } catch (error) {
+        if (error instanceof ForbiddenError) return new NextResponse(null, { status: 403 });
+        throw error;
+      }
+    } else if (currentUser.user.userType === "CLIENT") {
+      const contact = await prisma.clientContact.findUnique({ where: { userId: currentUser.user.id } });
+      if (!contact || contact.clientId !== version.quote.clientId) {
         return new NextResponse(null, { status: 403 });
       }
     } else {
-      const invoice = await prisma.invoice.findFirst({ where: { pdfFileId: file.id }, include: { client: true } });
-      if (!invoice) {
-        return new NextResponse(null, { status: 404 });
-      }
+      return new NextResponse(null, { status: 403 });
+    }
+  } else if (file.category === "INVOICE_PDF") {
+    const invoice = await prisma.invoice.findFirst({ where: { pdfFileId: file.id }, include: { client: true } });
+    if (!invoice) {
+      return new NextResponse(null, { status: 404 });
+    }
 
-      if (currentUser.user.userType === "STAFF") {
-        if (!hasPermission(currentUser, "invoice.read")) {
-          return new NextResponse(null, { status: 403 });
-        }
-        try {
-          assertInvoiceOwnerInScope(currentUser, "invoice.read", invoice.client.ownerId);
-        } catch (error) {
-          if (error instanceof ForbiddenError) return new NextResponse(null, { status: 403 });
-          throw error;
-        }
-      } else if (currentUser.user.userType === "CLIENT") {
-        const contact = await prisma.clientContact.findUnique({ where: { userId: currentUser.user.id } });
-        if (!contact || contact.clientId !== invoice.clientId) {
-          return new NextResponse(null, { status: 403 });
-        }
-      } else {
+    if (currentUser.user.userType === "STAFF") {
+      if (!hasPermission(currentUser, "invoice.read")) {
         return new NextResponse(null, { status: 403 });
       }
+      try {
+        assertInvoiceOwnerInScope(currentUser, "invoice.read", invoice.client.ownerId);
+      } catch (error) {
+        if (error instanceof ForbiddenError) return new NextResponse(null, { status: 403 });
+        throw error;
+      }
+    } else if (currentUser.user.userType === "CLIENT") {
+      const contact = await prisma.clientContact.findUnique({ where: { userId: currentUser.user.id } });
+      if (!contact || contact.clientId !== invoice.clientId) {
+        return new NextResponse(null, { status: 403 });
+      }
+    } else {
+      return new NextResponse(null, { status: 403 });
     }
   } else if (file.projectId) {
     const project = await prisma.project.findUnique({
