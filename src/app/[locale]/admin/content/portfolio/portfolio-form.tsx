@@ -14,12 +14,18 @@ type TranslationState = {
   solution: string;
   execution: string;
   result: string;
+  seoTitle: string;
+  seoDescription: string;
 };
 type Translations = { fr: TranslationState; en: TranslationState; ar: TranslationState };
 
 export function PortfolioForm({
   id,
   initialClientName,
+  initialSectorName,
+  initialTechnologyNames,
+  initialUrl,
+  initialDate,
   initialIsFeatured,
   initialIsPublished,
   initialOrder,
@@ -27,6 +33,10 @@ export function PortfolioForm({
 }: {
   id: string | null;
   initialClientName: string;
+  initialSectorName: string;
+  initialTechnologyNames: string[];
+  initialUrl: string;
+  initialDate: string;
   initialIsFeatured: boolean;
   initialIsPublished: boolean;
   initialOrder: number;
@@ -36,6 +46,10 @@ export function PortfolioForm({
   const router = useRouter();
 
   const [clientName, setClientName] = useState(initialClientName);
+  const [sectorName, setSectorName] = useState(initialSectorName);
+  const [technologiesText, setTechnologiesText] = useState(initialTechnologyNames.join(", "));
+  const [url, setUrl] = useState(initialUrl);
+  const [date, setDate] = useState(initialDate);
   const [isFeatured, setIsFeatured] = useState(initialIsFeatured);
   const [isPublished, setIsPublished] = useState(initialIsPublished);
   const [order, setOrder] = useState(initialOrder);
@@ -60,11 +74,20 @@ export function PortfolioForm({
       solution: t.solution || null,
       execution: t.execution || null,
       result: t.result || null,
+      seoTitle: t.seoTitle || null,
+      seoDescription: t.seoDescription || null,
     });
 
     const result = await upsertPortfolioProjectAction({
       id,
       clientName: clientName || null,
+      sectorName: sectorName.trim() || null,
+      technologyNames: technologiesText
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean),
+      url: url.trim() || null,
+      date: date ? new Date(date).toISOString() : null,
       isFeatured,
       isPublished,
       order,
@@ -93,6 +116,46 @@ export function PortfolioForm({
             type="text"
             value={clientName}
             onChange={(event) => setClientName(event.target.value)}
+            className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-foreground">{t("portfolio.sector")}</label>
+          <input
+            type="text"
+            value={sectorName}
+            onChange={(event) => setSectorName(event.target.value)}
+            className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-foreground">{t("portfolio.technologies")}</label>
+          <input
+            type="text"
+            dir="ltr"
+            value={technologiesText}
+            onChange={(event) => setTechnologiesText(event.target.value)}
+            placeholder={t("portfolio.technologiesPlaceholder")}
+            className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-foreground">{t("portfolio.url")}</label>
+          <input
+            type="text"
+            dir="ltr"
+            value={url}
+            onChange={(event) => setUrl(event.target.value)}
+            className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-foreground">{t("portfolio.date")}</label>
+          <input
+            type="date"
+            dir="ltr"
+            value={date}
+            onChange={(event) => setDate(event.target.value)}
             className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
           />
         </div>
@@ -169,6 +232,29 @@ export function PortfolioForm({
               />
             </div>
           ))}
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-foreground">{t("pages.seoTitle")}</label>
+              <input
+                type="text"
+                dir={locale === "ar" ? "rtl" : "ltr"}
+                value={translations[locale].seoTitle}
+                onChange={(event) => updateLocale(locale, { seoTitle: event.target.value })}
+                className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-foreground">{t("pages.seoDescription")}</label>
+              <input
+                type="text"
+                dir={locale === "ar" ? "rtl" : "ltr"}
+                value={translations[locale].seoDescription}
+                onChange={(event) => updateLocale(locale, { seoDescription: event.target.value })}
+                className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+              />
+            </div>
+          </div>
         </fieldset>
       ))}
 

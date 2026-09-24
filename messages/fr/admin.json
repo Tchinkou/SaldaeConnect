@@ -20,7 +20,15 @@
   "dashboard": {
     "title": "Tableau de bord",
     "welcome": "Bonjour {name}.",
-    "phaseNotice": "Phase 2 en cours : les indicateurs et graphiques arrivent en phase 10. Cette page confirme que la connexion, les rôles et la coquille admin fonctionnent."
+    "newLeads": "Nouveaux leads (30 jours)",
+    "openOpportunities": "Opportunités ouvertes",
+    "pendingQuotes": "Devis en attente",
+    "overdueInvoices": "Factures en retard",
+    "activeProjects": "Projets actifs",
+    "upcomingReservations": "Réservations à venir (7 jours)",
+    "revenueChartTitle": "Encaissements des 6 derniers mois",
+    "pipelineTitle": "Pipeline commercial",
+    "empty": "Aucune donnée pour le moment."
   },
   "team": {
     "title": "Équipe",
@@ -190,7 +198,66 @@
       "problem": "Problème",
       "solution": "Solution",
       "execution": "Exécution",
-      "result": "Résultat"
+      "result": "Résultat",
+      "sector": "Secteur",
+      "technologies": "Technologies",
+      "technologiesPlaceholder": "Séparées par des virgules",
+      "url": "Lien du projet",
+      "date": "Date de réalisation"
+    },
+    "pages": {
+      "title": "Pages",
+      "subtitle": "Pages libres et pages système (à propos, mentions légales…).",
+      "new": "Nouvelle page",
+      "edit": "Modifier la page",
+      "system": "Système",
+      "free": "Libre",
+      "draft": "Brouillon",
+      "content": "Contenu",
+      "blockHeading": "Titre",
+      "blockParagraph": "Paragraphe",
+      "addHeading": "Ajouter un titre",
+      "addParagraph": "Ajouter un paragraphe",
+      "removeBlock": "Supprimer",
+      "seoTitle": "Titre SEO",
+      "seoDescription": "Description SEO",
+      "key": "Clé",
+      "keyPlaceholder": "ex. politique-de-cookies",
+      "keyHint": "Identifiant technique unique, utilisé dans l'URL des pages libres.",
+      "pageTitle": "Titre",
+      "slug": "Slug"
+    },
+    "blog": {
+      "title": "Blog",
+      "subtitle": "Articles publiés sur le blog public.",
+      "new": "Nouvel article",
+      "edit": "Modifier l'article",
+      "category": "Catégorie",
+      "tags": "Tags",
+      "tagsPlaceholder": "Séparés par des virgules",
+      "status": "Statut",
+      "statusValue": {
+        "DRAFT": "Brouillon",
+        "SCHEDULED": "Programmé",
+        "PUBLISHED": "Publié",
+        "ARCHIVED": "Archivé"
+      },
+      "publishedAt": "Date de publication",
+      "postTitle": "Titre",
+      "slug": "Slug",
+      "excerpt": "Extrait"
+    },
+    "redirects": {
+      "title": "Redirections",
+      "subtitle": "Redirige une ancienne URL vers une nouvelle.",
+      "empty": "Aucune redirection pour le moment.",
+      "fromPath": "Chemin d'origine (ex. /ancienne-page)",
+      "toPath": "Chemin de destination",
+      "permanent": "Permanente",
+      "temporary": "Temporaire",
+      "add": "Ajouter",
+      "remove": "Supprimer",
+      "hits": "{count, plural, =0 {jamais utilisée} one {# utilisation} other {# utilisations}}"
     }
   },
   "audit": {
@@ -1004,6 +1071,19 @@
       "cancel": "Annuler",
       "confirmedTotal": "Total confirmé",
       "statusNotePlaceholder": "Note interne (optionnelle)"
+    }
+  },
+  "search": {
+    "placeholder": "Rechercher…",
+    "loading": "Recherche…",
+    "empty": "Aucun résultat.",
+    "categories": {
+      "leads": "Leads",
+      "clients": "Clients",
+      "opportunities": "Opportunités",
+      "quotes": "Devis",
+      "invoices": "Factures",
+      "projects": "Projets"
     }
   }
 }

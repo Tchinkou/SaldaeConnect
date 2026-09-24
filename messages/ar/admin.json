@@ -20,7 +20,15 @@
   "dashboard": {
     "title": "لوحة التحكم",
     "welcome": "مرحبًا {name}.",
-    "phaseNotice": "المرحلة 2 قيد التنفيذ: المؤشرات والرسوم البيانية تصل في المرحلة 10. تؤكد هذه الصفحة أن تسجيل الدخول والأدوار وهيكل لوحة التحكم تعمل."
+    "newLeads": "عملاء محتملون جدد (30 يومًا)",
+    "openOpportunities": "فرص مفتوحة",
+    "pendingQuotes": "عروض أسعار قيد الانتظار",
+    "overdueInvoices": "فواتير متأخرة",
+    "activeProjects": "مشاريع نشطة",
+    "upcomingReservations": "حجوزات قادمة (7 أيام)",
+    "revenueChartTitle": "المبالغ المحصّلة — آخر 6 أشهر",
+    "pipelineTitle": "مسار المبيعات",
+    "empty": "لا توجد بيانات بعد."
   },
   "team": {
     "title": "الفريق",
@@ -190,7 +198,66 @@
       "problem": "المشكلة",
       "solution": "الحل",
       "execution": "التنفيذ",
-      "result": "النتيجة"
+      "result": "النتيجة",
+      "sector": "القطاع",
+      "technologies": "التقنيات",
+      "technologiesPlaceholder": "مفصولة بفواصل",
+      "url": "رابط المشروع",
+      "date": "تاريخ الإنجاز"
+    },
+    "pages": {
+      "title": "الصفحات",
+      "subtitle": "صفحات حرة وصفحات نظام (من نحن، الإشعارات القانونية…).",
+      "new": "صفحة جديدة",
+      "edit": "تعديل الصفحة",
+      "system": "نظام",
+      "free": "حرة",
+      "draft": "مسودة",
+      "content": "المحتوى",
+      "blockHeading": "عنوان",
+      "blockParagraph": "فقرة",
+      "addHeading": "إضافة عنوان",
+      "addParagraph": "إضافة فقرة",
+      "removeBlock": "حذف",
+      "seoTitle": "عنوان السيو",
+      "seoDescription": "وصف السيو",
+      "key": "المفتاح",
+      "keyPlaceholder": "مثال: سياسة-الكوكيز",
+      "keyHint": "معرّف تقني فريد، يُستخدم في رابط الصفحات الحرة.",
+      "pageTitle": "العنوان",
+      "slug": "الرابط المختصر"
+    },
+    "blog": {
+      "title": "المدونة",
+      "subtitle": "مقالات منشورة على المدونة العامة.",
+      "new": "مقال جديد",
+      "edit": "تعديل المقال",
+      "category": "التصنيف",
+      "tags": "الوسوم",
+      "tagsPlaceholder": "مفصولة بفواصل",
+      "status": "الحالة",
+      "statusValue": {
+        "DRAFT": "مسودة",
+        "SCHEDULED": "مجدول",
+        "PUBLISHED": "منشور",
+        "ARCHIVED": "مؤرشف"
+      },
+      "publishedAt": "تاريخ النشر",
+      "postTitle": "العنوان",
+      "slug": "الرابط المختصر",
+      "excerpt": "مقتطف"
+    },
+    "redirects": {
+      "title": "إعادة التوجيه",
+      "subtitle": "يعيد توجيه رابط قديم إلى رابط جديد.",
+      "empty": "لا توجد إعادة توجيه حاليًا.",
+      "fromPath": "المسار الأصلي (مثال: /صفحة-قديمة)",
+      "toPath": "المسار الجديد",
+      "permanent": "دائمة",
+      "temporary": "مؤقتة",
+      "add": "إضافة",
+      "remove": "حذف",
+      "hits": "{count, plural, =0 {لم تُستخدم} one {استخدام واحد} other {# استخدامات}}"
     }
   },
   "audit": {
@@ -1004,6 +1071,19 @@
       "cancel": "إلغاء",
       "confirmedTotal": "الإجمالي المؤكد",
       "statusNotePlaceholder": "ملاحظة داخلية (اختياري)"
+    }
+  },
+  "search": {
+    "placeholder": "بحث…",
+    "loading": "جارٍ البحث…",
+    "empty": "لا توجد نتائج.",
+    "categories": {
+      "leads": "العملاء المحتملون",
+      "clients": "العملاء",
+      "opportunities": "الفرص",
+      "quotes": "عروض الأسعار",
+      "invoices": "الفواتير",
+      "projects": "المشاريع"
     }
   }
 }

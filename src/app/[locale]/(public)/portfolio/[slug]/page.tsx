@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getFormatter } from "next-intl/server";
 import { Header } from "@/components/layout/header";
 import { prisma } from "@/server/core/db/client";
 import { absoluteUrl, buildLanguageAlternates } from "@/server/core/seo";
@@ -9,7 +9,15 @@ import type { AppLocale } from "@/i18n/routing";
 async function getProject(locale: string, slug: string) {
   const translation = await prisma.portfolioProjectTranslation.findUnique({
     where: { locale_slug: { locale, slug } },
-    include: { parent: { include: { translations: true, sector: { include: { translations: { where: { locale } } } } } } },
+    include: {
+      parent: {
+        include: {
+          translations: true,
+          sector: { include: { translations: { where: { locale } } } },
+          technologies: true,
+        },
+      },
+    },
   });
   if (!translation || !translation.parent.isPublished) return null;
   return translation;
@@ -48,6 +56,7 @@ export default async function PortfolioDetailPage({
   setRequestLocale(locale);
   const translation = await getProject(locale, slug);
   if (!translation) notFound();
+  const format = await getFormatter();
 
   const localeAlternates: Partial<Record<AppLocale, string>> = {};
   for (const other of translation.parent.translations) {
@@ -63,6 +72,9 @@ export default async function PortfolioDetailPage({
           {translation.parent.sector?.translations[0] ? (
             <p className="mt-2 text-sm text-ink-500">{translation.parent.sector.translations[0].name}</p>
           ) : null}
+          {translation.parent.date ? (
+            <p className="mt-1 text-xs text-foreground/50">{format.dateTime(translation.parent.date, { dateStyle: "long" })}</p>
+          ) : null}
           {translation.summary ? <p className="mt-4 text-lg text-ink-500">{translation.summary}</p> : null}
 
           {[
@@ -77,6 +89,24 @@ export default async function PortfolioDetailPage({
               </p>
             ) : null,
           )}
+
+          {translation.parent.technologies.length > 0 ? (
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {translation.parent.technologies.map((tech) => (
+                <li key={tech.id} className="rounded-full bg-surface-subtle px-3 py-1 text-xs text-foreground/70">
+                  {tech.name}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {translation.parent.url ? (
+            <p className="mt-6">
+              <a href={translation.parent.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-brand-600 hover:underline">
+                {translation.parent.url}
+              </a>
+            </p>
+          ) : null}
         </article>
       </main>
     </>

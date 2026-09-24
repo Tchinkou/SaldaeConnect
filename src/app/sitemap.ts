@@ -65,17 +65,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     where: { isPublished: true, needsLegalReview: false },
     include: { parent: { include: { translations: { where: { isPublished: true, needsLegalReview: false } } } } },
   });
+  function pageRoute(key: string, isSystem: boolean, slug: string): string {
+    if (key === "about") return "about";
+    if (isSystem) return `legal/${slug}`;
+    return `pages/${slug}`;
+  }
   for (const translation of pages) {
-    const routePrefix = translation.parent.key === "about" ? "about" : `legal/${translation.slug}`;
+    const routePrefix = pageRoute(translation.parent.key, translation.parent.isSystem, translation.slug);
     const pathByLocale: Partial<Record<AppLocale, string>> = {};
     for (const sibling of translation.parent.translations) {
-      pathByLocale[sibling.locale as AppLocale] =
-        translation.parent.key === "about" ? "/about" : `/legal/${sibling.slug}`;
+      pathByLocale[sibling.locale as AppLocale] = `/${pageRoute(translation.parent.key, translation.parent.isSystem, sibling.slug)}`;
     }
     entries.push({
       url: absoluteUrl(`/${translation.locale}/${routePrefix}`),
       alternates: { languages: buildLanguageAlternates(pathByLocale) },
     });
+  }
+
+  // Articles de blog publiés (§30).
+  const posts = await prisma.blogPost.findMany({
+    where: { status: "PUBLISHED" },
+    include: { translations: true },
+  });
+  for (const post of posts) {
+    const pathByLocale: Partial<Record<AppLocale, string>> = {};
+    for (const translation of post.translations) {
+      pathByLocale[translation.locale as AppLocale] = `/blog/${translation.slug}`;
+    }
+    for (const translation of post.translations) {
+      entries.push({
+        url: absoluteUrl(`/${translation.locale}/blog/${translation.slug}`),
+        lastModified: post.updatedAt,
+        alternates: { languages: buildLanguageAlternates(pathByLocale) },
+      });
+    }
   }
 
   return entries;

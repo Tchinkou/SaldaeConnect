@@ -20,7 +20,15 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Hello {name}.",
-    "phaseNotice": "Phase 2 in progress: KPIs and charts arrive in phase 10. This page confirms that sign-in, roles and the admin shell work."
+    "newLeads": "New leads (30 days)",
+    "openOpportunities": "Open opportunities",
+    "pendingQuotes": "Pending quotes",
+    "overdueInvoices": "Overdue invoices",
+    "activeProjects": "Active projects",
+    "upcomingReservations": "Upcoming reservations (7 days)",
+    "revenueChartTitle": "Revenue collected — last 6 months",
+    "pipelineTitle": "Sales pipeline",
+    "empty": "No data yet."
   },
   "team": {
     "title": "Team",
@@ -190,7 +198,66 @@
       "problem": "Problem",
       "solution": "Solution",
       "execution": "Execution",
-      "result": "Result"
+      "result": "Result",
+      "sector": "Sector",
+      "technologies": "Technologies",
+      "technologiesPlaceholder": "Comma-separated",
+      "url": "Project link",
+      "date": "Completion date"
+    },
+    "pages": {
+      "title": "Pages",
+      "subtitle": "Free pages and system pages (about, legal notices…).",
+      "new": "New page",
+      "edit": "Edit page",
+      "system": "System",
+      "free": "Free",
+      "draft": "Draft",
+      "content": "Content",
+      "blockHeading": "Heading",
+      "blockParagraph": "Paragraph",
+      "addHeading": "Add a heading",
+      "addParagraph": "Add a paragraph",
+      "removeBlock": "Remove",
+      "seoTitle": "SEO title",
+      "seoDescription": "SEO description",
+      "key": "Key",
+      "keyPlaceholder": "e.g. cookie-policy",
+      "keyHint": "Unique technical identifier, used in the free page URL.",
+      "pageTitle": "Title",
+      "slug": "Slug"
+    },
+    "blog": {
+      "title": "Blog",
+      "subtitle": "Posts published on the public blog.",
+      "new": "New post",
+      "edit": "Edit post",
+      "category": "Category",
+      "tags": "Tags",
+      "tagsPlaceholder": "Comma-separated",
+      "status": "Status",
+      "statusValue": {
+        "DRAFT": "Draft",
+        "SCHEDULED": "Scheduled",
+        "PUBLISHED": "Published",
+        "ARCHIVED": "Archived"
+      },
+      "publishedAt": "Publish date",
+      "postTitle": "Title",
+      "slug": "Slug",
+      "excerpt": "Excerpt"
+    },
+    "redirects": {
+      "title": "Redirects",
+      "subtitle": "Redirects an old URL to a new one.",
+      "empty": "No redirects yet.",
+      "fromPath": "From path (e.g. /old-page)",
+      "toPath": "To path",
+      "permanent": "Permanent",
+      "temporary": "Temporary",
+      "add": "Add",
+      "remove": "Remove",
+      "hits": "{count, plural, =0 {never used} one {# hit} other {# hits}}"
     }
   },
   "audit": {
@@ -1004,6 +1071,19 @@
       "cancel": "Cancel",
       "confirmedTotal": "Confirmed total",
       "statusNotePlaceholder": "Internal note (optional)"
+    }
+  },
+  "search": {
+    "placeholder": "Search…",
+    "loading": "Searching…",
+    "empty": "No results.",
+    "categories": {
+      "leads": "Leads",
+      "clients": "Clients",
+      "opportunities": "Opportunities",
+      "quotes": "Quotes",
+      "invoices": "Invoices",
+      "projects": "Projects"
     }
   }
 }

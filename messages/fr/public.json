@@ -81,7 +81,8 @@
   "portfolio": {
     "seoTitle": "Réalisations — SaldaeConnect",
     "title": "Nos réalisations",
-    "empty": "Aucune réalisation publiée pour le moment. Revenez bientôt."
+    "empty": "Aucune réalisation publiée pour le moment. Revenez bientôt.",
+    "allSectors": "Tous les secteurs"
   },
   "quote": {
     "seoTitle": "Démarrer un projet — SaldaeConnect",
@@ -167,5 +168,11 @@
     "privacyAccepted": "J'accepte que mes informations soient utilisées pour traiter cette demande.",
     "submit": "Envoyer la demande",
     "confirmed": "Demande envoyée, numéro {number}. Vous recevrez une confirmation par email."
+  },
+  "blog": {
+    "seoTitle": "Blog — SaldaeConnect",
+    "title": "Blog",
+    "empty": "Aucun article publié pour le moment. Revenez bientôt.",
+    "allCategories": "Toutes les catégories"
   }
 }

@@ -27,16 +27,28 @@ export async function generateMetadata({
 
 export default async function PortfolioPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ sector?: string }>;
 }) {
   const { locale } = (await params) as { locale: AppLocale };
+  const { sector } = await searchParams;
   setRequestLocale(locale);
   const t = await getTranslations("public.portfolio");
 
   const projects = await prisma.portfolioProject.findMany({
-    where: { isPublished: true, translations: { some: { locale } } },
+    where: {
+      isPublished: true,
+      translations: { some: { locale } },
+      ...(sector ? { sector: { translations: { some: { locale, name: sector } } } } : {}),
+    },
     orderBy: [{ isFeatured: "desc" }, { order: "asc" }],
+    include: { translations: { where: { locale } }, sector: { include: { translations: { where: { locale } } } } },
+  });
+
+  const sectors = await prisma.sector.findMany({
+    where: { portfolioProjects: { some: { isPublished: true } } },
     include: { translations: { where: { locale } } },
   });
 
@@ -47,6 +59,32 @@ export default async function PortfolioPage({
         <section className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
           <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("title")}</h1>
         </section>
+
+        {sectors.length > 0 ? (
+          <section className="mx-auto max-w-6xl px-4 pb-8 sm:px-6">
+            <div className="flex flex-wrap justify-center gap-2">
+              <Link
+                href="/portfolio"
+                className={`rounded-full px-3 py-1 text-sm ${!sector ? "bg-brand-600 text-white" : "bg-surface-subtle text-foreground/70"}`}
+              >
+                {t("allSectors")}
+              </Link>
+              {sectors.map((sec) => {
+                const translation = sec.translations[0];
+                if (!translation) return null;
+                return (
+                  <Link
+                    key={sec.id}
+                    href={`/portfolio?sector=${encodeURIComponent(translation.name)}`}
+                    className={`rounded-full px-3 py-1 text-sm ${sector === translation.name ? "bg-brand-600 text-white" : "bg-surface-subtle text-foreground/70"}`}
+                  >
+                    {translation.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
 
         <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
           {projects.length === 0 ? (

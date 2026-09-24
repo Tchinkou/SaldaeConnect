@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { getCurrentUser, hasPermission } from "@/server/core/authz/session";
 import { Forbidden } from "@/components/admin/forbidden";
 
-const SECTIONS = ["keyFigures", "testimonials", "portfolio"] as const;
+const SECTIONS = ["keyFigures", "testimonials", "portfolio", "pages", "blog", "redirects"] as const;
 
 export default async function ContentHubPage() {
   const currentUser = await getCurrentUser();

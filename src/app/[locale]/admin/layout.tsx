@@ -5,6 +5,7 @@ import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { SignOutButton } from "@/components/admin/sign-out-button";
 import { NotificationBell } from "@/components/notifications/notification-bell";
+import { GlobalSearch } from "@/components/admin/global-search";
 import { Link } from "@/i18n/navigation";
 
 /**
@@ -78,6 +79,7 @@ export default async function AdminLayout({
       <div className="flex-1 bg-surface-muted">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 p-6 sm:p-8">
           <div className="flex items-center justify-end gap-3 text-sm text-foreground/70">
+            <GlobalSearch />
             <NotificationBell />
             <span>
               {currentUser.user.name} · {currentUser.roles.join(", ")}

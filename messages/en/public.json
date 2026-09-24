@@ -81,7 +81,8 @@
   "portfolio": {
     "seoTitle": "Our work — SaldaeConnect",
     "title": "Our work",
-    "empty": "No published work yet. Check back soon."
+    "empty": "No published work yet. Check back soon.",
+    "allSectors": "All sectors"
   },
   "quote": {
     "seoTitle": "Start a project — SaldaeConnect",
@@ -167,5 +168,11 @@
     "privacyAccepted": "I agree that my information is used to process this request.",
     "submit": "Send request",
     "confirmed": "Request sent, number {number}. You will receive a confirmation by email."
+  },
+  "blog": {
+    "seoTitle": "Blog — SaldaeConnect",
+    "title": "Blog",
+    "empty": "No published posts yet. Check back soon.",
+    "allCategories": "All categories"
   }
 }

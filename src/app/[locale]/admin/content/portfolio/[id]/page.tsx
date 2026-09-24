@@ -13,6 +13,8 @@ const EMPTY_TRANSLATION = {
   solution: "",
   execution: "",
   result: "",
+  seoTitle: "",
+  seoDescription: "",
 };
 
 export default async function PortfolioEditPage({
@@ -34,6 +36,10 @@ export default async function PortfolioEditPage({
         <PortfolioForm
           id={null}
           initialClientName=""
+          initialSectorName=""
+          initialTechnologyNames={[]}
+          initialUrl=""
+          initialDate=""
           initialIsFeatured={false}
           initialIsPublished={false}
           initialOrder={0}
@@ -43,7 +49,10 @@ export default async function PortfolioEditPage({
     );
   }
 
-  const project = await prisma.portfolioProject.findUnique({ where: { id }, include: { translations: true } });
+  const project = await prisma.portfolioProject.findUnique({
+    where: { id },
+    include: { translations: true, sector: { include: { translations: { where: { locale: "fr" } } } }, technologies: true },
+  });
   if (!project) notFound();
 
   const byLocale = (locale: string) => {
@@ -56,6 +65,8 @@ export default async function PortfolioEditPage({
       solution: translation?.solution ?? "",
       execution: translation?.execution ?? "",
       result: translation?.result ?? "",
+      seoTitle: translation?.seoTitle ?? "",
+      seoDescription: translation?.seoDescription ?? "",
     };
   };
 
@@ -65,6 +76,10 @@ export default async function PortfolioEditPage({
       <PortfolioForm
         id={project.id}
         initialClientName={project.clientName ?? ""}
+        initialSectorName={project.sector?.translations[0]?.name ?? ""}
+        initialTechnologyNames={project.technologies.map((tech) => tech.name)}
+        initialUrl={project.url ?? ""}
+        initialDate={project.date ? project.date.toISOString().slice(0, 10) : ""}
         initialIsFeatured={project.isFeatured}
         initialIsPublished={project.isPublished}
         initialOrder={project.order}

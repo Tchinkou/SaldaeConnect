@@ -19,11 +19,17 @@ const translationSchema = z.object({
   solution: z.string().trim().max(2000).nullable(),
   execution: z.string().trim().max(2000).nullable(),
   result: z.string().trim().max(2000).nullable(),
+  seoTitle: z.string().trim().max(160).nullable(),
+  seoDescription: z.string().trim().max(320).nullable(),
 });
 
 const schema = z.object({
   id: z.string().nullable(),
   clientName: z.string().trim().max(200).nullable(),
+  sectorName: z.string().trim().max(80).nullable(),
+  technologyNames: z.array(z.string().trim().min(1).max(60)),
+  url: z.string().trim().max(500).nullable(),
+  date: z.string().datetime().nullable(),
   isFeatured: z.boolean(),
   isPublished: z.boolean(),
   order: z.coerce.number().int().min(0),
@@ -36,16 +42,42 @@ export const upsertPortfolioProjectAction = defineAction({
   handler: async (input) => {
     try {
       return await prisma.$transaction(async (tx) => {
-        const data = {
+        let sector = null;
+        if (input.sectorName) {
+          const existingTranslation = await tx.sectorTranslation.findFirst({ where: { locale: "fr", name: input.sectorName } });
+          sector = existingTranslation
+            ? await tx.sector.findUnique({ where: { id: existingTranslation.parentId } })
+            : await tx.sector.create({
+                data: {
+                  translations: {
+                    create: (["fr", "en", "ar"] as const).map((locale) => ({ locale, name: input.sectorName! })),
+                  },
+                },
+              });
+        }
+
+        const technologies = await Promise.all(
+          input.technologyNames.map((name) => tx.technology.upsert({ where: { name }, update: {}, create: { name } })),
+        );
+
+        const base = {
           clientName: input.clientName,
+          sectorId: sector?.id ?? null,
+          url: input.url,
+          date: input.date ? new Date(input.date) : null,
           isFeatured: input.isFeatured,
           isPublished: input.isPublished,
           order: input.order,
         };
 
         const project = input.id
-          ? await tx.portfolioProject.update({ where: { id: input.id }, data })
-          : await tx.portfolioProject.create({ data });
+          ? await tx.portfolioProject.update({
+              where: { id: input.id },
+              data: { ...base, technologies: { set: technologies.map((tech) => ({ id: tech.id })) } },
+            })
+          : await tx.portfolioProject.create({
+              data: { ...base, technologies: { connect: technologies.map((tech) => ({ id: tech.id })) } },
+            });
 
         await Promise.all(
           (["fr", "en", "ar"] as const).map((locale) =>
