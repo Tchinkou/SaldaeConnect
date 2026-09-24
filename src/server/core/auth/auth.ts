@@ -41,7 +41,27 @@ export const auth = betterAuth({
       generateId: false, // les identifiants sont générés par Postgres (uuid v7, voir schéma)
     },
     cookiePrefix: "saldaeconnect",
-    useSecureCookies: env.APP_ENV === "production",
+    /**
+     * §H.2 : cookies de session préfixés `__Host-` (Secure implicite,
+     * Path=/ forcé, aucun attribut Domain — garantie plus forte que le
+     * simple `__Secure-` automatique de Better Auth, qui ne fixe que
+     * Secure). Better Auth préfixe toujours `useSecureCookies ?
+     * "__Secure-" : ""` devant le nom de *tous* les cookies avant de le
+     * renvoyer ; le désactiver ici et fixer `secure` nous-mêmes via
+     * `defaultCookieAttributes` évite un double préfixe du type
+     * `__Secure-__Host-...` sur les deux cookies qu'on renomme ci-dessous.
+     * Le nom `__Host-...` déclenche par lui-même, côté sérialisation
+     * (`better-call`), l'ajout automatique de Secure/Path=/ et la
+     * suppression de Domain.
+     */
+    useSecureCookies: false,
+    defaultCookieAttributes: {
+      secure: env.APP_ENV === "production",
+    },
+    cookies: {
+      session_token: { name: "__Host-saldaeconnect.session_token" },
+      session_data: { name: "__Host-saldaeconnect.session_data" },
+    },
   },
 
   emailAndPassword: {

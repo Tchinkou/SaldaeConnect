@@ -24,8 +24,10 @@ export default async function PortalInvoiceDetailPage({ params }: { params: Prom
   const contact = await prisma.clientContact.findUnique({ where: { userId: currentUser!.user.id } });
   if (!contact) notFound();
 
-  const invoice = await prisma.invoice.findUnique({
-    where: { id },
+  // §H.2 : le périmètre client est dans le `where` (pas une vérification a
+  // posteriori) — un id d'un autre client ne correspond simplement à rien.
+  const invoice = await prisma.invoice.findFirst({
+    where: { id, clientId: contact.clientId },
     include: {
       items: { orderBy: { position: "asc" } },
       originalInvoice: true,
@@ -33,7 +35,7 @@ export default async function PortalInvoiceDetailPage({ params }: { params: Prom
     },
   });
 
-  if (!invoice || invoice.clientId !== contact.clientId || invoice.status === "DRAFT") notFound();
+  if (!invoice || invoice.status === "DRAFT") notFound();
 
   return (
     <div className="flex flex-col gap-6">

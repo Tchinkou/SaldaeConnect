@@ -28,8 +28,10 @@ export default async function PortalQuoteDetailPage({ params }: { params: Promis
   const contact = await prisma.clientContact.findUnique({ where: { userId: currentUser!.user.id } });
   if (!contact) notFound();
 
-  let quote = await prisma.quote.findUnique({
-    where: { id },
+  // §H.2 : le périmètre client est dans le `where` (pas une vérification a
+  // posteriori) — un id d'un autre client ne correspond simplement à rien.
+  let quote = await prisma.quote.findFirst({
+    where: { id, clientId: contact.clientId },
     include: {
       client: true,
       items: { orderBy: { position: "asc" } },
@@ -38,7 +40,7 @@ export default async function PortalQuoteDetailPage({ params }: { params: Promis
     },
   });
 
-  if (!quote || quote.clientId !== contact.clientId || quote.status === "DRAFT") notFound();
+  if (!quote || quote.status === "DRAFT") notFound();
 
   // Première consultation (§F.2) : marquée au rendu, cette route n'étant
   // jamais servie au staff ni mise en cache (données par session client).

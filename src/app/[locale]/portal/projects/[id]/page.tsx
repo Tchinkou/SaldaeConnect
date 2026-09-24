@@ -31,8 +31,10 @@ export default async function PortalProjectDetailPage({ params }: { params: Prom
   const contact = await prisma.clientContact.findUnique({ where: { userId: currentUser!.user.id } });
   if (!contact) notFound();
 
-  const project = await prisma.project.findUnique({
-    where: { id },
+  // §H.2 : le périmètre client est dans le `where` (pas une vérification a
+  // posteriori) — un id d'un autre client ne correspond simplement à rien.
+  const project = await prisma.project.findFirst({
+    where: { id, clientId: contact.clientId },
     include: {
       milestones: { orderBy: { position: "asc" } },
       tasks: { where: { visibleToClient: true }, orderBy: { dueAt: "asc" } },
@@ -40,7 +42,7 @@ export default async function PortalProjectDetailPage({ params }: { params: Prom
     },
   });
 
-  if (!project || project.clientId !== contact.clientId) notFound();
+  if (!project) notFound();
 
   const progress = computeProjectProgress(project.progressMode, {
     progressManual: project.progressManual,
