@@ -37,6 +37,11 @@ export default async function AdminLayout({
   if (currentUser.user.userType !== "STAFF" || currentUser.user.status !== "ACTIVE") {
     return redirect({ href: "/portal", locale: locale as "fr" | "en" | "ar" });
   }
+  // §H.2 : 2FA obligatoire pour tout le staff/admin — page dédiée hors de
+  // cette coquille pour éviter la boucle de redirection (voir sa doc).
+  if (!currentUser.user.twoFactorEnabled) {
+    return redirect({ href: "/two-factor-setup", locale: locale as "fr" | "en" | "ar" });
+  }
 
   const t = await getTranslations("admin.nav");
 
