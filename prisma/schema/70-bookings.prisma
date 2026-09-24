@@ -61,6 +61,9 @@ model Reservation {
   assignedToId          String?
   cancelReason          String?
   invoiceId             String?
+  /// Horodatage du rappel automatique (cron veille du rendez-vous, §D.5) — sert de garde
+  /// d'idempotence, comme les autres jobs cron du projet (voir invoices-overdue.ts).
+  remindedAt            DateTime?
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
 

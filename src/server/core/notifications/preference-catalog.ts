@@ -15,4 +15,6 @@ export const CLIENT_NOTIFICATION_TYPES: Array<{ type: string; channels: Notifica
   { type: "project.message", channels: ["IN_APP"] },
   { type: "invoice.issued", channels: ["IN_APP", "EMAIL"] },
   { type: "invoice.payment_recorded", channels: ["IN_APP"] },
+  { type: "reservation.status_changed", channels: ["IN_APP", "EMAIL"] },
+  { type: "transaction.status_changed", channels: ["IN_APP", "EMAIL"] },
 ];

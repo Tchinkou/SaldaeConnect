@@ -43,6 +43,12 @@ export function notificationDisplay(type: string, params: unknown): Notification
       return { key: "invoice_payment_recorded", values: { number: str(p.number) } };
     case "invoice.overdue":
       return { key: "invoice_overdue", values: { number: str(p.number) } };
+    case "reservation.created":
+      return { key: "reservation_created", values: { number: str(p.number) } };
+    case "reservation.status_changed":
+      return { key: "reservation_status_changed", values: { number: str(p.number), status: str(p.status) } };
+    case "transaction.status_changed":
+      return { key: "transaction_status_changed", values: { number: str(p.number), status: str(p.status) } };
     default:
       return { key: "fallback", values: {} };
   }

@@ -278,5 +278,17 @@
         }
       }
     }
+  },
+  "reservations": {
+    "title": "My bookings",
+    "subtitle": "Track your booking requests.",
+    "empty": "No bookings yet.",
+    "statusValue": {
+      "REQUESTED": "Requested",
+      "CONFIRMED": "Confirmed",
+      "PENDING": "Pending",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled"
+    }
   }
 }

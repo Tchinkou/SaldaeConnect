@@ -51,6 +51,8 @@ export default async function AdminLayout({
     quotes: hasPermission(currentUser, "quote.read"),
     projects: hasPermission(currentUser, "project.read"),
     invoices: hasPermission(currentUser, "invoice.read"),
+    bookings: hasPermission(currentUser, "reservation.read"),
+    transactions: hasPermission(currentUser, "transaction.read"),
   };
 
   return (

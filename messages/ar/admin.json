@@ -13,7 +13,9 @@
     "viewSite": "عرض الموقع",
     "quotes": "عروض الأسعار",
     "projects": "المشاريع",
-    "invoices": "الفواتير"
+    "invoices": "الفواتير",
+    "bookings": "الحجوزات",
+    "transactions": "المعاملات"
   },
   "dashboard": {
     "title": "لوحة التحكم",
@@ -126,6 +128,20 @@
       "RECURRING": "متكرر",
       "BOOKING": "حجز",
       "TRANSACTION": "معاملة"
+    },
+    "booking": {
+      "legend": "إعدادات الحجز",
+      "mode": "الوضع",
+      "modeAgencySlot": "فترات في الوكالة",
+      "modeExternalAppointment": "موعد خارجي",
+      "slotMinutes": "مدة الفترة (دقيقة)",
+      "capacityPerSlot": "السعة لكل فترة",
+      "minNoticeHours": "الحد الأدنى للإشعار (ساعات)",
+      "maxAdvanceDays": "قابل للحجز حتى (أيام)",
+      "fee": "الرسوم",
+      "feePlaceholder": "المبلغ (اتركه فارغاً إذا كان مجانياً)",
+      "requiredDocuments": "الوثائق المطلوبة",
+      "requiredDocumentsPlaceholder": "واحدة في كل سطر"
     }
   },
   "content": {
@@ -809,6 +825,185 @@
         "note": "ملاحظة",
         "record": "تسجيل دفعة"
       }
+    }
+  },
+  "bookings": {
+    "title": "الحجوزات",
+    "manageAvailability": "إدارة التوفر",
+    "number": "الرقم",
+    "service": "الخدمة",
+    "contact": "جهة الاتصال",
+    "when": "الموعد",
+    "status": "الحالة",
+    "statusAll": "الكل",
+    "statusValue": {
+      "REQUESTED": "مطلوب",
+      "CONFIRMED": "مؤكد",
+      "PENDING": "قيد الانتظار",
+      "COMPLETED": "منتهية",
+      "CANCELLED": "ملغاة"
+    },
+    "empty": "لا توجد حجوزات.",
+    "detail": {
+      "contact": "جهة الاتصال",
+      "slot": "الفترة الزمنية",
+      "preferredPeriod": "الفترة المفضلة",
+      "externalAppointmentAt": "الموعد الخارجي في",
+      "externalReference": "المرجع الخارجي",
+      "documentNumber": "رقم الوثيقة",
+      "notes": "ملاحظات",
+      "cancelReason": "سبب الإلغاء",
+      "attachments": "المرفقات",
+      "historyTitle": "السجل",
+      "noHistory": "لا يوجد سجل بعد.",
+      "statusValue": {
+        "REQUESTED": "مطلوب",
+        "CONFIRMED": "مؤكد",
+        "PENDING": "قيد الانتظار",
+        "COMPLETED": "منتهية",
+        "CANCELLED": "ملغاة"
+      },
+      "changeStatus": "تغيير الحالة",
+      "confirmStatus": "تأكيد",
+      "cancel": "إلغاء",
+      "cancelReasonPlaceholder": "سبب الإلغاء",
+      "externalReferencePlaceholder": "مرجع الموعد الخارجي",
+      "statusNotePlaceholder": "ملاحظة داخلية (اختياري)"
+    }
+  },
+  "availability": {
+    "title": "توفر الحجوزات",
+    "rulesTitle": "فترات متكررة",
+    "exceptionsTitle": "استثناءات",
+    "noBookingServices": "لا توجد خدمات في وضع الحجز.",
+    "noRules": "لا توجد قاعدة محددة.",
+    "noExceptions": "لا توجد استثناءات.",
+    "weekdayLabel": "اليوم",
+    "weekday": {
+      "0": "الأحد",
+      "1": "الإثنين",
+      "2": "الثلاثاء",
+      "3": "الأربعاء",
+      "4": "الخميس",
+      "5": "الجمعة",
+      "6": "السبت"
+    },
+    "startTime": "البداية",
+    "endTime": "النهاية",
+    "addRule": "إضافة فترة",
+    "addException": "إضافة استثناء",
+    "remove": "حذف",
+    "date": "التاريخ",
+    "type": "النوع",
+    "exceptionType": {
+      "CLOSED": "إغلاق",
+      "EXTRA": "فتح إضافي"
+    },
+    "wholeDay": "اليوم بأكمله",
+    "reason": "السبب",
+    "exceptionDateRequired": "التاريخ مطلوب.",
+    "loading": "جارٍ التحميل…"
+  },
+  "products": {
+    "title": "المنتجات (المعاملات)",
+    "subtitle": "كتالوج داخلي — الصرف، البطاقات المدفوعة مسبقاً. غير مرئي للعامة.",
+    "empty": "لا توجد منتجات.",
+    "add": "إضافة منتج",
+    "edit": "تعديل",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "sku": "الرمز (SKU)",
+    "nameFr": "الاسم (بالفرنسية)",
+    "nameEn": "الاسم (بالإنجليزية)",
+    "nameAr": "الاسم (بالعربية)",
+    "unit": "الوحدة",
+    "currentPrice": "السعر الحالي",
+    "currentCurrency": "العملة",
+    "minQuantity": "الحد الأدنى للكمية",
+    "maxQuantity": "الحد الأقصى للكمية",
+    "trackStock": "تتبع المخزون",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "stock": "المخزون: {level}",
+    "addMovement": "حركة مخزون",
+    "movementType": {
+      "IN": "إدخال",
+      "OUT": "إخراج",
+      "ADJUSTMENT": "تسوية"
+    },
+    "quantity": "الكمية",
+    "note": "ملاحظة",
+    "kind": {
+      "CURRENCY": "صرف عملات",
+      "PREPAID_CARD": "بطاقة مدفوعة مسبقاً",
+      "PAYSERA": "Paysera",
+      "OTHER": "أخرى"
+    }
+  },
+  "transactions": {
+    "title": "المعاملات",
+    "subtitle": "طلبات الصرف والمنتجات — للاستخدام الداخلي فقط.",
+    "manageProducts": "إدارة المنتجات",
+    "newOrder": "طلب جديد",
+    "number": "الرقم",
+    "client": "العميل",
+    "total": "الإجمالي",
+    "createdAt": "أُنشئت في",
+    "status": "الحالة",
+    "statusAll": "الكل",
+    "statusValue": {
+      "REQUESTED": "مطلوب",
+      "PRICE_CONFIRMED": "تم تأكيد السعر",
+      "AWAITING_PAYMENT": "بانتظار الدفع",
+      "PAID": "مدفوعة",
+      "COMPLETED": "منتهية",
+      "CANCELLED": "ملغاة"
+    },
+    "empty": "لا توجد طلبات.",
+    "create": {
+      "title": "طلب معاملة جديد",
+      "subtitle": "يُنشئه الموظفون — لا يوجد نموذج عام طالما لم يُعتمد الإطار القانوني.",
+      "missingPrerequisites": "أنشئ عميلاً ومنتجاً نشطاً واحداً على الأقل أولاً.",
+      "client": "العميل",
+      "items": "المنتجات",
+      "addItem": "إضافة منتج",
+      "remove": "إزالة",
+      "documentType": "نوع الوثيقة",
+      "documentNumber": "رقم الوثيقة",
+      "notes": "ملاحظات",
+      "submit": "إنشاء الطلب"
+    },
+    "detail": {
+      "items": "المنتجات",
+      "product": "المنتج",
+      "quantity": "الكمية",
+      "unitPrice": "سعر الوحدة",
+      "lineTotal": "إجمالي السطر",
+      "total": "الإجمالي",
+      "payments": "المدفوعات",
+      "amount": "المبلغ",
+      "reference": "المرجع",
+      "recordPayment": "تسجيل دفعة",
+      "noPayments": "لا توجد مدفوعات مسجلة.",
+      "reverse": "إلغاء",
+      "reversed": "ملغى",
+      "reversalReasonPrompt": "سبب إلغاء الدفعة",
+      "identity": "الهوية",
+      "noIdentity": "لا توجد معلومات هوية.",
+      "history": "السجل",
+      "statusValue": {
+        "REQUESTED": "مطلوب",
+        "PRICE_CONFIRMED": "تم تأكيد السعر",
+        "AWAITING_PAYMENT": "بانتظار الدفع",
+        "PAID": "مدفوعة",
+        "COMPLETED": "منتهية",
+        "CANCELLED": "ملغاة"
+      },
+      "changeStatus": "تغيير الحالة",
+      "confirmStatus": "تأكيد",
+      "cancel": "إلغاء",
+      "confirmedTotal": "الإجمالي المؤكد",
+      "statusNotePlaceholder": "ملاحظة داخلية (اختياري)"
     }
   }
 }

@@ -10,6 +10,8 @@ import { PageBlocks, type PageBlock } from "@/components/marketing/page-blocks";
 import { prisma } from "@/server/core/db/client";
 import { absoluteUrl, buildLanguageAlternates } from "@/server/core/seo";
 import type { AppLocale } from "@/i18n/routing";
+import { parseBookingConfig } from "@/server/core/booking/config";
+import { BookingWidget } from "./booking-widget";
 
 async function getService(locale: string, slug: string) {
   const translation = await prisma.serviceTranslation.findUnique({
@@ -28,7 +30,8 @@ async function getService(locale: string, slug: string) {
     },
   });
 
-  if (!translation || !translation.isPublished || !translation.service.isActive) {
+  // TRANSACTION exclu : module interne uniquement tant que le cadre légal n'est pas validé (§D.6).
+  if (!translation || !translation.isPublished || !translation.service.isActive || translation.service.fulfillmentType === "TRANSACTION") {
     return null;
   }
   return translation;
@@ -141,14 +144,21 @@ export default async function ServiceDetailPage({
             </section>
           ) : null}
 
-          <div className="mt-12">
-            <Link
-              href={{ pathname: "/quote", query: { service: slug } }}
-              className={buttonVariants({ size: "lg" })}
-            >
-              {t("cta")}
-            </Link>
-          </div>
+          {translation.service.fulfillmentType === "BOOKING" ? (
+            (() => {
+              const bookingConfig = parseBookingConfig(translation.service.bookingConfig);
+              return bookingConfig ? <BookingWidget serviceId={translation.service.id} config={bookingConfig} /> : null;
+            })()
+          ) : (
+            <div className="mt-12">
+              <Link
+                href={{ pathname: "/quote", query: { service: slug } }}
+                className={buttonVariants({ size: "lg" })}
+              >
+                {t("cta")}
+              </Link>
+            </div>
+          )}
         </article>
       </main>
     </>

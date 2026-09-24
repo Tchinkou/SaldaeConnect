@@ -5,6 +5,7 @@ import { z } from "zod";
 import { defineAction } from "@/server/core/action";
 import { prisma } from "@/server/core/db/client";
 import { AppError } from "@/server/core/errors";
+import { bookingConfigSchema } from "@/server/core/booking/config";
 
 const translationSchema = z.object({
   name: z.string().trim().min(1).max(160),
@@ -26,6 +27,8 @@ const schema = z.object({
     en: translationSchema,
     ar: translationSchema,
   }),
+  /** Non fourni pour un service dont le mode de service n'est pas BOOKING. */
+  bookingConfig: bookingConfigSchema.nullable().optional(),
 });
 
 export const updateServiceAction = defineAction({
@@ -43,7 +46,10 @@ export const updateServiceAction = defineAction({
       await prisma.$transaction([
         prisma.service.update({
           where: { id: input.serviceId },
-          data: { isActive: input.isActive },
+          data: {
+            isActive: input.isActive,
+            ...(input.bookingConfig !== undefined ? { bookingConfig: input.bookingConfig ?? Prisma.JsonNull } : {}),
+          },
         }),
         ...(["fr", "en", "ar"] as const).map((locale) =>
           prisma.serviceTranslation.update({

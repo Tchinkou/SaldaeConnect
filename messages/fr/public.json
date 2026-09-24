@@ -15,10 +15,22 @@
     "whyUs": {
       "title": "Pourquoi SaldaeConnect",
       "points": {
-        "local": { "title": "Une équipe locale", "body": "Basée à Béjaïa, disponible pour un accompagnement de proximité." },
-        "multilingual": { "title": "Trois langues", "body": "Français, anglais et arabe, pour vos clients comme pour vos équipes." },
-        "transparent": { "title": "Suivi transparent", "body": "Un devis clair, un projet suivi, une facturation sans surprise." },
-        "durable": { "title": "Pensé pour durer", "body": "Des solutions solides plutôt que des livrables jetables." }
+        "local": {
+          "title": "Une équipe locale",
+          "body": "Basée à Béjaïa, disponible pour un accompagnement de proximité."
+        },
+        "multilingual": {
+          "title": "Trois langues",
+          "body": "Français, anglais et arabe, pour vos clients comme pour vos équipes."
+        },
+        "transparent": {
+          "title": "Suivi transparent",
+          "body": "Un devis clair, un projet suivi, une facturation sans surprise."
+        },
+        "durable": {
+          "title": "Pensé pour durer",
+          "body": "Des solutions solides plutôt que des livrables jetables."
+        }
       }
     },
     "testimonials": {
@@ -136,5 +148,24 @@
       "fileTooLarge": "Ce fichier dépasse 10 Mo.",
       "invalidFileType": "Type de fichier non accepté (PDF, JPEG, PNG, WebP)."
     }
+  },
+  "booking": {
+    "title": "Réserver",
+    "chooseSlot": "Choisir un créneau",
+    "loadingSlots": "Chargement des créneaux…",
+    "noSlots": "Aucun créneau disponible pour cette période.",
+    "preferredFrom": "Période souhaitée (du)",
+    "preferredTo": "au",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "documentNumber": "N° de document",
+    "notes": "Message (facultatif)",
+    "requiredDocuments": "Documents à fournir",
+    "fee": "Frais",
+    "privacyAccepted": "J'accepte que mes informations soient utilisées pour traiter cette demande.",
+    "submit": "Envoyer la demande",
+    "confirmed": "Demande envoyée, numéro {number}. Vous recevrez une confirmation par email."
   }
 }

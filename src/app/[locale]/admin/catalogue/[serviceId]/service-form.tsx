@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { updateServiceAction } from "../actions";
+import type { BookingConfig } from "@/server/core/booking/config";
 
 type TranslationState = { name: string; slug: string; shortDescription: string; isPublished: boolean };
 type Translations = { fr: TranslationState; en: TranslationState; ar: TranslationState };
@@ -13,16 +14,22 @@ export function ServiceForm({
   serviceId,
   initialIsActive,
   initialTranslations,
+  isBookingService,
+  initialBookingConfig,
 }: {
   serviceId: string;
   initialIsActive: boolean;
   initialTranslations: Translations;
+  isBookingService: boolean;
+  initialBookingConfig: BookingConfig;
 }) {
   const t = useTranslations("admin.catalog");
   const router = useRouter();
 
   const [isActive, setIsActive] = useState(initialIsActive);
   const [translations, setTranslations] = useState(initialTranslations);
+  const [bookingConfig, setBookingConfig] = useState(initialBookingConfig);
+  const [requiredDocumentsText, setRequiredDocumentsText] = useState(initialBookingConfig.requiredDocuments.join("\n"));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -45,6 +52,15 @@ export function ServiceForm({
         en: { ...translations.en, shortDescription: translations.en.shortDescription || null },
         ar: { ...translations.ar, shortDescription: translations.ar.shortDescription || null },
       },
+      bookingConfig: isBookingService
+        ? {
+            ...bookingConfig,
+            requiredDocuments: requiredDocumentsText
+              .split("\n")
+              .map((line) => line.trim())
+              .filter(Boolean),
+          }
+        : undefined,
     });
     setIsSubmitting(false);
 
@@ -68,6 +84,129 @@ export function ServiceForm({
         />
         {t("isActive")}
       </label>
+
+      {isBookingService ? (
+        <fieldset className="flex flex-col gap-3 rounded-md border border-border p-4">
+          <legend className="px-1 text-sm font-semibold text-foreground">{t("booking.legend")}</legend>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="booking-mode" className="text-sm font-medium text-foreground">
+              {t("booking.mode")}
+            </label>
+            <select
+              id="booking-mode"
+              value={bookingConfig.mode}
+              onChange={(event) =>
+                setBookingConfig((previous) => ({ ...previous, mode: event.target.value as BookingConfig["mode"] }))
+              }
+              className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+            >
+              <option value="AGENCY_SLOT">{t("booking.modeAgencySlot")}</option>
+              <option value="EXTERNAL_APPOINTMENT">{t("booking.modeExternalAppointment")}</option>
+            </select>
+          </div>
+
+          {bookingConfig.mode === "AGENCY_SLOT" ? (
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="booking-slot-minutes" className="text-sm font-medium text-foreground">
+                  {t("booking.slotMinutes")}
+                </label>
+                <input
+                  id="booking-slot-minutes"
+                  type="number"
+                  min={5}
+                  max={480}
+                  dir="ltr"
+                  value={bookingConfig.slotMinutes}
+                  onChange={(event) => setBookingConfig((previous) => ({ ...previous, slotMinutes: Number(event.target.value) }))}
+                  className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="booking-capacity" className="text-sm font-medium text-foreground">
+                  {t("booking.capacityPerSlot")}
+                </label>
+                <input
+                  id="booking-capacity"
+                  type="number"
+                  min={1}
+                  max={50}
+                  dir="ltr"
+                  value={bookingConfig.capacityPerSlot}
+                  onChange={(event) => setBookingConfig((previous) => ({ ...previous, capacityPerSlot: Number(event.target.value) }))}
+                  className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+                />
+              </div>
+            </div>
+          ) : null}
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="booking-notice" className="text-sm font-medium text-foreground">
+                {t("booking.minNoticeHours")}
+              </label>
+              <input
+                id="booking-notice"
+                type="number"
+                min={0}
+                max={720}
+                dir="ltr"
+                value={bookingConfig.minNoticeHours}
+                onChange={(event) => setBookingConfig((previous) => ({ ...previous, minNoticeHours: Number(event.target.value) }))}
+                className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="booking-advance" className="text-sm font-medium text-foreground">
+                {t("booking.maxAdvanceDays")}
+              </label>
+              <input
+                id="booking-advance"
+                type="number"
+                min={1}
+                max={365}
+                dir="ltr"
+                value={bookingConfig.maxAdvanceDays}
+                onChange={(event) => setBookingConfig((previous) => ({ ...previous, maxAdvanceDays: Number(event.target.value) }))}
+                className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="booking-fee" className="text-sm font-medium text-foreground">
+              {t("booking.fee")}
+            </label>
+            <input
+              id="booking-fee"
+              type="number"
+              min={0}
+              dir="ltr"
+              value={bookingConfig.fee ?? ""}
+              onChange={(event) =>
+                setBookingConfig((previous) => ({ ...previous, fee: event.target.value === "" ? null : Number(event.target.value) }))
+              }
+              placeholder={t("booking.feePlaceholder")}
+              className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="booking-documents" className="text-sm font-medium text-foreground">
+              {t("booking.requiredDocuments")}
+            </label>
+            <textarea
+              id="booking-documents"
+              rows={3}
+              value={requiredDocumentsText}
+              onChange={(event) => setRequiredDocumentsText(event.target.value)}
+              placeholder={t("booking.requiredDocumentsPlaceholder")}
+              className="rounded-md border border-border bg-surface px-3 py-2 text-sm"
+            />
+          </div>
+        </fieldset>
+      ) : null}
 
       {(["fr", "en", "ar"] as const).map((locale) => (
         <fieldset key={locale} className="flex flex-col gap-3 rounded-md border border-border p-4">

@@ -4,6 +4,7 @@ import { prisma } from "@/server/core/db/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser, hasPermission } from "@/server/core/authz/session";
 import { Forbidden } from "@/components/admin/forbidden";
+import { parseBookingConfig, DEFAULT_BOOKING_CONFIG } from "@/server/core/booking/config";
 import { ServiceForm } from "./service-form";
 
 export default async function EditServicePage({
@@ -41,6 +42,8 @@ export default async function EditServicePage({
         <ServiceForm
           serviceId={service.id}
           initialIsActive={service.isActive}
+          isBookingService={service.fulfillmentType === "BOOKING"}
+          initialBookingConfig={parseBookingConfig(service.bookingConfig) ?? DEFAULT_BOOKING_CONFIG}
           initialTranslations={{
             fr: {
               name: byLocale.fr?.name ?? "",

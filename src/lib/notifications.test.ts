@@ -35,4 +35,19 @@ describe("notificationDisplay", () => {
       values: { number: "FAC-2026-0001" },
     });
   });
+
+  it("maps reservation and transaction notification types (Phase 9)", () => {
+    expect(notificationDisplay("reservation.created", { number: "RDV-2026-0001" })).toEqual({
+      key: "reservation_created",
+      values: { number: "RDV-2026-0001" },
+    });
+    expect(notificationDisplay("reservation.status_changed", { number: "RDV-2026-0001", status: "CONFIRMED" })).toEqual({
+      key: "reservation_status_changed",
+      values: { number: "RDV-2026-0001", status: "CONFIRMED" },
+    });
+    expect(notificationDisplay("transaction.status_changed", { number: "TRX-2026-0001", status: "PAID" })).toEqual({
+      key: "transaction_status_changed",
+      values: { number: "TRX-2026-0001", status: "PAID" },
+    });
+  });
 });

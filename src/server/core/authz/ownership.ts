@@ -79,3 +79,36 @@ export function assertProjectManagerInScope(currentUser: CurrentUser, permission
   if (managerId === currentUser.user.id) return;
   throw new ForbiddenError();
 }
+
+/**
+ * `Reservation` et `TransactionOrder` suivent le même principe que `Project`
+ * (périmètre `ASSIGNED` = staff attribué, `assignedToId`) — §H.3 : « ALL ou
+ * ASSIGNED selon réglage » pour ce domaine.
+ */
+export function reservationWhereClause(currentUser: CurrentUser, permission: PermissionKey): { assignedToId?: string } {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return {};
+  return { assignedToId: currentUser.user.id };
+}
+
+/** Lève une erreur si le périmètre `ASSIGNED` ne couvre pas le staff attribué à la réservation. */
+export function assertReservationAssigneeInScope(currentUser: CurrentUser, permission: PermissionKey, assignedToId: string | null): void {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return;
+  if (assignedToId === currentUser.user.id) return;
+  throw new ForbiddenError();
+}
+
+export function transactionOrderWhereClause(currentUser: CurrentUser, permission: PermissionKey): { assignedToId?: string } {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return {};
+  return { assignedToId: currentUser.user.id };
+}
+
+/** Lève une erreur si le périmètre `ASSIGNED` ne couvre pas le staff attribué à la commande de transaction. */
+export function assertTransactionAssigneeInScope(currentUser: CurrentUser, permission: PermissionKey, assignedToId: string | null): void {
+  const scope = permissionScope(currentUser, permission);
+  if (scope === "ALL") return;
+  if (assignedToId === currentUser.user.id) return;
+  throw new ForbiddenError();
+}

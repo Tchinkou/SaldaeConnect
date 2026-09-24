@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { env } from "@/server/core/env";
 import { runQuotesExpireJob } from "@/server/core/cron/quotes-expire";
 import { runInvoicesOverdueJob } from "@/server/core/cron/invoices-overdue";
+import { runReservationsRemindJob } from "@/server/core/cron/reservations-remind";
 
 /**
  * Point d'entrée cron unique (§A.2, `/api/cron/[job]/route.ts`), protégé par
@@ -15,6 +16,7 @@ import { runInvoicesOverdueJob } from "@/server/core/cron/invoices-overdue";
 const JOBS: Record<string, () => Promise<unknown>> = {
   "quotes-expire": runQuotesExpireJob,
   "invoices-overdue": runInvoicesOverdueJob,
+  "reservations-remind": runReservationsRemindJob,
 };
 
 function isAuthorized(request: Request): boolean {

@@ -278,5 +278,17 @@
         }
       }
     }
+  },
+  "reservations": {
+    "title": "حجوزاتي",
+    "subtitle": "تابع طلبات الحجز الخاصة بك.",
+    "empty": "لا توجد حجوزات حتى الآن.",
+    "statusValue": {
+      "REQUESTED": "مطلوب",
+      "CONFIRMED": "مؤكد",
+      "PENDING": "قيد الانتظار",
+      "COMPLETED": "منتهية",
+      "CANCELLED": "ملغاة"
+    }
   }
 }

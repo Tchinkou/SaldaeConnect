@@ -40,8 +40,9 @@ export default async function ServicesPage({
     orderBy: { order: "asc" },
     include: {
       translations: { where: { locale } },
+      // TRANSACTION exclu : module interne uniquement tant que le cadre légal n'est pas validé (§D.6).
       services: {
-        where: { isActive: true, translations: { some: { locale, isPublished: true } } },
+        where: { isActive: true, fulfillmentType: { not: "TRANSACTION" }, translations: { some: { locale, isPublished: true } } },
         orderBy: { order: "asc" },
         include: { translations: { where: { locale } } },
       },

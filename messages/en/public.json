@@ -15,10 +15,22 @@
     "whyUs": {
       "title": "Why SaldaeConnect",
       "points": {
-        "local": { "title": "A local team", "body": "Based in Béjaïa, available for hands-on support." },
-        "multilingual": { "title": "Three languages", "body": "French, English and Arabic, for your customers and your teams." },
-        "transparent": { "title": "Transparent tracking", "body": "A clear quote, a tracked project, invoicing without surprises." },
-        "durable": { "title": "Built to last", "body": "Solid solutions rather than disposable deliverables." }
+        "local": {
+          "title": "A local team",
+          "body": "Based in Béjaïa, available for hands-on support."
+        },
+        "multilingual": {
+          "title": "Three languages",
+          "body": "French, English and Arabic, for your customers and your teams."
+        },
+        "transparent": {
+          "title": "Transparent tracking",
+          "body": "A clear quote, a tracked project, invoicing without surprises."
+        },
+        "durable": {
+          "title": "Built to last",
+          "body": "Solid solutions rather than disposable deliverables."
+        }
       }
     },
     "testimonials": {
@@ -136,5 +148,24 @@
       "fileTooLarge": "This file is over 10 MB.",
       "invalidFileType": "File type not accepted (PDF, JPEG, PNG, WebP)."
     }
+  },
+  "booking": {
+    "title": "Book",
+    "chooseSlot": "Choose a slot",
+    "loadingSlots": "Loading slots…",
+    "noSlots": "No slot available for this period.",
+    "preferredFrom": "Preferred period (from)",
+    "preferredTo": "to",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "documentNumber": "Document number",
+    "notes": "Message (optional)",
+    "requiredDocuments": "Documents to provide",
+    "fee": "Fee",
+    "privacyAccepted": "I agree that my information is used to process this request.",
+    "submit": "Send request",
+    "confirmed": "Request sent, number {number}. You will receive a confirmation by email."
   }
 }

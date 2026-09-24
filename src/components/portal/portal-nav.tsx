@@ -13,6 +13,7 @@ export function PortalNav() {
     { href: "/portal/projects", label: t("projects") },
     { href: "/portal/quotes", label: t("quotes") },
     { href: "/portal/invoices", label: t("invoices") },
+    { href: "/portal/reservations", label: t("reservations") },
     { href: "/portal/documents", label: t("documents") },
     { href: "/portal/messages", label: t("messages") },
     { href: "/portal/profile", label: t("profile") },

@@ -13,7 +13,9 @@
     "viewSite": "View site",
     "quotes": "Quotes",
     "projects": "Projects",
-    "invoices": "Invoices"
+    "invoices": "Invoices",
+    "bookings": "Bookings",
+    "transactions": "Transactions"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -126,6 +128,20 @@
       "RECURRING": "Recurring",
       "BOOKING": "Booking",
       "TRANSACTION": "Transaction"
+    },
+    "booking": {
+      "legend": "Booking configuration",
+      "mode": "Mode",
+      "modeAgencySlot": "Agency slots",
+      "modeExternalAppointment": "External appointment",
+      "slotMinutes": "Slot duration (min)",
+      "capacityPerSlot": "Capacity per slot",
+      "minNoticeHours": "Minimum notice (hours)",
+      "maxAdvanceDays": "Bookable up to (days)",
+      "fee": "Fee",
+      "feePlaceholder": "Amount (leave empty if free)",
+      "requiredDocuments": "Required documents",
+      "requiredDocumentsPlaceholder": "One per line"
     }
   },
   "content": {
@@ -809,6 +825,185 @@
         "note": "Note",
         "record": "Record a payment"
       }
+    }
+  },
+  "bookings": {
+    "title": "Bookings",
+    "manageAvailability": "Manage availability",
+    "number": "Number",
+    "service": "Service",
+    "contact": "Contact",
+    "when": "When",
+    "status": "Status",
+    "statusAll": "All",
+    "statusValue": {
+      "REQUESTED": "Requested",
+      "CONFIRMED": "Confirmed",
+      "PENDING": "Pending",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled"
+    },
+    "empty": "No bookings.",
+    "detail": {
+      "contact": "Contact",
+      "slot": "Slot",
+      "preferredPeriod": "Preferred period",
+      "externalAppointmentAt": "External appointment on",
+      "externalReference": "External reference",
+      "documentNumber": "Document number",
+      "notes": "Notes",
+      "cancelReason": "Cancellation reason",
+      "attachments": "Attachments",
+      "historyTitle": "History",
+      "noHistory": "No history yet.",
+      "statusValue": {
+        "REQUESTED": "Requested",
+        "CONFIRMED": "Confirmed",
+        "PENDING": "Pending",
+        "COMPLETED": "Completed",
+        "CANCELLED": "Cancelled"
+      },
+      "changeStatus": "Change status",
+      "confirmStatus": "Confirm",
+      "cancel": "Cancel",
+      "cancelReasonPlaceholder": "Cancellation reason",
+      "externalReferencePlaceholder": "External appointment reference",
+      "statusNotePlaceholder": "Internal note (optional)"
+    }
+  },
+  "availability": {
+    "title": "Booking availability",
+    "rulesTitle": "Recurring slots",
+    "exceptionsTitle": "Exceptions",
+    "noBookingServices": "No services in booking mode.",
+    "noRules": "No rule defined.",
+    "noExceptions": "No exceptions.",
+    "weekdayLabel": "Day",
+    "weekday": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    },
+    "startTime": "Start",
+    "endTime": "End",
+    "addRule": "Add slot",
+    "addException": "Add exception",
+    "remove": "Remove",
+    "date": "Date",
+    "type": "Type",
+    "exceptionType": {
+      "CLOSED": "Closed",
+      "EXTRA": "Extra opening"
+    },
+    "wholeDay": "Whole day",
+    "reason": "Reason",
+    "exceptionDateRequired": "Date is required.",
+    "loading": "Loading…"
+  },
+  "products": {
+    "title": "Products (transactions)",
+    "subtitle": "Internal catalogue — currency exchange, prepaid cards. Not publicly visible.",
+    "empty": "No products.",
+    "add": "Add product",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "sku": "SKU",
+    "nameFr": "Name (FR)",
+    "nameEn": "Name (EN)",
+    "nameAr": "Name (AR)",
+    "unit": "Unit",
+    "currentPrice": "Current price",
+    "currentCurrency": "Currency",
+    "minQuantity": "Min quantity",
+    "maxQuantity": "Max quantity",
+    "trackStock": "Track stock",
+    "active": "Active",
+    "inactive": "Inactive",
+    "stock": "Stock: {level}",
+    "addMovement": "Stock movement",
+    "movementType": {
+      "IN": "In",
+      "OUT": "Out",
+      "ADJUSTMENT": "Adjustment"
+    },
+    "quantity": "Quantity",
+    "note": "Note",
+    "kind": {
+      "CURRENCY": "Currency exchange",
+      "PREPAID_CARD": "Prepaid card",
+      "PAYSERA": "Paysera",
+      "OTHER": "Other"
+    }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "subtitle": "Currency exchange and product orders — internal use only.",
+    "manageProducts": "Manage products",
+    "newOrder": "New order",
+    "number": "Number",
+    "client": "Client",
+    "total": "Total",
+    "createdAt": "Created on",
+    "status": "Status",
+    "statusAll": "All",
+    "statusValue": {
+      "REQUESTED": "Requested",
+      "PRICE_CONFIRMED": "Price confirmed",
+      "AWAITING_PAYMENT": "Awaiting payment",
+      "PAID": "Paid",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled"
+    },
+    "empty": "No orders.",
+    "create": {
+      "title": "New transaction order",
+      "subtitle": "Created by staff — no public form while the legal framework is not validated.",
+      "missingPrerequisites": "Create a client and at least one active product first.",
+      "client": "Client",
+      "items": "Products",
+      "addItem": "Add product",
+      "remove": "Remove",
+      "documentType": "Document type",
+      "documentNumber": "Document number",
+      "notes": "Notes",
+      "submit": "Create order"
+    },
+    "detail": {
+      "items": "Products",
+      "product": "Product",
+      "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "lineTotal": "Line total",
+      "total": "Total",
+      "payments": "Payments",
+      "amount": "Amount",
+      "reference": "Reference",
+      "recordPayment": "Record payment",
+      "noPayments": "No payment recorded.",
+      "reverse": "Reverse",
+      "reversed": "Reversed",
+      "reversalReasonPrompt": "Payment reversal reason",
+      "identity": "Identity",
+      "noIdentity": "No identity information.",
+      "history": "History",
+      "statusValue": {
+        "REQUESTED": "Requested",
+        "PRICE_CONFIRMED": "Price confirmed",
+        "AWAITING_PAYMENT": "Awaiting payment",
+        "PAID": "Paid",
+        "COMPLETED": "Completed",
+        "CANCELLED": "Cancelled"
+      },
+      "changeStatus": "Change status",
+      "confirmStatus": "Confirm",
+      "cancel": "Cancel",
+      "confirmedTotal": "Confirmed total",
+      "statusNotePlaceholder": "Internal note (optional)"
     }
   }
 }

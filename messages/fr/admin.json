@@ -13,7 +13,9 @@
     "viewSite": "Voir le site",
     "quotes": "Devis",
     "projects": "Projets",
-    "invoices": "Factures"
+    "invoices": "Factures",
+    "bookings": "Réservations",
+    "transactions": "Transactions"
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -126,6 +128,20 @@
       "RECURRING": "Récurrent",
       "BOOKING": "Réservation",
       "TRANSACTION": "Transaction"
+    },
+    "booking": {
+      "legend": "Configuration de réservation",
+      "mode": "Mode",
+      "modeAgencySlot": "Créneaux à l'agence",
+      "modeExternalAppointment": "Rendez-vous externe",
+      "slotMinutes": "Durée du créneau (min)",
+      "capacityPerSlot": "Capacité par créneau",
+      "minNoticeHours": "Préavis minimum (heures)",
+      "maxAdvanceDays": "Réservable jusqu'à (jours)",
+      "fee": "Frais",
+      "feePlaceholder": "Montant (laisser vide si gratuit)",
+      "requiredDocuments": "Documents requis",
+      "requiredDocumentsPlaceholder": "Un par ligne"
     }
   },
   "content": {
@@ -809,6 +825,185 @@
         "note": "Note",
         "record": "Enregistrer un paiement"
       }
+    }
+  },
+  "bookings": {
+    "title": "Réservations",
+    "manageAvailability": "Gérer les disponibilités",
+    "number": "Numéro",
+    "service": "Service",
+    "contact": "Contact",
+    "when": "Quand",
+    "status": "Statut",
+    "statusAll": "Toutes",
+    "statusValue": {
+      "REQUESTED": "Demandée",
+      "CONFIRMED": "Confirmée",
+      "PENDING": "En attente",
+      "COMPLETED": "Terminée",
+      "CANCELLED": "Annulée"
+    },
+    "empty": "Aucune réservation.",
+    "detail": {
+      "contact": "Contact",
+      "slot": "Créneau",
+      "preferredPeriod": "Période souhaitée",
+      "externalAppointmentAt": "Rendez-vous externe le",
+      "externalReference": "Référence externe",
+      "documentNumber": "N° de document",
+      "notes": "Notes",
+      "cancelReason": "Motif d'annulation",
+      "attachments": "Pièces jointes",
+      "historyTitle": "Historique",
+      "noHistory": "Aucun historique.",
+      "statusValue": {
+        "REQUESTED": "Demandée",
+        "CONFIRMED": "Confirmée",
+        "PENDING": "En attente",
+        "COMPLETED": "Terminée",
+        "CANCELLED": "Annulée"
+      },
+      "changeStatus": "Changer le statut",
+      "confirmStatus": "Confirmer",
+      "cancel": "Annuler",
+      "cancelReasonPlaceholder": "Motif de l'annulation",
+      "externalReferencePlaceholder": "Référence du rendez-vous externe",
+      "statusNotePlaceholder": "Note interne (optionnelle)"
+    }
+  },
+  "availability": {
+    "title": "Disponibilités des réservations",
+    "rulesTitle": "Créneaux récurrents",
+    "exceptionsTitle": "Exceptions",
+    "noBookingServices": "Aucun service en mode réservation.",
+    "noRules": "Aucune règle définie.",
+    "noExceptions": "Aucune exception.",
+    "weekdayLabel": "Jour",
+    "weekday": {
+      "0": "Dimanche",
+      "1": "Lundi",
+      "2": "Mardi",
+      "3": "Mercredi",
+      "4": "Jeudi",
+      "5": "Vendredi",
+      "6": "Samedi"
+    },
+    "startTime": "Début",
+    "endTime": "Fin",
+    "addRule": "Ajouter un créneau",
+    "addException": "Ajouter une exception",
+    "remove": "Supprimer",
+    "date": "Date",
+    "type": "Type",
+    "exceptionType": {
+      "CLOSED": "Fermeture",
+      "EXTRA": "Ouverture supplémentaire"
+    },
+    "wholeDay": "Journée entière",
+    "reason": "Motif",
+    "exceptionDateRequired": "La date est requise.",
+    "loading": "Chargement…"
+  },
+  "products": {
+    "title": "Produits (transactions)",
+    "subtitle": "Catalogue interne — change, cartes prépayées. Non visible publiquement.",
+    "empty": "Aucun produit.",
+    "add": "Ajouter un produit",
+    "edit": "Modifier",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "sku": "Référence (SKU)",
+    "nameFr": "Nom (FR)",
+    "nameEn": "Nom (EN)",
+    "nameAr": "Nom (AR)",
+    "unit": "Unité",
+    "currentPrice": "Prix actuel",
+    "currentCurrency": "Devise",
+    "minQuantity": "Quantité min.",
+    "maxQuantity": "Quantité max.",
+    "trackStock": "Suivre le stock",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "stock": "Stock : {level}",
+    "addMovement": "Mouvement de stock",
+    "movementType": {
+      "IN": "Entrée",
+      "OUT": "Sortie",
+      "ADJUSTMENT": "Ajustement"
+    },
+    "quantity": "Quantité",
+    "note": "Note",
+    "kind": {
+      "CURRENCY": "Change",
+      "PREPAID_CARD": "Carte prépayée",
+      "PAYSERA": "Paysera",
+      "OTHER": "Autre"
+    }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "subtitle": "Commandes de change et produits — usage interne uniquement.",
+    "manageProducts": "Gérer les produits",
+    "newOrder": "Nouvelle commande",
+    "number": "Numéro",
+    "client": "Client",
+    "total": "Total",
+    "createdAt": "Créée le",
+    "status": "Statut",
+    "statusAll": "Toutes",
+    "statusValue": {
+      "REQUESTED": "Demandée",
+      "PRICE_CONFIRMED": "Prix confirmé",
+      "AWAITING_PAYMENT": "En attente de paiement",
+      "PAID": "Payée",
+      "COMPLETED": "Terminée",
+      "CANCELLED": "Annulée"
+    },
+    "empty": "Aucune commande.",
+    "create": {
+      "title": "Nouvelle commande de transaction",
+      "subtitle": "Créée par le staff — aucun formulaire public tant que le cadre légal n'est pas validé.",
+      "missingPrerequisites": "Créez d'abord un client et au moins un produit actif.",
+      "client": "Client",
+      "items": "Produits",
+      "addItem": "Ajouter un produit",
+      "remove": "Retirer",
+      "documentType": "Type de document",
+      "documentNumber": "N° de document",
+      "notes": "Notes",
+      "submit": "Créer la commande"
+    },
+    "detail": {
+      "items": "Produits",
+      "product": "Produit",
+      "quantity": "Quantité",
+      "unitPrice": "Prix unitaire",
+      "lineTotal": "Total ligne",
+      "total": "Total",
+      "payments": "Paiements",
+      "amount": "Montant",
+      "reference": "Référence",
+      "recordPayment": "Enregistrer un paiement",
+      "noPayments": "Aucun paiement enregistré.",
+      "reverse": "Annuler",
+      "reversed": "Annulé",
+      "reversalReasonPrompt": "Motif de l'annulation du paiement",
+      "identity": "Identité",
+      "noIdentity": "Aucune information d'identité.",
+      "history": "Historique",
+      "statusValue": {
+        "REQUESTED": "Demandée",
+        "PRICE_CONFIRMED": "Prix confirmé",
+        "AWAITING_PAYMENT": "En attente de paiement",
+        "PAID": "Payée",
+        "COMPLETED": "Terminée",
+        "CANCELLED": "Annulée"
+      },
+      "changeStatus": "Changer le statut",
+      "confirmStatus": "Confirmer",
+      "cancel": "Annuler",
+      "confirmedTotal": "Total confirmé",
+      "statusNotePlaceholder": "Note interne (optionnelle)"
     }
   }
 }
