@@ -78,6 +78,7 @@ model Reservation {
 
   @@index([serviceId, startsAt])
   @@index([status])
+  @@index([clientId])
   @@map("reservations")
 }
 
