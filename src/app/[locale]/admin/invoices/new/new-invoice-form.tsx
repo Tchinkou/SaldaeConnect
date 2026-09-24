@@ -9,6 +9,7 @@ import { createInvoiceAction } from "@/app/[locale]/admin/invoices/actions";
 
 export function NewInvoiceForm({ clients }: { clients: Array<{ id: string; displayName: string; code: string }> }) {
   const t = useTranslations("admin.invoices.create");
+  const tType = useTranslations("admin.invoices.typeValue");
   const router = useRouter();
 
   const [clientId, setClientId] = useState(clients[0]?.id ?? "");
@@ -65,8 +66,8 @@ export function NewInvoiceForm({ clients }: { clients: Array<{ id: string; displ
                 onChange={(event) => setType(event.target.value as "STANDARD" | "DEPOSIT")}
                 className="h-10 rounded-md border border-border bg-surface px-3 text-sm"
               >
-                <option value="STANDARD">{t("typeValue.STANDARD")}</option>
-                <option value="DEPOSIT">{t("typeValue.DEPOSIT")}</option>
+                <option value="STANDARD">{tType("STANDARD")}</option>
+                <option value="DEPOSIT">{tType("DEPOSIT")}</option>
               </select>
             </div>
 

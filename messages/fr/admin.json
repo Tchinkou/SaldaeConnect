@@ -257,6 +257,7 @@
       "temporary": "Temporaire",
       "add": "Ajouter",
       "remove": "Supprimer",
+      "cancel": "Annuler",
       "hits": "{count, plural, =0 {jamais utilisée} one {# utilisation} other {# utilisations}}"
     }
   },

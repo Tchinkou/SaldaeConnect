@@ -257,6 +257,7 @@
       "temporary": "Temporary",
       "add": "Add",
       "remove": "Remove",
+      "cancel": "Cancel",
       "hits": "{count, plural, =0 {never used} one {# hit} other {# hits}}"
     }
   },
