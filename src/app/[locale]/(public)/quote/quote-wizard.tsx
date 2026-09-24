@@ -142,10 +142,13 @@ export function QuoteWizard({
         <CardContent className="pt-6">
           {currentStep === "service" ? (
             <div>
-              <h2 className="text-lg font-semibold text-foreground">{t("service.title")}</h2>
+              <h2 id="quote-service-select-label" className="text-lg font-semibold text-foreground">
+                {t("service.title")}
+              </h2>
               <select
                 value={state.serviceId}
                 onChange={(event) => update("serviceId", event.target.value)}
+                aria-labelledby="quote-service-select-label"
                 className="mt-4 block w-full rounded-md border border-border bg-surface px-3 py-2 text-sm"
               >
                 <option value="" disabled>

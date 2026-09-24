@@ -45,8 +45,11 @@ export function DynamicQuestion({
   if (field.type === "textarea") {
     return (
       <div>
-        <label className="block text-sm font-medium text-foreground">{label}</label>
+        <label htmlFor={field.key} className="block text-sm font-medium text-foreground">
+          {label}
+        </label>
         <textarea
+          id={field.key}
           value={typeof value === "string" ? value : ""}
           onChange={(event) => onChange(event.target.value)}
           required={field.required}
@@ -61,8 +64,11 @@ export function DynamicQuestion({
     if (field.type === "select") {
       return (
         <div>
-          <label className="block text-sm font-medium text-foreground">{label}</label>
+          <label htmlFor={field.key} className="block text-sm font-medium text-foreground">
+            {label}
+          </label>
           <select
+            id={field.key}
             value={typeof value === "string" ? value : ""}
             onChange={(event) => onChange(event.target.value)}
             required={field.required}
@@ -105,8 +111,11 @@ export function DynamicQuestion({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-foreground">{label}</label>
+      <label htmlFor={field.key} className="block text-sm font-medium text-foreground">
+        {label}
+      </label>
       <input
+        id={field.key}
         type="text"
         value={typeof value === "string" ? value : ""}
         onChange={(event) => onChange(event.target.value)}
