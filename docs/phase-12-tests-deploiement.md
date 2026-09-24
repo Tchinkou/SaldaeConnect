@@ -111,3 +111,52 @@ hamburger » sous un seuil (ex. `lg`) sur `admin/layout.tsx` et
 
 RTL (arabe) : `dir="rtl"` vérifié correct sur les 3 périmètres, à toutes
 les largeurs, sans exception.
+
+## 3. Sauvegardes : procédure et test de restauration
+
+Deux scripts ajoutés (`scripts/backup-db.sh`, `scripts/restore-db.sh`),
+utilisables tels quels en développement comme en production (la partie
+Postgres ne dépend d'aucun hébergeur — cohérent avec le choix d'architecture
+« aucune dépendance à un hébergeur précis »).
+
+- `backup-db.sh [dossier]` : `pg_dump -Fc` (format compressé/personnalisé,
+  restaurable sélectivement) de `DATABASE_URL`, horodaté. Rappelle de
+  chiffrer l'export avant tout envoi vers un stockage distant (§H.6).
+- `restore-db.sh <fichier.dump> <url-cible>` : restaure **toujours** vers
+  une URL passée explicitement en argument, jamais vers `DATABASE_URL`
+  implicitement, pour ne jamais écraser une base par erreur d'inattention ;
+  demande une confirmation interactive avant `pg_restore --clean`.
+
+**Test de restauration réel effectué** (pas seulement documenté) :
+
+1. Sauvegarde de la base de développement réelle via `backup-db.sh`.
+2. Création d'une base Postgres neuve (`saldaeconnect_restore_test`) et
+   restauration du dump dans cette base via `restore-db.sh`.
+3. Comparaison des effectifs de lignes source vs restauré sur les tables
+   clés (`user`, `clients`, `leads`, `opportunities`, `quotes`, `invoices`,
+   `projects`, `reservations`, `transaction_orders`, `audit_logs`) :
+   identiques sur toute la liste.
+4. Vérification fonctionnelle (pas seulement un comptage) : connexion à la
+   base restaurée via le client Prisma réel de l'application et lecture
+   d'un client + d'un devis avec ses lignes — données cohérentes et
+   complètes.
+5. Bug réel trouvé et corrigé en cours de route : les deux scripts
+   échouaient sur `DATABASE_URL` tel que fourni par Prisma
+   (`?schema=public` en fin d'URL) — `pg_dump`/`pg_restore` ne reconnaissent
+   pas ce paramètre de requête (`invalid URI query parameter: "schema"`).
+   Corrigé en retirant ce paramètre avant l'appel.
+6. Sauvegarde des fichiers (`StorageProvider` local, `.storage/files`) :
+   test `tar czf`/`tar xzf` réel, comparaison `diff -rq` des 22 fichiers du
+   dossier de test — restauration identique bit à bit.
+
+Base de test et tous les fichiers temporaires supprimés après vérification
+(aucun résidu).
+
+**Hors périmètre de ce test** (nécessite une infrastructure de production
+non encore choisie, cf. `architecture.md` §A.7) : sauvegarde automatique du
+fournisseur avec restauration à un instant donné (point-in-time recovery,
+ex. Neon), programmation du `pg_dump` quotidien via cron/tâche planifiée,
+et réplication du stockage de fichiers vers un second emplacement. Ces
+points restent à mettre en place au moment du choix d'hébergement — le
+mécanisme de sauvegarde/restauration lui-même (ce que teste cette tâche)
+est vérifié fonctionnel indépendamment de l'hébergeur.

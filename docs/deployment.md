@@ -58,6 +58,36 @@ Avant la première mise en production :
 5. Mettre en place les sauvegardes (§H.6 de `architecture.md`) : export
    `pg_dump` quotidien chiffré, test de restauration mensuel.
 
-Ce document sera complété phase par phase (supervision, sauvegardes
-testées, checklist de mise en production) plutôt que rempli par
-anticipation.
+## Sauvegardes
+
+Procédure testée en conditions réelles (dump réel → restauration dans une
+base neuve → vérification des effectifs de lignes et d'une lecture
+applicative via Prisma → nettoyage) ; détails et méthodologie dans
+`docs/phase-12-tests-deploiement.md` §3.
+
+- Base : `scripts/backup-db.sh [dossier]` produit un export `pg_dump -Fc`
+  horodaté de `DATABASE_URL`. En production, chiffrez l'export avant tout
+  envoi vers un stockage distant, par exemple avec
+  [`age`](https://github.com/FiloSottile/age) :
+  `age -r <clé-publique> -o sauvegarde.dump.age sauvegarde.dump`.
+- Restauration : `scripts/restore-db.sh <fichier.dump> <url-postgresql-cible>` —
+  l'URL cible est **toujours** un argument explicite, jamais implicite,
+  pour ne jamais écraser une base par erreur. Demande confirmation avant
+  `pg_restore --clean`.
+- Fichiers (`StorageProvider` local) : archive `tar czf` du dossier de
+  stockage (ex. `.storage/files` en développement) ; en production avec un
+  stockage objet (R2, MinIO...), le versionnage du bucket tient lieu de
+  sauvegarde continue (§H.6).
+- **Test de restauration mensuel** (§H.6) : exécuter `backup-db.sh` puis
+  `restore-db.sh` vers une base Postgres temporaire, comparer les
+  effectifs de lignes des tables principales avec la base source, puis
+  supprimer la base temporaire. C'est exactement la procédure vérifiée
+  lors de la phase 12.
+- À mettre en place au choix de l'hébergement (hors périmètre de ce
+  dépôt) : programmation automatique (cron / tâche planifiée) du
+  `pg_dump` quotidien, restauration à un instant donné côté fournisseur
+  managé (ex. Neon), réplication du stockage de fichiers vers un second
+  emplacement.
+
+Ce document sera complété phase par phase (supervision, checklist de mise
+en production) plutôt que rempli par anticipation.
