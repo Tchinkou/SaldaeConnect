@@ -11,6 +11,8 @@ type Command =
   | { op: "getStaffTotpSecret"; email: string }
   | { op: "createTestClient"; label: string }
   | { op: "cleanupTestClient"; userId: string; clientId: string }
+  | { op: "createClientLogin"; clientId: string; label: string }
+  | { op: "cleanupCrmJourney"; leadId?: string; clientId?: string; userId?: string }
   | { op: "raw"; model: string; method: string; args: unknown };
 
 async function main() {
@@ -62,6 +64,60 @@ async function main() {
         data: { clientId: client.id, firstName: "E2E", lastName: command.label, email, isPrimary: true, userId: user.id },
       });
       result = { email, password, clientId: client.id, contactId: contact.id, userId: user.id };
+      break;
+    }
+    case "createClientLogin": {
+      // Ajoute un accès portail à un client existant (ex: un client issu
+      // d'une conversion de lead, qui n'a par nature aucun User) — sans
+      // passer par l'invitation par navigateur, bloquée en bac à sable par
+      // le plugin haveIBeenPwned de Better Auth (même contournement que
+      // `createTestClient`).
+      const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+      const email = `e2e-${command.label}-${suffix}@saldaeconnect.test`;
+      const password = "E2eTest2026!Secure";
+      const passwordHash = await argon2Hash(password);
+      const user = await db.user.create({
+        data: {
+          email,
+          name: `E2E Test ${command.label}`,
+          emailVerified: true,
+          userType: "CLIENT",
+          status: "ACTIVE",
+          accounts: { create: { providerId: "credential", accountId: "PLACEHOLDER", password: passwordHash } },
+        },
+      });
+      await db.account.updateMany({ where: { userId: user.id, providerId: "credential" }, data: { accountId: user.id } });
+      const contact = await db.clientContact.create({
+        data: { clientId: command.clientId, firstName: "E2E", lastName: command.label, email, isPrimary: true, userId: user.id },
+      });
+      result = { email, password, contactId: contact.id, userId: user.id };
+      break;
+    }
+    case "cleanupCrmJourney": {
+      // Nettoyage du parcours lead → conversion → devis → projet : même
+      // ordre de dépendances que `cleanupTestClient`, plus le Lead et son
+      // Opportunity le cas échéant.
+      if (command.clientId) {
+        await db.payment.deleteMany({ where: { clientId: command.clientId } });
+        await db.invoice.deleteMany({ where: { clientId: command.clientId } });
+        await db.project.deleteMany({ where: { clientId: command.clientId } });
+        await db.quote.deleteMany({ where: { clientId: command.clientId } });
+        await db.subscription.deleteMany({ where: { clientId: command.clientId } });
+      }
+      if (command.leadId) {
+        await db.opportunity.deleteMany({ where: { leadId: command.leadId } });
+      }
+      if (command.userId) {
+        await db.user.delete({ where: { id: command.userId } }).catch(() => {});
+      }
+      if (command.clientId) {
+        await db.clientContact.deleteMany({ where: { clientId: command.clientId } });
+        await db.client.delete({ where: { id: command.clientId } });
+      }
+      if (command.leadId) {
+        await db.lead.delete({ where: { id: command.leadId } }).catch(() => {});
+      }
+      result = { ok: true };
       break;
     }
     case "cleanupTestClient": {
