@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { loginAsStaff, resetStaffTwoFactor } from "./support/staff";
+import { loginAsStaff } from "./support/staff";
 import { createTestClientContact, type TestClientContact } from "./support/client";
 import { runDbCommand } from "./support/db";
 
@@ -21,7 +21,6 @@ test.describe("cycle de vie d'une facture (émission → acompte → solde)", ()
 
   test.afterAll(async () => {
     await testClient.cleanup();
-    await resetStaffTwoFactor();
   });
 
   test("une facture émise passe par un paiement partiel puis un paiement soldant intégralement le solde", async ({

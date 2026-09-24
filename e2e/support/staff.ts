@@ -12,8 +12,14 @@ export const STAFF_PASSWORD = "SaldaeConnect2026!";
  * d'authentification via `totp()`.
  *
  * Laisse le compte enrôlé après le test (comme le seed initial ne l'est
- * pas) — appeler `resetStaffTwoFactor()` en nettoyage pour revenir à l'état
- * de départ (règle de résidu zéro, voir mémoire projet).
+ * pas) — un appel ultérieur prend la branche « déjà enrôlé » (défi TOTP
+ * seul, pas un enrôlement complet), ce qui limite le trafic
+ * d'authentification quand plusieurs specs s'enchaînent. La remise à zéro
+ * (`resetStaffTwoFactor()`) ne se fait qu'une seule fois pour toute la
+ * suite, dans `global-teardown.ts` — pas spec par spec : ré-enrôler le 2FA
+ * en entier (mot de passe + génération + vérification TOTP) à chaque
+ * fichier a réellement déclenché le limiteur de débit anti-brute-force de
+ * Better Auth (§H.2) quand toute la suite s'exécute d'affilée.
  */
 export async function loginAsStaff(page: Page, path = "/fr/admin"): Promise<void> {
   await page.goto("/fr/login", { waitUntil: "networkidle" });

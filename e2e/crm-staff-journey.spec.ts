@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { loginAsStaff, resetStaffTwoFactor } from "./support/staff";
+import { loginAsStaff } from "./support/staff";
 import { runDbCommand } from "./support/db";
 
 /**
@@ -11,9 +11,6 @@ import { runDbCommand } from "./support/db";
  * de dupliquer entièrement `public-quote-journey.spec.ts`.
  */
 test.describe("parcours CRM staff", () => {
-  test.afterAll(async () => {
-    await resetStaffTwoFactor();
-  });
 
   test("un lead créé manuellement est converti en client, son opportunité produit un devis accepté et un projet", async ({
     page,

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { loginAsStaff, resetStaffTwoFactor } from "./support/staff";
+import { loginAsStaff } from "./support/staff";
 import { createTestClientContact, type TestClientContact } from "./support/client";
 import { runDbCommand } from "./support/db";
 
@@ -57,7 +57,6 @@ test.describe("parcours transaction", () => {
       await runDbCommand({ op: "raw", model: "product", method: "delete", args: { where: { id: productId } } });
     }
     await testClient.cleanup();
-    await resetStaffTwoFactor();
   });
 
   test("une commande passe par toutes les transitions jusqu'à COMPLETED", async ({ page }) => {

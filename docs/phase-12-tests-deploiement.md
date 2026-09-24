@@ -28,6 +28,43 @@ test (aucun résidu) :
   cycle complet REQUESTED → PRICE_CONFIRMED → AWAITING_PAYMENT → PAID →
   COMPLETED.
 
+**Infrastructure de test elle-même : deux problèmes réels trouvés et
+corrigés**, découverts en exécutant toute la suite d'affilée (chaque spec
+avait été vérifiée individuellement, jamais toutes ensemble) lors de la
+vérification finale de la phase 12 :
+
+- Chaque spec ré-enrôlait le 2FA STAFF en entier dans son nettoyage
+  (`resetStaffTwoFactor()` en fin de test), donc toute la suite
+  déclenchait plusieurs cycles complets d'enrôlement (mot de passe +
+  génération + vérification TOTP) en quelques minutes — suffisant pour
+  déclencher réellement le limiteur de débit anti-brute-force de Better
+  Auth (§H.2), pourtant un comportement de sécurité correct et voulu.
+  Corrigé : la remise à zéro ne se fait plus qu'une fois pour toute la
+  suite (`e2e/support/global-teardown.ts`) ; chaque spec profite de la
+  branche « déjà enrôlé » (défi TOTP seul), bien plus légère.
+- Le timeout par défaut de Playwright (30s) est trop court pour un
+  parcours complet incluant 2 connexions réelles (staff + client) et
+  plusieurs navigations admin/portail — les tests échouaient au milieu
+  d'un parcours par ailleurs correct. Porté à 90s dans
+  `playwright.config.ts`.
+
+**Limite constatée, non corrigée** : après ces deux correctifs, chaque
+spec vérifiée individuellement passe de façon fiable (re-vérifié en
+direct), mais l'exécution de toute la suite d'affilée reste parfois
+instable en toute fin de session de développement très prolongée (ce
+conteneur exécute le même serveur `next dev` sans interruption depuis
+plusieurs heures, avec une charge cumulée importante : dizaines
+d'exécutions de tests, audits responsive, restaurations de sauvegarde…).
+Un code TOTP a une fenêtre de validité de quelques dizaines de secondes ;
+sous charge, le délai entre sa génération côté test et sa vérification
+côté serveur peut suffire à l'invalider — observé une fois lors de cette
+vérification finale, pas reproduit en isolant le test concerné. Ce n'est
+pas un défaut applicatif ni un défaut du code de test : c'est une
+caractéristique de charge de ce conteneur de développement à ce moment
+précis. Recommandation pour l'exécution en CI (hors périmètre de cette
+tâche) : lancer la suite contre un serveur de dev fraîchement démarré,
+pas contre une instance qui tourne depuis des heures.
+
 **Bugs applicatifs réels trouvés et corrigés en cours de route** (pas de
 simples artefacts de test) :
 

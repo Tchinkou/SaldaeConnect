@@ -1,16 +1,20 @@
 import { test, expect } from "@playwright/test";
-import { loginAsStaff, resetStaffTwoFactor } from "./support/staff";
+import { loginAsStaff } from "./support/staff";
 import { createTestClientContact } from "./support/client";
 
 /**
  * Vérifie que l'infrastructure E2E elle-même fonctionne (connexion STAFF
  * avec 2FA réelle, création/nettoyage d'un compte client de test) avant
- * d'y construire les parcours clés. Pas un parcours métier en soi.
+ * d'y construire les parcours clés. Pas un parcours métier en soi. La remise
+ * à zéro du 2FA STAFF ne se fait plus ici mais une seule fois pour toute la
+ * suite (voir `support/global-teardown.ts`), pour ne pas retrigger un
+ * enrôlement 2FA complet à chaque fichier — cause d'un déclenchement réel
+ * du limiteur de débit anti-brute-force quand toute la suite s'exécute
+ * d'affilée (constaté lors de la vérification finale de la phase 12).
  */
-test("infra: connexion STAFF avec 2FA puis remise à zéro", async ({ page }) => {
+test("infra: connexion STAFF avec 2FA", async ({ page }) => {
   await loginAsStaff(page);
   await expect(page).toHaveURL(/\/admin/);
-  await resetStaffTwoFactor();
 });
 
 test("infra: création puis nettoyage d'un compte client de test", async ({ page }) => {

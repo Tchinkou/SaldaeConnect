@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { loginAsStaff, resetStaffTwoFactor } from "./support/staff";
+import { loginAsStaff } from "./support/staff";
 import { runDbCommand } from "./support/db";
 
 /**
@@ -27,7 +27,6 @@ test.describe("parcours réservation", () => {
     if (serviceId) {
       await runDbCommand({ op: "raw", model: "service", method: "update", args: { where: { id: serviceId }, data: { bookingConfig: null } } });
     }
-    await resetStaffTwoFactor();
   });
 
   test("un visiteur réserve un créneau, le staff confirme la réservation", async ({ page }) => {
